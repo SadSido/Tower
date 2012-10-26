@@ -177,16 +177,10 @@ void TileTest::render()
 	for (int tileX = startX; tileX < startX + tilesInX; ++ tileX)
 	for (int tileY = startY; tileY < startY + tilesInY; ++ tileY)
 	{
-		if (m_map.getTile(tileX, tileY))
+		if (m_map.getTile(tileX, tileY).flags & tf_Blocking)
 		{
 			// draw shade and original sprite:
 			m_brick.draw(renderer->getGC(), tileX * tileSize.width - m_offX, tileY * tileSize.height - m_offY);
-		}
-		
-		if (m_map.isColor(tileX, tileY))
-		{
-			CL_Rectf draw = CL_Rectf(CL_Pointf(tileX * tileSize.width - m_offX, tileY * tileSize.height - m_offY), CL_Sizef(tileSize));
-			CL_Draw::box(renderer->getGC(), draw, CL_Colorf(255,255,0));
 		}
 	}
 

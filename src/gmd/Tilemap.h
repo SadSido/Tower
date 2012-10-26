@@ -8,14 +8,28 @@
 
 //************************************************************************************************************************
 
+enum TileFlags
+{
+	tf_NoFlags  = 0,
+	tf_Blocking = 1 << 0,
+};
+
+struct TileDesc
+{
+	int flags;
+};
+
+//************************************************************************************************************************
+
 class Tilemap
 {
 public:
 	explicit Tilemap(int dimX, int dimY);
 
-	bool getTile(int x, int y, bool colorize = false) const;
-	bool isColor(int x, int y) const;
-	void resetColor();
+	// Gets the tile descriptor for target coordinates. Wrong
+	// coords will return the default descriptor:
+
+	TileDesc getTile(int x, int y) const;
 
 	// Checks the rect, trying to move by "delta" offset within
 	// the tilemap. Returns the actual available offset: 
@@ -33,7 +47,7 @@ private:
 	const int m_dimY;
 	const float m_size;
 
-	mutable std::vector<std::pair<bool, bool>> m_tiles;
+	std::vector<TileDesc> m_tiles;
 };
 
 //************************************************************************************************************************
