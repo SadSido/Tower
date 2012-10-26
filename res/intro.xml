@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<resources>
+  
+	<sprite name="spr_logo" base_angle="0">
+		<image file="intro/logo_01.png" />
+    <image file="intro/logo_02.png" />
+    <image file="intro/logo_03.png" />
+    <image file="intro/logo_04.png" />
+    <translation origin="center"/>
+		<rotation origin="center"/>
+		<animation pingpong="yes" speed="140"/>
+	</sprite>
+
+  <sprite name="brick" base_angle="0">
+    <image file="intro/brick.png" />
+  </sprite>
+  <sprite name="brickbg" base_angle="0">
+    <image file="intro/brickbg.png" />
+  </sprite>
+
+</resources>
