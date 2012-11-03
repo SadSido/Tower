@@ -8,15 +8,37 @@
 
 //************************************************************************************************************************
 
+// set of options for the tile:
+
 enum TileFlags
 {
 	tf_NoFlags  = 0,
 	tf_Blocking = 1 << 0,
 };
 
+enum TileHit
+{
+	th_None,
+	th_Vertical,
+	th_Horizontal,
+};
+
+// single tile decsriptor:
+
 struct TileDesc
 {
 	int flags;
+};
+
+// collision test result:
+
+struct TileTest
+{
+	TileHit   type;
+	TileDesc  desc;
+
+	CL_Pointf offset;
+	CL_Pointf origin;
 };
 
 //************************************************************************************************************************

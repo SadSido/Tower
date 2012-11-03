@@ -43,7 +43,7 @@ int GameManager::runMainLoop()
 
 	// push initial scene:
 	pushScene(GameScene::Ref(new IntroScene(this)));
-	pushScene(GameScene::Ref(new TileTest(this)));
+	pushScene(GameScene::Ref(new TileTestScene(this)));
 
 	unsigned int lastTick  = CL_System::get_time();
 

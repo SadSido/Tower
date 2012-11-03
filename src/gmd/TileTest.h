@@ -11,10 +11,10 @@
 
 //************************************************************************************************************************
 
-class TileTest : public GameScene
+class TileTestScene : public GameScene
 {
 public:
-	explicit TileTest(GameManager * manager);
+	explicit TileTestScene(GameManager * manager);
 
 	virtual void update(unsigned int msecs);
 	virtual void render();

@@ -7,7 +7,7 @@
 
 //************************************************************************************************************************
 
-TileTest::TileTest(GameManager * manager)
+TileTestScene::TileTestScene(GameManager * manager)
 : GameScene(manager), m_map(500,500), m_offX(0), m_offY(0), m_vel(0, 0), m_acc(0, 0), m_mount(false), m_ground(false), m_damaged(false)
 , m_obj(CL_Pointf(8.0f, 10.0f), CL_Sizef(0.8f, 1.6f))
 {
@@ -22,7 +22,7 @@ TileTest::TileTest(GameManager * manager)
 	m_brickbg = CL_Sprite(renderer->getGC(), "brickbg", &resMan);
 }
 
-void TileTest::update(unsigned int msecs)
+void TileTestScene::update(unsigned int msecs)
 {
 	if (!msecs)
 	{
@@ -143,7 +143,7 @@ void TileTest::update(unsigned int msecs)
 	m_offY = m_obj.get_center().y * tileSize.width - wndSize.height/2;
 }
 
-void TileTest::render()
+void TileTestScene::render()
 {
 	Renderer::Ref renderer = m_manager->getRenderer();
 
