@@ -57,12 +57,6 @@ public:
 	TileTest checkMove(CL_Rectf rect, CL_Pointf delta) const;
 
 private:
-	typedef float& (*FnGet) (CL_Pointf&);
-	typedef  void  (*FnSwp) (int&, int&);
-
-	void checkLines(TileTest &test, CL_Pointf ptOne, CL_Pointf delta, float length, TileHit type, FnGet x, FnGet y, FnSwp sw) const;
-
-private:
 	const int m_dimX;
 	const int m_dimY;
 	const float m_size;
