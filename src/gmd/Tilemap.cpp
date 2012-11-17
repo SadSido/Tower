@@ -98,7 +98,7 @@ void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf 
 //************************************************************************************************************************
 
 Tilemap::Tilemap(int dimX, int dimY)
-: m_dimX(dimX), m_dimY(dimY), m_size(64)
+: m_dimX(dimX), m_dimY(dimY)
 {
 	m_tiles.resize(dimX * dimY);
 

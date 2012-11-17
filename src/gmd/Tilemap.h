@@ -59,7 +59,6 @@ public:
 private:
 	const int m_dimX;
 	const int m_dimY;
-	const float m_size;
 
 	std::vector<TileDesc> m_tiles;
 };
