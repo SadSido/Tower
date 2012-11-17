@@ -23,6 +23,9 @@
     <ClCompile Include="src\gmd\TileTest.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\Player.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -58,6 +61,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\TileTest.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\Player.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>

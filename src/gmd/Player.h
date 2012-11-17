@@ -10,19 +10,11 @@
 
 class Player
 {
-	class State
-	{
-		virtual ~State();
-	};
-
 public:
 	explicit Player();
 
 	void update(unsigned int msecs);
 	void render();
-
-private:
-	State * m_state;
 };
 
 //************************************************************************************************************************

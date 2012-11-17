@@ -83,6 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\gmd\IntroScene.cpp" />
+    <ClCompile Include="src\gmd\Player.cpp" />
     <ClCompile Include="src\gmd\Tilemap.cpp" />
     <ClCompile Include="src\gmd\TileTest.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gmd\IntroScene.h" />
+    <ClInclude Include="src\gmd\Player.h" />
     <ClInclude Include="src\gmd\Tilemap.h" />
     <ClInclude Include="src\gmd\TileTest.h" />
     <ClInclude Include="src\sys\Configuration.h" />
