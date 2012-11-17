@@ -8,14 +8,6 @@
 namespace 
 {
 
-// tiledesc struct helpers:
-
-TileDesc GetDefDesc()
-{
-	TileDesc def; def.flags = tf_Blocking;
-	return def;
-}
-
 // collision test helpers:
 
 bool between(float a, float b, float test)
@@ -117,8 +109,10 @@ Tilemap::Tilemap(int dimX, int dimY)
 
 TileDesc Tilemap::getTile(int x, int y) const
 {
-	if (x <= 0 || x >= m_dimX) { return GetDefDesc(); }
-	if (y <= 0 || y >= m_dimY) { return GetDefDesc(); }
+	static const TileDesc defTile = { tf_Blocking };
+
+	if (x <= 0 || x >= m_dimX) { return defTile; }
+	if (y <= 0 || y >= m_dimY) { return defTile; }
 	
 	return m_tiles[m_dimX * y + x]; 
 }
