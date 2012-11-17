@@ -10,12 +10,6 @@
 
 // set of options for the tile:
 
-enum TileFlags
-{
-	tf_NoFlags  = 0,
-	tf_Blocking = 1 << 0,
-};
-
 enum TileHit
 {
 	th_None,
@@ -24,6 +18,12 @@ enum TileHit
 };
 
 // single tile decsriptor:
+
+enum TileFlags
+{
+	tf_Empty    = 0,
+	tf_Blocking = 1 << 0,
+};
 
 struct TileDesc
 {
@@ -34,11 +34,9 @@ struct TileDesc
 
 struct TileTest
 {
-	TileHit   type;
-	TileDesc  desc;
-
-	CL_Pointf offset;
-	CL_Pointf origin;
+	TileHit    type;
+	TileDesc   tile;
+	CL_Pointf  delta;
 };
 
 //************************************************************************************************************************
@@ -56,13 +54,13 @@ public:
 	// Checks the rect, trying to move by "delta" offset within
 	// the tilemap. Returns the actual available offset: 
 	
-	CL_Pointf checkMove(CL_Rectf rc, CL_Pointf delta, int &hit) const;
+	TileTest checkMove(CL_Rectf rect, CL_Pointf delta) const;
 
 private:
 	typedef float& (*FnGet) (CL_Pointf&);
 	typedef  void  (*FnSwp) (int&, int&);
 
-	CL_Pointf checkLines(CL_Pointf ptOne, CL_Pointf delta, float length, FnGet x, FnGet y, FnSwp sw) const;
+	void checkLines(TileTest &test, CL_Pointf ptOne, CL_Pointf delta, float length, TileHit type, FnGet x, FnGet y, FnSwp sw) const;
 
 private:
 	const int m_dimX;

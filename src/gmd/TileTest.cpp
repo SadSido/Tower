@@ -74,15 +74,15 @@ void TileTestScene::update(unsigned int msecs)
 	if (mouse.get_keycode(CL_MOUSE_LEFT) && !m_mount)
 	{
 		CL_Pointf ptr = (CL_Pointf(mouse.get_x(), mouse.get_y()) + CL_Pointf(m_offX,m_offY)) / (float)tileSize.width;
-		CL_Pointf ropeTest = ptr - m_obj.get_center();
+		CL_Pointf ropeDelta = ptr - m_obj.get_center();
 		CL_Rectf ropeRect = CL_Rectf(m_obj.get_center(), CL_Sizef(0.01f, 0.01f));
-		int dummy = 0; ropeTest = m_map.checkMove(ropeRect, ropeTest, dummy);
+		TileTest ropeTest = m_map.checkMove(ropeRect, ropeDelta);
 
-		if (dummy)
+		if (ropeTest.type)
 		{
 			m_mount = true;
-			m_ropeLen = ropeTest.length();
-			m_rope = m_obj.get_center() + ropeTest;
+			m_ropeLen = ropeTest.delta.length();
+			m_rope = m_obj.get_center() + ropeTest.delta;
 		}
 	}
 
@@ -121,23 +121,16 @@ void TileTestScene::update(unsigned int msecs)
 		}
 	}
 
-	int hit = 0, dummy = 0;
-	//m_map.resetColor();
+	TileTest moveTest = m_map.checkMove(m_obj, m_vel * msecs);
+	TileTest gravTest = m_map.checkMove(m_obj, CL_Pointf(0, 0.1f));
 
-	CL_Pointf delta  = m_map.checkMove(m_obj, m_vel * msecs, hit);
-	CL_Pointf grTest = m_map.checkMove(m_obj, CL_Pointf(0, 0.1f), dummy);
+	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
+	if (moveTest.type == th_Vertical)   { m_vel.y = 0.0f; }
 
-	if (hit && !m_damaged)
-	{
-		m_damaged = m_vel.length() > 0.015f; 
-	}
-
-	if (hit == 1) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
-	if (hit == 2) { m_vel.y = 0.0f; }
-	m_ground = (grTest.y < 0.1f);
+	m_ground = (gravTest.delta.y < 0.1f);
 
 
-	m_obj.translate(delta);
+	m_obj.translate(moveTest.delta);
 
 	m_offX = m_obj.get_center().x * tileSize.width - wndSize.width/2;
 	m_offY = m_obj.get_center().y * tileSize.width - wndSize.height/2;

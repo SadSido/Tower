@@ -38,7 +38,7 @@ Tilemap::Tilemap(int dimX, int dimY)
 
 	int seed = 0;
 	for (auto it = m_tiles.begin(); it != m_tiles.end(); ++ it)
-	{ it->flags = (std::rand()) % 20 ? tf_NoFlags : tf_Blocking; }
+	{ it->flags = (std::rand()) % 20 ? tf_Empty : tf_Blocking; }
 }
 
 TileDesc Tilemap::getTile(int x, int y) const
@@ -49,31 +49,26 @@ TileDesc Tilemap::getTile(int x, int y) const
 	return m_tiles[m_dimX * y + x]; 
 }
 
-CL_Pointf Tilemap::checkMove(CL_Rectf rc, CL_Pointf delta, int &hit) const
+TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta) const
 {
-	
+	TileTest test = { th_None, TileDesc(), delta };
+
 	if (delta.x != 0.0f) // check horizontal movement
 	{
-		CL_Pointf ptTop = (delta.x > 0) ? rc.get_top_right()    : rc.get_top_left();
-		CL_Pointf ptRes = checkLines(ptTop, delta, rc.get_height(), getY, getX, doSwap);
-		
-		hit = (ptRes == delta) ? hit : 1;
-		delta = ptRes;
+		CL_Pointf ptTop = (delta.x > 0) ? rect.get_top_right() : rect.get_top_left();
+		checkLines(test, ptTop, test.delta, rect.get_height(), th_Horizontal, getY, getX, doSwap);
 	}
 
 	if (delta.y != 0.0f) // check vertical movement
 	{
-		CL_Pointf ptLef = (delta.y > 0) ? rc.get_bottom_left()  : rc.get_top_left();
-		CL_Pointf ptRes = checkLines(ptLef, delta, rc.get_width(), getX, getY, noSwap);
-
-		hit = (ptRes == delta) ? hit : 2;
-		delta = ptRes;
+		CL_Pointf ptLef = (delta.y > 0) ? rect.get_bottom_left()  : rect.get_top_left();
+		checkLines(test, ptLef, test.delta, rect.get_width(), th_Vertical, getX, getY, noSwap);
 	}
 
-	return delta;
+	return test;
 }
 
-CL_Pointf Tilemap::checkLines(CL_Pointf ptOne, CL_Pointf delta, float length, FnGet x, FnGet y, FnSwp sw) const
+void Tilemap::checkLines(TileTest &test, CL_Pointf ptOne, CL_Pointf delta, float length, TileHit type, FnGet x, FnGet y, FnSwp sw) const
 {
 	// precalc some useful deltas and parameters which differ for positive
 	// and negative directions of movement:
@@ -107,14 +102,15 @@ CL_Pointf Tilemap::checkLines(CL_Pointf ptOne, CL_Pointf delta, float length, Fn
 				x(result) = inter;
 				y(result) = line - moveSg * 0.02f;
 
-				// return the correct delta:
-				return result - ptOne; 
+				// fill in the collision info:
+				test.tile  = tile;
+				test.delta = result - ptOne; 
+				test.type  = type;
+				
+				return;
 			}
 		}
 	}
-
-	// no collisions detected, full delta available:
-	return delta;
 }
 
 //************************************************************************************************************************
