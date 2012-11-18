@@ -14,6 +14,20 @@
 class TileTestScene : public GameScene
 {
 public:
+	// level objects get this when to calculate update:
+	struct UpdateCtx
+	{
+		CL_InputDevice &keys;
+		CL_InputDevice &mouse;
+		Tilemap        &map;
+	};
+
+	// level objects get this when they have to render:
+	struct RenderCtx
+	{
+	};
+
+
 	explicit TileTestScene(GameManager * manager);
 
 	virtual void update(unsigned int msecs);
@@ -38,6 +52,8 @@ private:
 	CL_Pointf m_vel;
 	CL_Rectf  m_obj;
 };
+
+typedef TileTestScene LevelScene;
 
 //************************************************************************************************************************
 

@@ -24,10 +24,7 @@ TileTestScene::TileTestScene(GameManager * manager)
 
 void TileTestScene::update(unsigned int msecs)
 {
-	if (!msecs)
-	{
-		int a = 0;
-	}
+	if (!msecs) return;
 
 	CL_Size tileSize = m_brick.get_size();
 	CL_Size wndSize  = m_manager->getRenderer()->getGC().get_size();
