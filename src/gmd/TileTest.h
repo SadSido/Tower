@@ -25,6 +25,9 @@ public:
 	// level objects get this when they have to render:
 	struct RenderCtx
 	{
+		CL_GraphicContext &gc;
+		CL_Size  tileSize;
+		CL_Point offset;
 	};
 
 

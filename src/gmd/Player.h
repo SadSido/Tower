@@ -18,6 +18,9 @@ public:
 	void update(const LevelScene::UpdateCtx &ctx, unsigned int msecs);
 	void render(const LevelScene::RenderCtx &ctx);
 
+	CL_Rectf getRect() const
+	{ return m_obj; }
+
 private:
 	bool      m_ground;
 	float     m_ropeLen;

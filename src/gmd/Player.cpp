@@ -125,7 +125,23 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 
 void Player::render(const LevelScene::RenderCtx &ctx)
 {
+	const float tileSize = (float)ctx.tileSize.width;
 
+	CL_Pointf anchor = m_obj.get_top_left() * tileSize - ctx.offset;
+	CL_Sizef  size   = m_obj.get_size() * tileSize;
+
+	CL_Draw::box(ctx.gc, CL_Rectf(anchor, size), CL_Colorf(0,255,0));
+	
+	/*
+	if (m_mount)
+	{
+		CL_Pointf pt = m_rope * tileSize.width - CL_Point(m_offX, m_offY);
+		CL_Draw::line(renderer->getGC(), cent, pt, CL_Colorf(255,0,0));
+
+		CL_Pointf centr = CL_Pointf(m_rope * tileSize.width - CL_Pointf(m_offX, m_offY));
+		CL_Draw::circle(renderer->getGC(), centr, 5, CL_Colorf(255,0,0));  
+	}
+	*/
 }
 
 //************************************************************************************************************************
