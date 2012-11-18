@@ -13,7 +13,7 @@
 class Player
 {
 public:
-	explicit Player();
+	explicit Player(CL_Pointf pos, CL_Sizef size);
 
 	void update(const LevelScene::UpdateCtx &ctx, unsigned int msecs);
 	void render(const LevelScene::RenderCtx &ctx);
@@ -23,7 +23,9 @@ public:
 
 private:
 	bool      m_ground;
+	bool      m_mount;
 	float     m_ropeLen;
+
 	CL_Pointf m_rope;
 	CL_Pointf m_acc;
 	CL_Pointf m_vel;

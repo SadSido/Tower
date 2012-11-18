@@ -11,6 +11,10 @@
 
 //************************************************************************************************************************
 
+class Player;
+
+//************************************************************************************************************************
+
 class TileTestScene : public GameScene
 {
 public:
@@ -30,7 +34,7 @@ public:
 		CL_Point offset;
 	};
 
-
+public:
 	explicit TileTestScene(GameManager * manager);
 
 	virtual void update(unsigned int msecs);
@@ -40,20 +44,11 @@ private:
 	CL_Sprite m_brick;
 	CL_Sprite m_brickbg;
 
-	Tilemap m_map;
+	Tilemap  m_map;
+	Player * m_player;
 
 	float m_offX;
 	float m_offY;
-
-	bool m_ground;
-	bool m_mount;
-	bool m_damaged;
-
-	float     m_ropeLen;
-	CL_Pointf m_rope;
-	CL_Pointf m_acc;
-	CL_Pointf m_vel;
-	CL_Rectf  m_obj;
 };
 
 typedef TileTestScene LevelScene;

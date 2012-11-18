@@ -1,12 +1,12 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
-// ORIGIN: the very first scene in the game
+// ORIGIN: user-controlled game object
 
 #include "Player.h"
 
 //************************************************************************************************************************
 	
-Player::Player()
-: m_ground(false)
+Player::Player(CL_Pointf pos, CL_Sizef size)
+: m_obj(pos, size), m_ground(false), m_mount(false)
 {
 }
 
@@ -85,7 +85,7 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 	if (ctx.keys.get_keycode(CL_KEY_ESCAPE))
 	{ 
 		// m_manager->popScene(); 
-		std::abort();
+		std::exit(0);
 	}
 
 	// update objects:
