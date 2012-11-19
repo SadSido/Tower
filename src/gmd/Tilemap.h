@@ -56,10 +56,22 @@ public:
 	
 	TileTest checkMove(CL_Rectf rect, CL_Pointf delta) const;
 
+	// Sets the camera offset for rendering this tilemap:
+
+	CL_Pointf offset() const  { return m_offset; }
+	void offset(CL_Pointf pt) { m_offset = pt; }
+
+	// coordinates processing:
+
+	CL_Pointf toScreenspace(CL_Pointf pt) const;
+	CL_Pointf toTilespace(CL_Pointf pt) const;
+
 private:
+	const int m_size;
 	const int m_dimX;
 	const int m_dimY;
 
+	CL_Pointf m_offset;
 	std::vector<TileDesc> m_tiles;
 };
 

@@ -98,7 +98,7 @@ void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf 
 //************************************************************************************************************************
 
 Tilemap::Tilemap(int dimX, int dimY)
-: m_dimX(dimX), m_dimY(dimY)
+: m_dimX(dimX), m_dimY(dimY), m_size(64)
 {
 	m_tiles.resize(dimX * dimY);
 
@@ -116,6 +116,20 @@ TileDesc Tilemap::getTile(int x, int y) const
 	
 	return m_tiles[m_dimX * y + x]; 
 }
+
+// coordinates conversion:
+
+CL_Pointf Tilemap::toScreenspace(CL_Pointf pt) const	
+{
+	return pt * (float)m_size - m_offset;
+}
+
+CL_Pointf Tilemap::toTilespace(CL_Pointf pt) const
+{
+	return (pt + m_offset) / (float)m_size;
+}
+
+// movement constraints:
 
 TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta) const
 {
