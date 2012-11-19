@@ -12,15 +12,6 @@ Player::Player(CL_Pointf pos, CL_Sizef size)
 
 void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 {
-	/*
-	CL_Size tileSize = m_brick.get_size();
-	CL_Size wndSize  = m_manager->getRenderer()->getGC().get_size();
-	*/
-	/*
-	CL_InputContext &input  = m_manager->getRenderer()->getIC();
-	CL_InputDevice  &keybrd = input.get_keyboard();
-	CL_InputDevice  &mouse  = input.get_mouse();
-	*/
 	// update input:
 	m_acc.y = (m_ground) ? 0 : +0.00002f;
 
@@ -28,10 +19,6 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 	{ 
 		m_vel.y = -0.012f;
 		m_ground = false;
-	}
-	else
-	{
-		// m_acc.y = 0.0f;
 	}
 
 	if (ctx.keys.get_keycode(CL_KEY_D))
@@ -51,13 +38,12 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 		}
 	}
 
-	/*
-	if (mouse.get_keycode(CL_MOUSE_LEFT) && !m_mount)
+	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT) && !m_mount)
 	{
-		CL_Pointf ptr = (CL_Pointf(mouse.get_x(), mouse.get_y()) + CL_Pointf(m_offX,m_offY)) / (float)tileSize.width;
+		CL_Pointf ptr = ctx.map.toTilespace(CL_Pointf(ctx.mouse.get_position()));
 		CL_Pointf ropeDelta = ptr - m_obj.get_center();
 		CL_Rectf ropeRect = CL_Rectf(m_obj.get_center(), CL_Sizef(0.01f, 0.01f));
-		TileTest ropeTest = m_map.checkMove(ropeRect, ropeDelta);
+		TileTest ropeTest = ctx.map.checkMove(ropeRect, ropeDelta);
 
 		if (ropeTest.type)
 		{
@@ -67,20 +53,19 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 		}
 	}
 
-	if (m_mount && keybrd.get_keycode(CL_KEY_W))
+	if (m_mount && ctx.keys.get_keycode(CL_KEY_W))
 	{
 		m_ropeLen = max(m_ropeLen - 0.01f, 1.0f);
 	}
-	if (m_mount && keybrd.get_keycode(CL_KEY_S))
+	if (m_mount && ctx.keys.get_keycode(CL_KEY_S))
 	{
 		m_ropeLen = min(m_ropeLen + 0.01f, 10.0f);
 	}
 
-	if (keybrd.get_keycode(CL_KEY_SPACE) && m_mount)
+	if (ctx.keys.get_keycode(CL_KEY_SPACE) && m_mount)
 	{
 		m_mount = false;
 	}
-	*/
 	
 	if (ctx.keys.get_keycode(CL_KEY_ESCAPE))
 	{ 
@@ -91,7 +76,6 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 	// update objects:
 	m_vel += m_acc * (float)msecs;
 
-	/*
 	// here: apply mount:
 	if (m_mount)
 	{
@@ -104,7 +88,6 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 			m_vel = (corPos - m_obj.get_center()) / msecs;
 		}
 	}
-	*/
 
 	TileTest moveTest = ctx.map.checkMove(m_obj, m_vel * (float)msecs);
 	TileTest gravTest = ctx.map.checkMove(m_obj, CL_Pointf(0, 0.1f));
@@ -116,27 +99,21 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 
 
 	m_obj.translate(moveTest.delta);
-
-	/*
-	m_offX = m_obj.get_center().x * tileSize.width - wndSize.width/2;
-	m_offY = m_obj.get_center().y * tileSize.width - wndSize.height/2;
-	*/
 }
 
 void Player::render(const LevelScene::RenderCtx &ctx)
 {
 	CL_Draw::box(ctx.gc, ctx.map.toScreen(m_obj), CL_Colorf(0,255,0));
 	
-	/*
 	if (m_mount)
 	{
-		CL_Pointf pt = m_rope * tileSize.width - CL_Point(m_offX, m_offY);
-		CL_Draw::line(renderer->getGC(), cent, pt, CL_Colorf(255,0,0));
+		CL_Pointf a = ctx.map.toScreen(m_obj.get_top_left());
+		CL_Pointf b =  ctx.map.toScreen(m_rope);
 
-		CL_Pointf centr = CL_Pointf(m_rope * tileSize.width - CL_Pointf(m_offX, m_offY));
-		CL_Draw::circle(renderer->getGC(), centr, 5, CL_Colorf(255,0,0));  
+		CL_Draw::line(ctx.gc, a, b, CL_Colorf(255,0,0));
+		CL_Draw::circle(ctx.gc, b, 5, CL_Colorf(255,0,0));  
 	}
-	*/
+
 }
 
 //************************************************************************************************************************
