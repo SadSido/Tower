@@ -125,12 +125,7 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 
 void Player::render(const LevelScene::RenderCtx &ctx)
 {
-	const float tileSize = (float)ctx.tileSize.width;
-
-	CL_Pointf anchor = m_obj.get_top_left() * tileSize - ctx.offset;
-	CL_Sizef  size   = m_obj.get_size() * tileSize;
-
-	CL_Draw::box(ctx.gc, CL_Rectf(anchor, size), CL_Colorf(0,255,0));
+	CL_Draw::box(ctx.gc, ctx.map.toScreen(m_obj), CL_Colorf(0,255,0));
 	
 	/*
 	if (m_mount)

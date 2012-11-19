@@ -23,15 +23,14 @@ public:
 	{
 		CL_InputDevice &keys;
 		CL_InputDevice &mouse;
-		Tilemap        &map;
+		Tilemap &map;
 	};
 
 	// level objects get this when they have to render:
 	struct RenderCtx
 	{
 		CL_GraphicContext &gc;
-		CL_Size  tileSize;
-		CL_Point offset;
+		Tilemap &map;
 	};
 
 public:
@@ -46,9 +45,6 @@ private:
 
 	Tilemap  m_map;
 	Player * m_player;
-
-	float m_offX;
-	float m_offY;
 };
 
 typedef TileTestScene LevelScene;

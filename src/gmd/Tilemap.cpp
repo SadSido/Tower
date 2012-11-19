@@ -98,7 +98,7 @@ void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf 
 //************************************************************************************************************************
 
 Tilemap::Tilemap(int dimX, int dimY)
-: m_dimX(dimX), m_dimY(dimY), m_size(64)
+: m_dimX(dimX), m_dimY(dimY), m_size(64.0f)
 {
 	m_tiles.resize(dimX * dimY);
 
@@ -119,14 +119,21 @@ TileDesc Tilemap::getTile(int x, int y) const
 
 // coordinates conversion:
 
-CL_Pointf Tilemap::toScreenspace(CL_Pointf pt) const	
+CL_Pointf Tilemap::toScreen(CL_Pointf pt) const	
 {
-	return pt * (float)m_size - m_offset;
+	CL_Pointf center(m_window.width / 2, m_window.height / 2);
+	return (pt - m_offset) * m_size + center;
+}
+
+CL_Rectf Tilemap::toScreen(CL_Rectf rect) const
+{
+	return CL_Rectf(toScreen(rect.get_top_left()), rect.get_size() * m_size);
 }
 
 CL_Pointf Tilemap::toTilespace(CL_Pointf pt) const
 {
-	return (pt + m_offset) / (float)m_size;
+	CL_Pointf center(m_window.width / 2, m_window.height / 2);
+	return (pt - center) / m_size + m_offset;
 }
 
 // movement constraints:
@@ -150,5 +157,27 @@ TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta) const
 	return test;
 }
 
+// rendering:
+
+void Tilemap::render(CL_GraphicContext &gc, CL_Sprite &brick)
+{
+	// render tilemap:
+	const int tilesInX = 3 + m_window.width  / m_size;
+	const int tilesInY = 3 + m_window.height / m_size;
+
+	const int startX = (int)m_offset.x - tilesInX / 2;
+	const int startY = (int)m_offset.y - tilesInY / 2;
+
+	for (int tileX = startX; tileX < startX + tilesInX; ++ tileX)
+	for (int tileY = startY; tileY < startY + tilesInY; ++ tileY)
+	{
+		if (getTile(tileX, tileY).flags & tf_Blocking)
+		{
+			// draw shade and original sprite:
+			CL_Pointf pt = toScreen(CL_Pointf(tileX, tileY));
+			brick.draw(gc, pt.x, pt.y);
+		}
+	}
+}
 
 //************************************************************************************************************************
