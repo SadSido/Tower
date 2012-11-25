@@ -26,6 +26,9 @@
     <ClCompile Include="src\gmd\Player.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\Entity.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -64,6 +67,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\Player.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\Entity.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
