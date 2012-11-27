@@ -36,11 +36,20 @@ void TileTestScene::update(unsigned int msecs)
 	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
 
 	// update player:
-	UpdateCtx ctx = { keys, mouse, m_map };
+	UpdateCtx ctx = { keys, mouse, m_map, m_globals };
 	m_player->update(ctx, msecs);
 
 	// update camera:
 	m_map.offset(m_player->getRect().get_center());
+
+	// check the globals:
+	if (m_globals.check(Globals::victory()))
+	{
+	}
+
+	if (m_globals.check(Globals::defeat()))
+	{
+	}
 }
 
 void TileTestScene::render()

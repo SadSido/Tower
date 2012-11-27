@@ -12,8 +12,7 @@
 class Globals
 {
 public:
-	Globals(CL_Pointf pos, CL_Sizef size);
-	~Globals();
+	Globals();
 
 	// variable query:
 	bool check(CL_String var) const;
@@ -21,6 +20,11 @@ public:
 	// modifications:
 	void add(CL_String var);
 	void del(CL_String var);
+
+public:
+	// some popular globals:
+	static CL_String victory();
+	static CL_String defeat();
 
 private:
 	std::set<CL_String> m_vars;

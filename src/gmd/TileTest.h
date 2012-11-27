@@ -6,6 +6,7 @@
 
 #include "../sys/GameScene.h"
 #include "Tilemap.h"
+#include "Globals.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 
@@ -24,6 +25,7 @@ public:
 		CL_InputDevice &keys;
 		CL_InputDevice &mouse;
 		Tilemap &map;
+		Globals &globals;
 	};
 
 	// level objects get this when they have to render:
@@ -44,6 +46,7 @@ private:
 	CL_Sprite m_brickbg;
 
 	Tilemap  m_map;
+	Globals  m_globals;
 	Player * m_player;
 };
 
