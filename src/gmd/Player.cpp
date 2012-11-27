@@ -68,9 +68,8 @@ void Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 	}
 	
 	if (ctx.keys.get_keycode(CL_KEY_ESCAPE))
-	{ 
-		// m_manager->popScene(); 
-		std::exit(0);
+	{
+		ctx.globals.add(Globals::defeat());
 	}
 
 	// update objects:

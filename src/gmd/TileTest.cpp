@@ -45,10 +45,11 @@ void TileTestScene::update(unsigned int msecs)
 	// check the globals:
 	if (m_globals.check(Globals::victory()))
 	{
+		m_manager->popScene();
 	}
-
 	if (m_globals.check(Globals::defeat()))
 	{
+		m_manager->popScene();
 	}
 }
 
