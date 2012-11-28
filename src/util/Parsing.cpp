@@ -14,10 +14,14 @@ namespace
 	{ return "0123456789";	}
 
 	void skipWhile(CL_String::iterator &it, CL_String pattern)
-	{ while (*it && pattern.find(*it)) { ++ it; } }
+	{ 
+		while (*it && pattern.find(*it) != (-1)) { ++ it; } 
+	}
 
 	void skipUntil(CL_String::iterator &it, CL_String pattern)
-	{ while (*it && !pattern.find(*it)) { ++ it; } }
+	{ 
+		while (*it && pattern.find(*it) == (-1)) { ++ it; } 
+	}
 }
 
 //************************************************************************************************************************

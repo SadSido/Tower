@@ -7,6 +7,7 @@
 #include "../sys/GameScene.h"
 #include "Tilemap.h"
 #include "Globals.h"
+#include "Dialogs.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 
