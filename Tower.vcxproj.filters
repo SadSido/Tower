@@ -32,6 +32,9 @@
     <ClCompile Include="src\gmd\Globals.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\Dialogs.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -76,6 +79,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\Globals.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\Dialogs.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
