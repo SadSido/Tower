@@ -35,6 +35,9 @@
     <ClCompile Include="src\gmd\Dialogs.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\Parsing.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -83,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="src\gmd\Dialogs.h">
       <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\Parsing.h">
+      <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
