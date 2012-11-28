@@ -9,6 +9,8 @@ Globals::Globals()
 {
 }
 
+// variables query:
+
 bool Globals::check(CL_String var) const
 {
 	return m_vars.find(var) != m_vars.end();
