@@ -21,7 +21,7 @@ namespace
 	// parsing conditions:
 
 	template<void (DlgScript::*FUNC)(bool, const CL_String&)>
-	void parseConditions(CL_String::iterator &it, DlgScript &script)
+	void parseConditions(CL_String::const_iterator &it, DlgScript &script)
 	{
 		parseAssert(it, "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
@@ -35,19 +35,15 @@ namespace
 		}
 	}
 
-	void parsePrecs(CL_String::iterator &it, DlgScript &script)
-	{
-		parseConditions<&DlgScript::addPrec>(it, script);
-	}
+	void parsePrecs(CL_String::const_iterator &it, DlgScript &script)
+	{ parseConditions<&DlgScript::addPrec>(it, script);	}
 
-	void parsePosts(CL_String::iterator &it, DlgScript &script)
-	{
-		parseConditions<&DlgScript::addPost>(it, script);
-	}
+	void parsePosts(CL_String::const_iterator &it, DlgScript &script)
+	{ parseConditions<&DlgScript::addPost>(it, script);	}
 
 	// parsing scenario:
 
-	void parsePhrases(CL_String::iterator &it, DlgScript &script)
+	void parsePhrases(CL_String::const_iterator &it, DlgScript &script)
 	{
 		parseAssert(it, "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
@@ -63,17 +59,37 @@ namespace
 
 	// parsing entire script:
 
-	void parseDialog(CL_String::iterator &it, DlgScript &script)
+	void parseDialogs(const CL_String &source)
 	{
-		parseAssert(it, "dialog");
-		CL_String owner  = parseToken(it);
+		for (CL_String::const_iterator it = source.begin(); it != source.end(); /**/)
+		{
+			CL_String token = parseToken(it);
 
-		parsePrecs(it, script);
-		parsePosts(it, script);
-		parsePhrases(it, script);
+			// we allow single-line comments:
+			if (token == "//")
+			{
+				parseLine(it);
+				continue;
+			}
+			
+			// entering dialog section:
+			if (token == "dialog")
+			{
+				CL_String owner = parseToken(it);
+				DlgScript script;
+
+				parsePrecs(it, script);
+				parsePosts(it, script);
+				parsePhrases(it, script);
+				continue;
+			}
+
+			// invalid syntax:
+			// assert(false);
+		}
 	}
 
-}
+} // namespace
 
 //************************************************************************************************************************
 

@@ -5,6 +5,7 @@
 #define _Dialogs_h_
 
 #include <ClanLib/core.h>
+#include <map>
 
 //************************************************************************************************************************
 
@@ -36,6 +37,17 @@ private:
 	std::vector<Condition> m_precs;
 	std::vector<Condition> m_posts;
 	std::vector<Phrase> m_texts;
+};
+
+
+class Dialogs
+{
+public:
+	explicit Dialogs();
+
+private:
+	// maps the owners to their set of dialogs:
+	std::map<CL_String, std::vector<DlgScript>> m_map;
 };
 
 //************************************************************************************************************************
