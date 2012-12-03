@@ -10,12 +10,12 @@ namespace
 {
 	PhraseType getPhraseType(const CL_String &desc)
 	{
-		if (desc == "play") { return PhT_Player; }
-		if (desc == "npc")  { return PhT_NPC;    }
-		if (desc == "none") { return PhT_None;   }
+		if (desc == "play") { return pht_Player; }
+		if (desc == "npc")  { return pht_NPC;    }
+		if (desc == "none") { return pht_None;   }
 
 		// assert(false);
-		return PhT_None;
+		return pht_None;
 	}
 
 	// parsing conditions:
