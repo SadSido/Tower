@@ -11,6 +11,10 @@
 CL_String parseToken  (CL_String::iterator &it);
 CL_String parseQuotes (CL_String::iterator &it);
 
+// for checking the syntax of the script:
+
+void parseAssert(CL_String::iterator &it, const CL_String &value);
+
 //************************************************************************************************************************
 
 #endif

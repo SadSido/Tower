@@ -46,4 +46,10 @@ CL_String parseQuotes (CL_String::iterator &it)
 	return CL_String(beg, it - beg);
 }
 
+void parseAssert(CL_String::iterator &it, const CL_String &value)
+{
+	CL_String token = parseToken(it);
+	// assert(token == value);
+}
+
 //************************************************************************************************************************
