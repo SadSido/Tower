@@ -38,6 +38,9 @@
     <ClCompile Include="src\util\Parsing.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\EntTest.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="src\util\Parsing.h">
       <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\EntTest.h">
+      <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

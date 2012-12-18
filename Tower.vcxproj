@@ -83,6 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\gmd\Dialogs.cpp" />
+    <ClCompile Include="src\gmd\EntTest.cpp" />
     <ClCompile Include="src\gmd\Globals.cpp" />
     <ClCompile Include="src\gmd\IntroScene.cpp" />
     <ClCompile Include="src\gmd\Entity.cpp" />
@@ -98,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gmd\Dialogs.h" />
+    <ClInclude Include="src\gmd\EntTest.h" />
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\IntroScene.h" />
     <ClInclude Include="src\gmd\Entity.h" />

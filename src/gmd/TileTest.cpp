@@ -3,6 +3,7 @@
 
 #include "TileTest.h"
 #include "Player.h"
+#include "EntTest.h"
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
 
@@ -23,6 +24,10 @@ TileTestScene::TileTestScene(GameManager * manager)
 
 	// init some shit for the map:
 	m_map.window(m_manager->getRenderer()->getGC().get_size());
+
+	// generate some entities:
+	for (size_t no = 0; no < 10; ++ no)
+	{ m_entities.push_back(Entity::Ref(new EntTest(CL_Pointf(5.0f,1.0f), CL_Sizef(1.0f, 1.0f)))); }
 }
 
 void TileTestScene::update(unsigned int msecs)
