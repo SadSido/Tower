@@ -24,6 +24,7 @@ struct UpdateCtx
 	CL_InputDevice &keys;
 	CL_InputDevice &mouse;
 
+	Player   &player;
 	Tilemap  &map;
 	Globals  &globals;
 	Entities &entities;

@@ -41,7 +41,7 @@ void TileTestScene::update(unsigned int msecs)
 	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
 
 	// update player:
-	UpdateCtx ctx = { keys, mouse, m_map, m_globals, m_entities };
+	UpdateCtx ctx = { keys, mouse, *m_player, m_map, m_globals, m_entities };
 	m_player->update(ctx, msecs);
 
 	// update the entities:

@@ -18,6 +18,9 @@ public:
 
 	virtual bool update(const UpdateCtx &ctx, unsigned int msecs);
 	virtual bool render(const RenderCtx &ctx);
+
+private:
+	bool m_collapse;
 };
 
 //************************************************************************************************************************
