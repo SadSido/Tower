@@ -9,7 +9,7 @@
 //************************************************************************************************************************
 
 TileTestScene::TileTestScene(GameManager * manager)
-: GameScene(manager), m_map(500,500), m_player(new Player(CL_Pointf(8.0f, 10.0f), CL_Sizef(0.8f, 1.6f)))
+: GameScene(manager), m_map(20,20), m_player(new Player(CL_Pointf(8.0f, 10.0f), CL_Sizef(0.8f, 1.6f)))
 {
 	Configuration::Ref config = m_manager->getConfig();
 	Renderer::Ref renderer = m_manager->getRenderer();

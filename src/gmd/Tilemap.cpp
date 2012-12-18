@@ -104,7 +104,7 @@ Tilemap::Tilemap(int dimX, int dimY)
 
 	int seed = 0;
 	for (auto it = m_tiles.begin(); it != m_tiles.end(); ++ it)
-	{ it->flags = (std::rand()) % 20 ? tf_Empty : tf_Blocking; }
+	{ it->flags = (std::rand()) % 12 ? tf_Empty : tf_Blocking; }
 }
 
 TileDesc Tilemap::getTile(int x, int y) const
