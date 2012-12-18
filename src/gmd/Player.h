@@ -16,8 +16,8 @@ class Player : public Entity
 public:
 	explicit Player(CL_Pointf pos, CL_Sizef size);
 
-	void update(const LevelScene::UpdateCtx &ctx, unsigned int msecs);
-	void render(const LevelScene::RenderCtx &ctx);
+	virtual bool update(const LevelScene::UpdateCtx &ctx, unsigned int msecs);
+	virtual bool render(const LevelScene::RenderCtx &ctx);
 
 private:
 	bool      m_ground;

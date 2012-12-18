@@ -4,15 +4,26 @@
 #ifndef _Entity_h_
 #define _Entity_h_
 
+#include "TileTest.h"
 #include <ClanLib/core.h>
+#include <list>
 
 //************************************************************************************************************************
 
 class Entity
 {
 public:
+	typedef std::shared_ptr<Entity> Ref;
+
+	// c-tor and d-tor:
+
 	explicit Entity(CL_Pointf pos, CL_Sizef size);
 	virtual ~Entity();
+
+	// virtual interface:
+
+	virtual bool update(const LevelScene::UpdateCtx &ctx, unsigned int msecs) = 0;
+	virtual bool render(const LevelScene::RenderCtx &ctx) = 0;
 
 	// position querries:
 
@@ -30,6 +41,10 @@ protected:
 	CL_Pointf m_vel;
 	CL_Pointf m_acc;
 };
+
+//************************************************************************************************************************
+
+typedef std::list<Entity::Ref> Entities;
 
 //************************************************************************************************************************
 
