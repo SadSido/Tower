@@ -36,8 +36,18 @@ void TileTestScene::update(unsigned int msecs)
 	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
 
 	// update player:
-	UpdateCtx ctx = { keys, mouse, m_map, m_globals };
+	UpdateCtx ctx = { keys, mouse, m_map, m_globals, m_entities };
 	m_player->update(ctx, msecs);
+
+	// update the entities:
+	for (auto it = m_entities.begin(); it != m_entities.end(); /**/)
+	{
+		auto cur = it ++;
+		bool res = (*cur)->update(ctx, msecs);
+
+		// drop the entity, which returned false:
+		if (!res) { m_entities.erase(cur); }
+	}
 
 	// update camera:
 	m_map.offset(m_player->getRect().get_center());
@@ -63,6 +73,10 @@ void TileTestScene::render()
 	// render player:
 	RenderCtx ctx = { renderer->getGC(), m_map };
 	m_player->render(ctx);
+
+	// render entities:
+	for (auto it = m_entities.begin(); it != m_entities.end(); ++ it)
+	{ (*it)->render(ctx); }
 }
 
 //************************************************************************************************************************

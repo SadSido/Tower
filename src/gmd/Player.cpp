@@ -10,7 +10,7 @@ Player::Player(CL_Pointf pos, CL_Sizef size)
 {
 }
 
-bool Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
+bool Player::update(const UpdateCtx &ctx, unsigned int msecs)
 {
 	// update input:
 	m_acc.y = (m_ground) ? 0 : +0.00002f;
@@ -101,7 +101,7 @@ bool Player::update(const LevelScene::UpdateCtx &ctx, unsigned int msecs)
 	return true;
 }
 
-bool Player::render(const LevelScene::RenderCtx &ctx)
+bool Player::render(const RenderCtx &ctx)
 {
 	CL_Draw::box(ctx.gc, ctx.map.toScreen(m_rect), CL_Colorf(0,255,0));
 	

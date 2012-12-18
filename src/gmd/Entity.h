@@ -4,9 +4,13 @@
 #ifndef _Entity_h_
 #define _Entity_h_
 
-#include "TileTest.h"
 #include <ClanLib/core.h>
 #include <list>
+
+//************************************************************************************************************************
+
+struct UpdateCtx;
+struct RenderCtx;
 
 //************************************************************************************************************************
 
@@ -22,8 +26,8 @@ public:
 
 	// virtual interface:
 
-	virtual bool update(const LevelScene::UpdateCtx &ctx, unsigned int msecs) = 0;
-	virtual bool render(const LevelScene::RenderCtx &ctx) = 0;
+	virtual bool update(const UpdateCtx &ctx, unsigned int msecs) = 0;
+	virtual bool render(const RenderCtx &ctx) = 0;
 
 	// position querries:
 

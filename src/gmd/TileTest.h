@@ -8,6 +8,7 @@
 #include "Tilemap.h"
 #include "Globals.h"
 #include "Dialogs.h"
+#include "Entity.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 
@@ -17,25 +18,28 @@ class Player;
 
 //************************************************************************************************************************
 
+// level objects get this when they calculate update:
+struct UpdateCtx
+{
+	CL_InputDevice &keys;
+	CL_InputDevice &mouse;
+
+	Tilemap  &map;
+	Globals  &globals;
+	Entities &entities;
+};
+
+// level objects get this when they have to render:
+struct RenderCtx
+{
+	CL_GraphicContext &gc;
+	Tilemap &map;
+};
+
+//************************************************************************************************************************
+
 class TileTestScene : public GameScene
 {
-public:
-	// level objects get this when to calculate update:
-	struct UpdateCtx
-	{
-		CL_InputDevice &keys;
-		CL_InputDevice &mouse;
-		Tilemap &map;
-		Globals &globals;
-	};
-
-	// level objects get this when they have to render:
-	struct RenderCtx
-	{
-		CL_GraphicContext &gc;
-		Tilemap &map;
-	};
-
 public:
 	explicit TileTestScene(GameManager * manager);
 
@@ -46,6 +50,7 @@ private:
 	CL_Sprite m_brick;
 	CL_Sprite m_brickbg;
 
+	Entities m_entities;
 	Tilemap  m_map;
 	Globals  m_globals;
 	Player * m_player;
