@@ -1,7 +1,7 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
 // ORIGIN: base class for every entity in the game
 
-#include "Entity.h"
+#include "Entities.h"
 
 //************************************************************************************************************************
 

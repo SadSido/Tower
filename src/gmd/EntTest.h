@@ -5,7 +5,7 @@
 #define _EntTest_h_
 
 #include "TileTest.h"
-#include "Entity.h"
+#include "Entities.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 

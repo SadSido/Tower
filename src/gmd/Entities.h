@@ -1,8 +1,8 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
 // ORIGIN: base class for every entity in the game
 
-#ifndef _Entity_h_
-#define _Entity_h_
+#ifndef _Entities_h_
+#define _Entities_h_
 
 #include <ClanLib/core.h>
 #include <list>

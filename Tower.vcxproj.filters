@@ -26,9 +26,6 @@
     <ClCompile Include="src\gmd\Player.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
-    <ClCompile Include="src\gmd\Entity.cpp">
-      <Filter>gmd</Filter>
-    </ClCompile>
     <ClCompile Include="src\gmd\Globals.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
@@ -39,6 +36,9 @@
       <Filter>util</Filter>
     </ClCompile>
     <ClCompile Include="src\gmd\EntTest.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gmd\Entities.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,9 +81,6 @@
     <ClInclude Include="src\gmd\Player.h">
       <Filter>gmd</Filter>
     </ClInclude>
-    <ClInclude Include="src\gmd\Entity.h">
-      <Filter>gmd</Filter>
-    </ClInclude>
     <ClInclude Include="src\gmd\Globals.h">
       <Filter>gmd</Filter>
     </ClInclude>
@@ -94,6 +91,9 @@
       <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\EntTest.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\Entities.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>

@@ -83,10 +83,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\gmd\Dialogs.cpp" />
+    <ClCompile Include="src\gmd\Entities.cpp" />
     <ClCompile Include="src\gmd\EntTest.cpp" />
     <ClCompile Include="src\gmd\Globals.cpp" />
     <ClCompile Include="src\gmd\IntroScene.cpp" />
-    <ClCompile Include="src\gmd\Entity.cpp" />
     <ClCompile Include="src\gmd\Player.cpp" />
     <ClCompile Include="src\gmd\Tilemap.cpp" />
     <ClCompile Include="src\gmd\TileTest.cpp" />
@@ -99,10 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gmd\Dialogs.h" />
+    <ClInclude Include="src\gmd\Entities.h" />
     <ClInclude Include="src\gmd\EntTest.h" />
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\IntroScene.h" />
-    <ClInclude Include="src\gmd\Entity.h" />
     <ClInclude Include="src\gmd\Player.h" />
     <ClInclude Include="src\gmd\Tilemap.h" />
     <ClInclude Include="src\gmd\TileTest.h" />

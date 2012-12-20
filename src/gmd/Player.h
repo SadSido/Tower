@@ -4,7 +4,7 @@
 #ifndef _Player_h_
 #define _Player_h_
 
-#include "Entity.h"
+#include "Entities.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 
