@@ -41,6 +41,9 @@
     <ClCompile Include="src\gmd\Entities.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\Areas.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -94,6 +97,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\Entities.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\Areas.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
