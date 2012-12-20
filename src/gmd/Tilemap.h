@@ -45,6 +45,7 @@ struct TileTest
 class Tilemap
 {
 public:
+	typedef std::shared_ptr<Tilemap> Ref;
 	explicit Tilemap(int dimX, int dimY);
 
 	// Gets the tile descriptor for target coordinates. Wrong

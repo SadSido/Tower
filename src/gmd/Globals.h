@@ -12,7 +12,7 @@
 class Globals
 {
 public:
-	Globals();
+	explicit Globals();
 
 	// variable query:
 	bool check(CL_String var) const;

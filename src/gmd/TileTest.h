@@ -8,13 +8,9 @@
 #include "Tilemap.h"
 #include "Globals.h"
 #include "Dialogs.h"
-#include "Entity.h"
+#include "Player.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
-
-//************************************************************************************************************************
-
-class Player;
 
 //************************************************************************************************************************
 
@@ -24,17 +20,20 @@ struct UpdateCtx
 	CL_InputDevice &keys;
 	CL_InputDevice &mouse;
 
-	Player   &player;
-	Tilemap  &map;
+	Entities::Ref entities;
+	Tilemap::Ref  tilemap;
+
 	Globals  &globals;
-	Entities &entities;
+	Player   &player;
 };
 
 // level objects get this when they have to render:
 struct RenderCtx
 {
 	CL_GraphicContext &gc;
-	Tilemap &map;
+	
+	Entities::Ref entities;
+	Tilemap::Ref  tilemap;
 };
 
 //************************************************************************************************************************
@@ -51,10 +50,11 @@ private:
 	CL_Sprite m_brick;
 	CL_Sprite m_brickbg;
 
-	Entities m_entities;
-	Tilemap  m_map;
+	Entities::Ref m_entities;
+	Tilemap::Ref  m_tilemap;
+	
 	Globals  m_globals;
-	Player * m_player;
+	Player   m_player;
 };
 
 typedef TileTestScene LevelScene;

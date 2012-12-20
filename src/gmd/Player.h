@@ -4,10 +4,14 @@
 #ifndef _Player_h_
 #define _Player_h_
 
-#include "TileTest.h"
 #include "Entity.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
+
+//************************************************************************************************************************
+
+struct UpdateCtx;
+struct RenderCtx;
 
 //************************************************************************************************************************
 

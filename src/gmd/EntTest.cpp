@@ -16,7 +16,7 @@ bool EntTest::update(const UpdateCtx &ctx, unsigned int msecs)
 {
 	if (!m_collapse)
 	{
-		TileTest moveTest = ctx.map.checkMove(m_rect, m_vel * (float)msecs);
+		TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * (float)msecs);
 
 		if (moveTest.type == th_Horizontal) { m_vel.x *= -1.0f; }
 		if (moveTest.type == th_Vertical)   { m_vel.y *= -1.0f; }
@@ -35,7 +35,7 @@ bool EntTest::update(const UpdateCtx &ctx, unsigned int msecs)
 
 bool EntTest::render(const RenderCtx &ctx)
 {
-	CL_Draw::box(ctx.gc, ctx.map.toScreen(m_rect), CL_Colorf(255,255,0));
+	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,0));
 	return true;
 }
 

@@ -2,6 +2,7 @@
 // ORIGIN: user-controlled game object
 
 #include "Player.h"
+#include "TileTest.h"
 
 //************************************************************************************************************************
 	
@@ -40,10 +41,10 @@ bool Player::update(const UpdateCtx &ctx, unsigned int msecs)
 
 	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT) && !m_mount)
 	{
-		CL_Pointf ptr = ctx.map.toTilespace(CL_Pointf(ctx.mouse.get_position()));
+		CL_Pointf ptr = ctx.tilemap->toTilespace(CL_Pointf(ctx.mouse.get_position()));
 		CL_Pointf ropeDelta = ptr - m_rect.get_center();
 		CL_Rectf ropeRect = CL_Rectf(m_rect.get_center(), CL_Sizef(0.01f, 0.01f));
-		TileTest ropeTest = ctx.map.checkMove(ropeRect, ropeDelta);
+		TileTest ropeTest = ctx.tilemap->checkMove(ropeRect, ropeDelta);
 
 		if (ropeTest.type)
 		{
@@ -88,8 +89,8 @@ bool Player::update(const UpdateCtx &ctx, unsigned int msecs)
 		}
 	}
 
-	TileTest moveTest = ctx.map.checkMove(m_rect, m_vel * (float)msecs);
-	TileTest gravTest = ctx.map.checkMove(m_rect, CL_Pointf(0, 0.1f));
+	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * (float)msecs);
+	TileTest gravTest = ctx.tilemap->checkMove(m_rect, CL_Pointf(0, 0.1f));
 
 	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
 	if (moveTest.type == th_Vertical)   { m_vel.y = 0.0f; }
@@ -103,12 +104,12 @@ bool Player::update(const UpdateCtx &ctx, unsigned int msecs)
 
 bool Player::render(const RenderCtx &ctx)
 {
-	CL_Draw::box(ctx.gc, ctx.map.toScreen(m_rect), CL_Colorf(0,255,0));
+	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(0,255,0));
 	
 	if (m_mount)
 	{
-		CL_Pointf a = ctx.map.toScreen(m_rect.get_top_left());
-		CL_Pointf b =  ctx.map.toScreen(m_rope);
+		CL_Pointf a = ctx.tilemap->toScreen(m_rect.get_top_left());
+		CL_Pointf b =  ctx.tilemap->toScreen(m_rope);
 
 		CL_Draw::line(ctx.gc, a, b, CL_Colorf(255,0,0));
 		CL_Draw::circle(ctx.gc, b, 5, CL_Colorf(255,0,0));  
