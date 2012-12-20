@@ -10,11 +10,7 @@
 //************************************************************************************************************************
 
 TileTestScene::TileTestScene(GameManager * manager)
-: GameScene(manager)
-, m_tilemap(new Tilemap(20,20))
-, m_entities(new Entities()) 
-, m_player(CL_Pointf(8.0f, 10.0f), CL_Sizef(0.8f, 1.6f))
-, m_globals()
+: GameScene(manager), m_player(CL_Pointf(8.0f, 10.0f), CL_Sizef(0.8f, 1.6f))
 {
 	Configuration::Ref config = m_manager->getConfig();
 	Renderer::Ref renderer = m_manager->getRenderer();
@@ -26,13 +22,16 @@ TileTestScene::TileTestScene(GameManager * manager)
 	m_brick = CL_Sprite(renderer->getGC(), "brick", &resMan);
 	m_brickbg = CL_Sprite(renderer->getGC(), "brickbg", &resMan);
 
-	// init some shit for the map:
-	m_tilemap->window(m_manager->getRenderer()->getGC().get_size());
+	// init scene areas:
+	CL_Sizef window = renderer->getGC().get_size();
 
-	// generate some entities:
-	for (size_t no = 0; no < 10; ++ no)
-	{ m_entities->push_back(Entity::Ref(new EntTest(CL_Pointf(5.0f,1.0f), CL_Sizef(1.0f, 1.0f)))); }
+	m_areas["main"]  = Area(window);
+	// ...
+
+	enterArea("main");
 }
+
+// scene lifecycle:
 
 void TileTestScene::update(unsigned int msecs)
 {
@@ -86,6 +85,17 @@ void TileTestScene::render()
 	// render entities:
 	for (auto it = ctx.entities->begin(); it != ctx.entities->end(); ++ it)
 	{ (*it)->render(ctx); }
+}
+
+// areas management:
+
+void TileTestScene::enterArea(CL_String name)
+{
+	auto it = m_areas.find(name);
+	// assert(it != m_areas.end());
+
+	m_entities = it->second.getEntities();
+	m_tilemap  = it->second.getTilemap();
 }
 
 //************************************************************************************************************************

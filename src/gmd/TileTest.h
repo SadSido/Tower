@@ -5,6 +5,7 @@
 #define _TileTest_h_
 
 #include "../sys/GameScene.h"
+#include "Areas.h"
 #include "Tilemap.h"
 #include "Globals.h"
 #include "Dialogs.h"
@@ -43,8 +44,12 @@ class TileTestScene : public GameScene
 public:
 	explicit TileTestScene(GameManager * manager);
 
+	// scene lifecycle:	
 	virtual void update(unsigned int msecs);
 	virtual void render();
+
+	// area management:
+	void enterArea(CL_String name);
 
 private:
 	CL_Sprite m_brick;
@@ -55,6 +60,7 @@ private:
 	
 	Globals  m_globals;
 	Player   m_player;
+	Areas    m_areas;
 };
 
 typedef TileTestScene LevelScene;
