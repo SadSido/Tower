@@ -20,6 +20,9 @@ Area::Area(CL_Sizef window)
 
 	for (size_t no = 0; no < 10; ++ no)
 	{ m_entities->push_back(Entity::Ref(new EntTest(CL_Pointf(5.0f,1.0f), CL_Sizef(1.0f, 1.0f)))); }
+
+	// generate entry points:
+	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
 }
 
 //************************************************************************************************************************

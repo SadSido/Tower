@@ -13,6 +13,8 @@
 
 class Area
 {
+	typedef std::map<CL_String, CL_Pointf> EntryPoints;
+
 public:
 	explicit Area();
 	explicit Area(CL_Sizef window);
@@ -25,9 +27,13 @@ public:
 	Tilemap::Ref getTilemap() const
 	{ return m_tilemap; }
 
+	CL_Pointf getEntryPoint(CL_String name) const
+	{ return m_entries.find(name)->second; }
+
 private:
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
+	EntryPoints   m_entries;
 };
 
 //************************************************************************************************************************

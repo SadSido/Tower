@@ -29,7 +29,7 @@ public:
 	virtual bool update(const UpdateCtx &ctx, unsigned int msecs) = 0;
 	virtual bool render(const RenderCtx &ctx) = 0;
 
-	// position querries:
+	// member querries:
 
 	CL_Rectf getRect() const
 	{ return m_rect; }
@@ -39,6 +39,17 @@ public:
 
 	CL_Pointf getAcc() const
 	{ return m_acc; }
+
+	// member assign:
+
+	void setPos(CL_Pointf pos)
+	{ m_rect = CL_Rectf(pos, m_rect.get_size()); }
+
+	void setVel(CL_Pointf vel)
+	{ m_vel = vel; }
+
+	void setAcc(CL_Pointf acc)
+	{ m_acc = acc; }
 
 protected:
 	CL_Rectf  m_rect;

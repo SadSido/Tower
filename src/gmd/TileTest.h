@@ -49,7 +49,7 @@ public:
 	virtual void render();
 
 	// area management:
-	void enterArea(CL_String name);
+	void enterArea(CL_String name, CL_String entry);
 
 private:
 	CL_Sprite m_brick;

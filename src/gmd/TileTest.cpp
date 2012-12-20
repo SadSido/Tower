@@ -10,7 +10,7 @@
 //************************************************************************************************************************
 
 TileTestScene::TileTestScene(GameManager * manager)
-: GameScene(manager), m_player(CL_Pointf(8.0f, 10.0f), CL_Sizef(0.8f, 1.6f))
+: GameScene(manager), m_player(CL_Pointf(), CL_Sizef(0.8f, 1.6f))
 {
 	Configuration::Ref config = m_manager->getConfig();
 	Renderer::Ref renderer = m_manager->getRenderer();
@@ -28,7 +28,7 @@ TileTestScene::TileTestScene(GameManager * manager)
 	m_areas["main"]  = Area(window);
 	// ...
 
-	enterArea("main");
+	enterArea("main", "main");
 }
 
 // scene lifecycle:
@@ -89,13 +89,18 @@ void TileTestScene::render()
 
 // areas management:
 
-void TileTestScene::enterArea(CL_String name)
+void TileTestScene::enterArea(CL_String name, CL_String entry)
 {
 	auto it = m_areas.find(name);
 	// assert(it != m_areas.end());
 
+	// take entities & tilemap into processing:
 	m_entities = it->second.getEntities();
 	m_tilemap  = it->second.getTilemap();
+
+	// update player position in the new area:
+	m_player.setPos(it->second.getEntryPoint(entry));
+	m_player.setVel(CL_Pointf());
 }
 
 //************************************************************************************************************************
