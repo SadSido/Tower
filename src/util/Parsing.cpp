@@ -42,8 +42,8 @@ CL_String parseToken(CL_String::const_iterator &it)
 CL_String parseQuotes (CL_String::const_iterator &it)
 {
 	skipUntil(it, quotes);
-	auto beg = it;
-	skipAfter(it, quotes);
+	auto beg = ++ it;
+	skipUntil(it, quotes);
 	return CL_String(beg, it - beg);
 }
 
