@@ -14,12 +14,6 @@ class Configuration
 public:
 	typedef std::shared_ptr<Configuration> Ref;
 	explicit Configuration();
-
-	CL_String getPath(CL_String fname) const
-	{ return m_basePath + fname; }
-
-private:
-	CL_String m_basePath;
 };
 
 //************************************************************************************************************************

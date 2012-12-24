@@ -6,23 +6,29 @@
 #include "EntTest.h"
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
+#include "../util/Parsing.h"
+#include "../util/BasePath.h"
 
 //************************************************************************************************************************
 
-LevelScene::LevelScene(GameManager * manager, CL_String descName)
+LevelScene::LevelScene(GameManager * manager, CL_String descFile)
 : GameScene(manager), m_player(CL_Pointf(), CL_Sizef(0.8f, 1.6f))
 {
 	Configuration::Ref config = m_manager->getConfig();
 	Renderer::Ref renderer = m_manager->getRenderer();
 
-	// load up necessary resources:
-	CL_String resPath = config->getPath("intro.xml");
-	CL_ResourceManager resMan = CL_ResourceManager(resPath);
+	// prepare desc file:
+	CL_String descPath = makePath(descFile);
+	CL_String descStr  = CL_File::read_text(descPath);
+	
+	// init stuff from desc file:
+	loadDescFile(descStr.begin());
 
-	m_brick = CL_Sprite(renderer->getGC(), "brick", &resMan);
-	m_brickbg = CL_Sprite(renderer->getGC(), "brickbg", &resMan);
 
-	// init scene areas:
+	
+	
+	// shitty debug stuff:
+	m_brick = CL_Sprite(renderer->getGC(), "brick", &m_assets);
 	CL_Sizef window = renderer->getGC().get_size();
 
 	m_areas["main"]  = Area(window);
@@ -101,6 +107,29 @@ void LevelScene::enterArea(CL_String name, CL_String entry)
 	// update player position in the new area:
 	m_player.setPos(it->second.getEntryPoint(entry));
 	m_player.setVel(CL_Pointf());
+}
+
+// pasing and initialization stuff:
+
+void LevelScene::loadDescFile(CL_String::const_iterator it)
+{
+	while (*it)
+	{
+		// load stuff depending on token:
+		CL_String token = parseToken(it);
+
+		if (token == "resource")
+		{ loadResource(it); }
+
+		else
+		{ /* assert false; */ }
+	}
+}
+
+void LevelScene::loadResource(CL_String::const_iterator &it)
+{
+	CL_String path = parseQuotes(it);
+	m_assets.add_resources(CL_ResourceManager(makePath(path)));
 }
 
 //************************************************************************************************************************

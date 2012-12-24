@@ -1,13 +1,14 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
-// ORIGIN: class for providing access to game config
+// ORIGIN: proxy for fast switching between the resource folders
 
-#include "Configuration.h"
+#include "BasePath.h"
 
 //************************************************************************************************************************
 
-Configuration::Configuration()
+CL_String makePath(const CL_String &path)
 {
+	static CL_String basePath = CL_File::read_text("basepath");
+	return basePath + path;
 }
 
 //************************************************************************************************************************
-

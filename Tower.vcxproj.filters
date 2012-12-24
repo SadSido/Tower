@@ -44,6 +44,9 @@
     <ClCompile Include="src\gmd\LevelScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\BasePath.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -102,9 +105,12 @@
     <ClInclude Include="src\gmd\LevelScene.h">
       <Filter>gmd</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\BasePath.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\intro.xml">
+    <None Include="res\level01.desc">
       <Filter>res</Filter>
     </None>
   </ItemGroup>

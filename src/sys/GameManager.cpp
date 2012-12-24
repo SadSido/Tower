@@ -42,7 +42,6 @@ int GameManager::runMainLoop()
 	m_renderer.reset(new Renderer());
 
 	// push initial scene:
-	pushScene(GameScene::Ref(new IntroScene(this)));
 	pushScene(GameScene::Ref(new LevelScene(this, "level01.desc")));
 
 	unsigned int lastTick  = CL_System::get_time();

@@ -15,6 +15,9 @@
 
 //************************************************************************************************************************
 
+// more laconic name for resource manager:
+typedef CL_ResourceManager Assets;
+
 // level objects get this when they calculate update:
 struct UpdateCtx
 {
@@ -42,7 +45,7 @@ struct RenderCtx
 class LevelScene : public GameScene
 {
 public:
-	explicit LevelScene(GameManager * manager, CL_String descName);
+	explicit LevelScene(GameManager * manager, CL_String descFile);
 
 	// scene lifecycle:	
 	virtual void update(unsigned int msecs);
@@ -53,14 +56,18 @@ public:
 
 private:
 	CL_Sprite m_brick;
-	CL_Sprite m_brickbg;
 
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	
-	Globals  m_globals;
-	Player   m_player;
-	Areas    m_areas;
+	Globals m_globals;
+	Player  m_player;
+	Areas   m_areas;
+	Assets  m_assets;
+
+	// parsing the desc file:
+	void loadDescFile(CL_String::const_iterator  it);
+	void loadResource(CL_String::const_iterator &it);
 };
 
 //************************************************************************************************************************
