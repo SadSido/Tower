@@ -1,8 +1,8 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
-// ORIGIN: the very first scene in the game
+// ORIGIN: base scene for every game level
 
-#ifndef _TileTest_h_
-#define _TileTest_h_
+#ifndef _LevelScene_h_
+#define _LevelScene_h_
 
 #include "../sys/GameScene.h"
 #include "Areas.h"
@@ -39,10 +39,10 @@ struct RenderCtx
 
 //************************************************************************************************************************
 
-class TileTestScene : public GameScene
+class LevelScene : public GameScene
 {
 public:
-	explicit TileTestScene(GameManager * manager);
+	explicit LevelScene(GameManager * manager, CL_String descName);
 
 	// scene lifecycle:	
 	virtual void update(unsigned int msecs);
@@ -62,8 +62,6 @@ private:
 	Player   m_player;
 	Areas    m_areas;
 };
-
-typedef TileTestScene LevelScene;
 
 //************************************************************************************************************************
 

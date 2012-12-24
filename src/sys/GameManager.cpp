@@ -3,7 +3,7 @@
 
 #include "GameManager.h"
 #include "../gmd/IntroScene.h"
-#include "../gmd/TileTest.h"
+#include "../gmd/LevelScene.h"
 
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
@@ -43,7 +43,7 @@ int GameManager::runMainLoop()
 
 	// push initial scene:
 	pushScene(GameScene::Ref(new IntroScene(this)));
-	pushScene(GameScene::Ref(new TileTestScene(this)));
+	pushScene(GameScene::Ref(new LevelScene(this, "level01.desc")));
 
 	unsigned int lastTick  = CL_System::get_time();
 

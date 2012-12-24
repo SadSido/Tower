@@ -20,9 +20,6 @@
     <ClCompile Include="src\gmd\Tilemap.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
-    <ClCompile Include="src\gmd\TileTest.cpp">
-      <Filter>gmd</Filter>
-    </ClCompile>
     <ClCompile Include="src\gmd\Player.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
@@ -42,6 +39,9 @@
       <Filter>gmd</Filter>
     </ClCompile>
     <ClCompile Include="src\gmd\Areas.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gmd\LevelScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,9 +78,6 @@
     <ClInclude Include="src\gmd\Tilemap.h">
       <Filter>gmd</Filter>
     </ClInclude>
-    <ClInclude Include="src\gmd\TileTest.h">
-      <Filter>gmd</Filter>
-    </ClInclude>
     <ClInclude Include="src\gmd\Player.h">
       <Filter>gmd</Filter>
     </ClInclude>
@@ -100,6 +97,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\Areas.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\LevelScene.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
-// ORIGIN: the very first scene in the game
+// ORIGIN: base scene for every game level
 
-#include "TileTest.h"
+#include "LevelScene.h"
 #include "Player.h"
 #include "EntTest.h"
 #include "../sys/GameManager.h"
@@ -9,7 +9,7 @@
 
 //************************************************************************************************************************
 
-TileTestScene::TileTestScene(GameManager * manager)
+LevelScene::LevelScene(GameManager * manager, CL_String descName)
 : GameScene(manager), m_player(CL_Pointf(), CL_Sizef(0.8f, 1.6f))
 {
 	Configuration::Ref config = m_manager->getConfig();
@@ -33,7 +33,7 @@ TileTestScene::TileTestScene(GameManager * manager)
 
 // scene lifecycle:
 
-void TileTestScene::update(unsigned int msecs)
+void LevelScene::update(unsigned int msecs)
 {
 	if (!msecs) return;
 
@@ -70,7 +70,7 @@ void TileTestScene::update(unsigned int msecs)
 	}
 }
 
-void TileTestScene::render()
+void LevelScene::render()
 {
 	// create render context:
 	Renderer::Ref renderer = m_manager->getRenderer();
@@ -89,7 +89,7 @@ void TileTestScene::render()
 
 // areas management:
 
-void TileTestScene::enterArea(CL_String name, CL_String entry)
+void LevelScene::enterArea(CL_String name, CL_String entry)
 {
 	auto it = m_areas.find(name);
 	// assert(it != m_areas.end());

@@ -4,7 +4,7 @@
 #ifndef _EntTest_h_
 #define _EntTest_h_
 
-#include "TileTest.h"
+#include "LevelScene.h"
 #include "Entities.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
