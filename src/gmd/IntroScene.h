@@ -15,7 +15,7 @@ class IntroScene : public GameScene
 public:
 	explicit IntroScene(GameManager * manager);
 
-	virtual void update(unsigned int msecs);
+	virtual void update(float secs);
 	virtual void render();
 
 private:

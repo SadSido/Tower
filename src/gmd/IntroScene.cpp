@@ -21,13 +21,13 @@ IntroScene::IntroScene(GameManager * manager)
 	m_logo = CL_Sprite(renderer->getGC(), "spr_logo", &resMan);
 }
 
-void IntroScene::update(unsigned int msecs)
+void IntroScene::update(float secs)
 {
 	CL_InputContext &input  = m_manager->getRenderer()->getIC();
 	CL_InputDevice  &keybrd = input.get_keyboard();
 
 	// update the sprites:
-	m_logo.update(msecs);
+	m_logo.update(secs);
 
 	if (keybrd.get_keycode(CL_KEY_ESCAPE))
 	{ 

@@ -9,14 +9,14 @@
 EntTest::EntTest(CL_Pointf pos, CL_Sizef size)
 : Entity(pos, size), m_collapse(false)
 {
-	m_vel = CL_Pointf(rand() % 100, rand() % 100).normalize() * 0.005f;
+	m_vel = CL_Pointf(rand() % 100, rand() % 100).normalize() * 5.0f;
 }
 
-bool EntTest::update(const UpdateCtx &ctx, unsigned int msecs)
+bool EntTest::update(const UpdateCtx &ctx, float secs)
 {
 	if (!m_collapse)
 	{
-		TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * (float)msecs);
+		TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs);
 
 		if (moveTest.type == th_Horizontal) { m_vel.x *= -1.0f; }
 		if (moveTest.type == th_Vertical)   { m_vel.y *= -1.0f; }
@@ -28,7 +28,7 @@ bool EntTest::update(const UpdateCtx &ctx, unsigned int msecs)
 	}
 	else
 	{
-		m_rect.shrink(msecs * 0.001f);
+		m_rect.shrink(secs * 2.0f);
 		return m_rect.get_width() > 0.0f;
 	}
 }

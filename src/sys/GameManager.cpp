@@ -56,7 +56,10 @@ int GameManager::runMainLoop()
 
 		// flexible inteval update:
 		if (interval)
-		{ topScene->update(interval); }
+		{ 
+			float secs = interval / 1000.0f;
+			topScene->update(secs); 
+		}
 
 		// render the scene:
 		m_renderer->preRender();

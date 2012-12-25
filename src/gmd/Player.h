@@ -20,7 +20,7 @@ class Player : public Entity
 public:
 	explicit Player(CL_Pointf pos, CL_Sizef size);
 
-	virtual bool update(const UpdateCtx &ctx, unsigned int msecs);
+	virtual bool update(const UpdateCtx &ctx, float secs);
 	virtual bool render(const RenderCtx &ctx);
 
 private:

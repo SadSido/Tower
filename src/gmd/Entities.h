@@ -26,7 +26,7 @@ public:
 
 	// virtual interface:
 
-	virtual bool update(const UpdateCtx &ctx, unsigned int msecs) = 0;
+	virtual bool update(const UpdateCtx &ctx, float secs) = 0;
 	virtual bool render(const RenderCtx &ctx) = 0;
 
 	// member querries:

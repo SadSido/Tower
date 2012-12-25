@@ -11,24 +11,24 @@ Player::Player(CL_Pointf pos, CL_Sizef size)
 {
 }
 
-bool Player::update(const UpdateCtx &ctx, unsigned int msecs)
+bool Player::update(const UpdateCtx &ctx, float secs)
 {
 	// update input:
-	m_acc.y = (m_ground) ? 0 : +0.00002f;
+	m_acc.y = (m_ground) ? 0 : +10.0f;
 
 	if (ctx.keys.get_keycode(CL_KEY_W) && m_ground)
 	{ 
-		m_vel.y = -0.012f;
+		m_vel.y = -8.0f;
 		m_ground = false;
 	}
 
 	if (ctx.keys.get_keycode(CL_KEY_D))
 	{ 
-		m_acc.x = +0.00001f;
+		m_acc.x = +6.0f;
 	}
 	else if (ctx.keys.get_keycode(CL_KEY_A))
 	{ 
-		m_acc.x = -0.00001f;
+		m_acc.x = -6.0f;
 	}
 	else 
 	{
@@ -74,22 +74,22 @@ bool Player::update(const UpdateCtx &ctx, unsigned int msecs)
 	}
 
 	// update objects:
-	m_vel += m_acc * (float)msecs;
+	m_vel += m_acc * secs;
 
 	// here: apply mount:
 	if (m_mount)
 	{
-		CL_Pointf newPos  = m_rect.get_center() + m_vel * msecs;
+		CL_Pointf newPos  = m_rect.get_center() + m_vel * secs;
 		CL_Pointf toMount = m_rope - newPos;
 		
 		if (toMount.length() > m_ropeLen)
 		{
 			CL_Pointf corPos = m_rope - toMount.normalize() * m_ropeLen;
-			m_vel = (corPos - m_rect.get_center()) / msecs;
+			m_vel = (corPos - m_rect.get_center()) / secs;
 		}
 	}
 
-	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * (float)msecs);
+	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs);
 	TileTest gravTest = ctx.tilemap->checkMove(m_rect, CL_Pointf(0, 0.1f));
 
 	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }

@@ -48,7 +48,7 @@ public:
 	explicit LevelScene(GameManager * manager, CL_String descFile);
 
 	// scene lifecycle:	
-	virtual void update(unsigned int msecs);
+	virtual void update(float secs);
 	virtual void render();
 
 	// area management:

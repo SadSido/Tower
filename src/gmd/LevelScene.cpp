@@ -39,10 +39,8 @@ LevelScene::LevelScene(GameManager * manager, CL_String descFile)
 
 // scene lifecycle:
 
-void LevelScene::update(unsigned int msecs)
+void LevelScene::update(float secs)
 {
-	if (!msecs) return;
-
 	// create update context:
 	CL_InputDevice  &keys   = m_manager->getRenderer()->getIC().get_keyboard();
 	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
@@ -50,13 +48,13 @@ void LevelScene::update(unsigned int msecs)
 	UpdateCtx ctx = { keys, mouse, m_entities, m_tilemap, m_globals, m_player };
 
 	// update player:
-	m_player.update(ctx, msecs);
+	m_player.update(ctx, secs);
 
 	// update the entities:
 	for (auto it = ctx.entities->begin(); it != ctx.entities->end(); /**/)
 	{
 		auto cur = it ++;
-		bool res = (*cur)->update(ctx, msecs);
+		bool res = (*cur)->update(ctx, secs);
 
 		// drop the entity, which returned false:
 		if (!res) { ctx.entities->erase(cur); }

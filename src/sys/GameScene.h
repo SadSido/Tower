@@ -16,7 +16,7 @@ public:
 	typedef std::shared_ptr<GameScene> Ref;
 	explicit GameScene(GameManager * manager);
 
-	virtual void update(unsigned int msecs) = 0;
+	virtual void update(float secs) = 0;
 	virtual void render() = 0;
 
 protected:
