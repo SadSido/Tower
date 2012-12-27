@@ -25,4 +25,15 @@ Area::Area(CL_Sizef window)
 	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
 }
 
+Area::Area(CL_Sizef window, CL_String path)
+{
+	CL_DomDocument doc  = CL_DomDocument(CL_File(path));
+	CL_DomElement  root = doc.get_document_element();
+
+	const int width  = root.get_attribute_int("width");
+	const int height = root.get_attribute_int("height");
+
+
+}
+
 //************************************************************************************************************************

@@ -119,6 +119,9 @@ void LevelScene::loadDescFile(CL_String::const_iterator it)
 		if (token == "resource")
 		{ loadResource(it); }
 
+		if (token == "area")
+		{ loadAreaFile(it); }
+
 		else
 		{ /* assert false; */ }
 	}
@@ -128,6 +131,13 @@ void LevelScene::loadResource(CL_String::const_iterator &it)
 {
 	CL_String path = parseQuotes(it);
 	m_assets.add_resources(CL_ResourceManager(makePath(path)));
+}
+
+void LevelScene::loadAreaFile(CL_String::const_iterator &it)
+{
+	CL_String path = parseQuotes(it);
+	// Area::Ref area = new Area(makePath(path));
+	// m_areas[area->getName()] = area;
 }
 
 //************************************************************************************************************************

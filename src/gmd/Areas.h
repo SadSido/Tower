@@ -18,8 +18,12 @@ class Area
 public:
 	explicit Area();
 	explicit Area(CL_Sizef window);
+	explicit Area(CL_Sizef window, CL_String path);
 
 	// member accessors:
+
+	CL_String getName() const
+	{ return m_name; }
 
 	Entities::Ref getEntities() const
 	{ return m_entities; }
@@ -31,6 +35,7 @@ public:
 	{ return m_entries.find(name)->second; }
 
 private:
+	CL_String     m_name;
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	EntryPoints   m_entries;

@@ -68,6 +68,7 @@ private:
 	// parsing the desc file:
 	void loadDescFile(CL_String::const_iterator  it);
 	void loadResource(CL_String::const_iterator &it);
+	void loadAreaFile(CL_String::const_iterator &it);
 };
 
 //************************************************************************************************************************
