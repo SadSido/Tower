@@ -47,6 +47,9 @@
     <ClCompile Include="src\util\BasePath.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\Base64.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -106,6 +109,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\util\BasePath.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\Base64.h">
       <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>
