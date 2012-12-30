@@ -135,8 +135,12 @@ void LevelScene::loadResource(CL_String::const_iterator &it)
 
 void LevelScene::loadAreaFile(CL_String::const_iterator &it)
 {
+	// get window size:
+	Renderer::Ref renderer = m_manager->getRenderer();
+	CL_Sizef window = renderer->getGC().get_size();
+
 	CL_String path = parseQuotes(it);
-	// Area::Ref area = new Area(makePath(path));
+	Area area = Area(window, makePath(path));
 	// m_areas[area->getName()] = area;
 }
 

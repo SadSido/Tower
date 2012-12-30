@@ -32,7 +32,24 @@ Area::Area(CL_Sizef window, CL_String path)
 
 	const int width  = root.get_attribute_int("width");
 	const int height = root.get_attribute_int("height");
+	const int tilesz = root.get_attribute_int("tilewidth");
 
+	auto tilesets = root.get_elements_by_tag_name("tileset");
+	for (int no = 0; no < tilesets.get_length(); ++ no)
+	{
+		CL_DomElement tileset = tilesets.item(no).to_element();
+		const int firstGid = tileset.get_attribute_int("firstgid");
+
+		// how much tiles is in the set?
+		auto image = tileset.get_first_child_element();
+
+		const int width  = image.get_attribute_int("width");
+		const int height = image.get_attribute_int("height");
+
+		const int count  = width / tilesz * height / tilesz;
+		int a = 0;
+
+	}
 
 }
 
