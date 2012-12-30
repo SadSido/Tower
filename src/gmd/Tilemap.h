@@ -46,7 +46,7 @@ class Tilemap
 {
 public:
 	typedef std::shared_ptr<Tilemap> Ref;
-	explicit Tilemap(int dimX, int dimY);
+	explicit Tilemap(int dimX, int dimY, int size);
 
 	// Gets the tile descriptor for target coordinates. Wrong
 	// coords will return the default descriptor:

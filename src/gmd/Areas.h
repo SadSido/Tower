@@ -39,6 +39,11 @@ private:
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	EntryPoints   m_entries;
+
+	// loading stuff from xml:
+
+	Tilemap::Ref loadTilemap(CL_DomElement &tmxRoot);
+
 };
 
 //************************************************************************************************************************
