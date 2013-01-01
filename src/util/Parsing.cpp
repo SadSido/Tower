@@ -62,4 +62,22 @@ void parseAssert(CL_String::const_iterator &it, const CL_String &value)
 	// assert(token == value);
 }
 
+// block data loading:
+
+int parseInt(CL_String::const_iterator &it)
+{
+	int res = 0;
+	while (*it && (digits.find(*it) != (-1)))	{ res *= 10; res += (*it) - '0'; ++ it; }
+	return res;
+}
+
+void parseCSV(CL_String::const_iterator &it, std::vector<int> &res)
+{
+	while (*it)
+	{
+		skipUntil(it, digits);
+		if (*it) res.push_back(parseInt(it));
+	}
+}
+
 //************************************************************************************************************************
