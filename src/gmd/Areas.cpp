@@ -3,6 +3,7 @@
 
 #include "Areas.h"
 #include "EntTest.h"
+#include "../util/Parsing.h"
 
 //************************************************************************************************************************
 
@@ -62,17 +63,34 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 		const int height = image.get_attribute_int("height");
 
 		const int count  = width / tilesz * height / tilesz;
-		// result->addProxy(name, count);
+		result->pushProxy(name, count);
 	}
 
-	// then, we process layers to handle geometry:
+	// then, we fetch layer data:
+
+	std::vector<int> backData;
+	std::vector<int> foreData;
+	std::vector<int> blockFlags;
 
 	auto layers = root.get_elements_by_tag_name("layer");
 	for (int no = 0; no < layers.get_length(); ++ no)
 	{
-		CL_DomElement layer = layers.item(no).to_element();
+		CL_DomElement layer  = layers.item(no).to_element();
 		const CL_String name = layer.get_attribute("name");
+		const CL_String data = layer.get_child_string("data");
+		
+		auto it = data.begin();
+		if (name == "background")
+		{ parseCSV(it, backData); }
+
+		else if (name == "foreground")
+		{ parseCSV(it, foreData); }
+
+		else if (name == "blockFlags")
+		{ parseCSV(it, blockFlags); }
 	}
+
+	// finally, we assemble layer data into tile descriptors:
 
 	return result;
 }

@@ -109,12 +109,17 @@ Tilemap::Tilemap(int dimX, int dimY, int size)
 
 TileDesc Tilemap::getTile(int x, int y) const
 {
-	static const TileDesc defTile = { tf_Blocking };
+	static const TileDesc defTile = { tf_Blocking, 0, 0 };
 
 	if (x <= 0 || x >= m_dimX) { return defTile; }
 	if (y <= 0 || y >= m_dimY) { return defTile; }
 	
 	return m_tiles[m_dimX * y + x]; 
+}
+
+TileProxy Tilemap::getProxy(int id) const
+{
+	return m_proxies[id]; 
 }
 
 // coordinates conversion:
@@ -134,6 +139,22 @@ CL_Pointf Tilemap::toTilespace(CL_Pointf pt) const
 {
 	CL_Pointf center(m_window.width / 2, m_window.height / 2);
 	return (pt - center) / m_size + m_offset;
+}
+
+// pushing data into tilemap (while loading only):
+
+void Tilemap::pushDesc(TileDesc desc)
+{ 
+	m_tiles.push_back(desc); 
+}
+
+void Tilemap::pushProxy(CL_String name, int count)
+{ 
+	for (int no = 0; no < count; ++ no)
+	{
+		TileProxy proxy = { no, name, CL_Sprite() };
+		m_proxies.push_back(proxy);
+	}
 }
 
 // movement constraints:
