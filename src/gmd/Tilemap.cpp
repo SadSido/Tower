@@ -124,6 +124,26 @@ TileProxy Tilemap::getProxy(int id, RenderCtx &ctx)
 	return proxy; 
 }
 
+// coordinates setting:
+
+void Tilemap::offset (CL_Pointf pt) 
+{ 
+	float xmin = m_window.width / m_size / 2.0f;
+	float xmax = (float)m_dimX - xmin;
+
+	float ymin = m_window.height / m_size / 2.0f;
+	float ymax = (float)m_dimY - ymin;
+
+	m_offset.x = min(max(pt.x, xmin), xmax);
+	m_offset.y = min(max(pt.y, ymin), ymax);
+}
+
+void Tilemap::window (CL_Sizef sz)  
+{ 
+	m_window = sz; 
+}
+
+
 // coordinates conversion:
 
 CL_Pointf Tilemap::toScreen(CL_Pointf pt) const	

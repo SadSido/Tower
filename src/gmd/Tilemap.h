@@ -75,8 +75,8 @@ public:
 
 	// Sets the camera offset for rendering this tilemap:
 
-	void offset (CL_Pointf pt) { m_offset = pt; }
-	void window (CL_Sizef sz)  { m_window = sz; }
+	void offset (CL_Pointf pt);
+	void window (CL_Sizef sz);
 
 	// coordinates processing:
 
