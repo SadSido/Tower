@@ -101,8 +101,8 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 	{
 		int flags = 0;
 
-		if (blockFlags[no]) flags &= tf_Blocking;
-		// if (ladderFlags[no]) flags &= tf_Ladder;
+		if (blockFlags[no]) flags |= tf_Blocking;
+		// if (ladderFlags[no]) flags |= tf_Ladder;
 
 		TileDesc desc = { flags, backData[no] - 1, 0 };
 		result->pushDesc(desc);
