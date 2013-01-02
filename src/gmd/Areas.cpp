@@ -26,16 +26,21 @@ Area::Area(CL_Sizef window)
 	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
 }
 
-Area::Area(CL_Sizef window, CL_String path)
+Area::Area(CL_Sizef window, CL_String path, CL_String name)
+: m_name(name)
 {
 	CL_DomDocument doc  = CL_DomDocument(CL_File(path));
 	CL_DomElement  root = doc.get_document_element();
 
-	// load the stuff:
-	Tilemap::Ref tilemap = loadTilemap(root);
+	// load the tilemap:
+	m_tilemap = loadTilemap(root);
+	m_tilemap->window(window);
 
-	// commit result:
-	m_tilemap = tilemap;
+	// load the entities:
+	m_entities = Entities::Ref(new Entities());
+
+	// generate entry points:
+	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
 }
 
 Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
@@ -91,6 +96,17 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 	}
 
 	// finally, we assemble layer data into tile descriptors:
+
+	for (size_t no = 0; no < blockFlags.size(); ++ no)
+	{
+		int flags = 0;
+
+		if (blockFlags[no]) flags &= tf_Blocking;
+		// if (ladderFlags[no]) flags &= tf_Ladder;
+
+		TileDesc desc = { flags, backData[no] - 1, 0 };
+		result->pushDesc(desc);
+	}
 
 	return result;
 }

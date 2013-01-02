@@ -9,6 +9,11 @@
 
 //************************************************************************************************************************
 
+struct UpdateCtx;
+struct RenderCtx;
+
+//************************************************************************************************************************
+
 // set of options for the tile:
 
 enum TileHit
@@ -61,7 +66,7 @@ public:
 	// coords will return the default descriptor:
 
 	TileDesc  getTile  (int x, int y) const;
-	TileProxy getProxy (int id) const;
+	TileProxy getProxy (int id, RenderCtx &ctx);
 
 	// Checks the rect, trying to move by "delta" offset within
 	// the tilemap. Returns the actual available offset: 
@@ -85,7 +90,7 @@ public:
 	void pushProxy (CL_String name, int count);
 
 	// rendering:
-	void render(CL_GraphicContext &gc, CL_Sprite &brick);
+	void render(RenderCtx ctx);
 
 private:
 	const float m_size;

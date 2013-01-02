@@ -24,16 +24,7 @@ LevelScene::LevelScene(GameManager * manager, CL_String descFile)
 	// init stuff from desc file:
 	loadDescFile(descStr.begin());
 
-
-	
-	
-	// shitty debug stuff:
-	m_brick = CL_Sprite(renderer->getGC(), "brick", &m_assets);
-	CL_Sizef window = renderer->getGC().get_size();
-
-	m_areas["main"]  = Area(window);
-	// ...
-
+	// set initial area:
 	enterArea("main", "main");
 }
 
@@ -78,10 +69,10 @@ void LevelScene::render()
 {
 	// create render context:
 	Renderer::Ref renderer = m_manager->getRenderer();
-	RenderCtx ctx = { renderer->getGC(), m_entities, m_tilemap };
+	RenderCtx ctx = { renderer->getGC(), m_entities, m_tilemap, m_assets };
 	
 	// render map:
-	ctx.tilemap->render(renderer->getGC(), m_brick);
+	ctx.tilemap->render(ctx);
 
 	// render player:
 	m_player.render(ctx);
@@ -140,8 +131,11 @@ void LevelScene::loadAreaFile(CL_String::const_iterator &it)
 	CL_Sizef window = renderer->getGC().get_size();
 
 	CL_String path = parseQuotes(it);
-	Area area = Area(window, makePath(path));
-	// m_areas[area->getName()] = area;
+	parseAssert(it, "as");
+	CL_String name = parseQuotes(it);
+
+	Area area = Area(window, makePath(path), name);
+	m_areas[name] = area;
 }
 
 //************************************************************************************************************************

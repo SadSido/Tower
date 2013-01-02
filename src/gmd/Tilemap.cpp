@@ -2,6 +2,7 @@
 // ORIGIN: class for keeping tilemap info
 
 #include "Tilemap.h"
+#include "LevelScene.h"
 
 //************************************************************************************************************************
 
@@ -100,11 +101,7 @@ void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf 
 Tilemap::Tilemap(int dimX, int dimY, int size)
 : m_dimX(dimX), m_dimY(dimY), m_size(float(size))
 {
-	m_tiles.resize(dimX * dimY);
-
-	int seed = 0;
-	for (auto it = m_tiles.begin(); it != m_tiles.end(); ++ it)
-	{ it->flags = (std::rand()) % 12 ? tf_Empty : tf_Blocking; }
+	m_tiles.reserve(dimX * dimY);
 }
 
 TileDesc Tilemap::getTile(int x, int y) const
@@ -117,9 +114,14 @@ TileDesc Tilemap::getTile(int x, int y) const
 	return m_tiles[m_dimX * y + x]; 
 }
 
-TileProxy Tilemap::getProxy(int id) const
+TileProxy Tilemap::getProxy(int id, RenderCtx &ctx)
 {
-	return m_proxies[id]; 
+	TileProxy &proxy = m_proxies[id];
+
+	if (proxy.sprite.is_null())
+	{ proxy.sprite = CL_Sprite(ctx.gc, proxy.name, &ctx.assets); }
+
+	return proxy; 
 }
 
 // coordinates conversion:
@@ -180,7 +182,7 @@ TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta) const
 
 // rendering:
 
-void Tilemap::render(CL_GraphicContext &gc, CL_Sprite &brick)
+void Tilemap::render(RenderCtx ctx)
 {
 	// render tilemap:
 	const int tilesInX = 3 + m_window.width  / m_size;
@@ -192,11 +194,13 @@ void Tilemap::render(CL_GraphicContext &gc, CL_Sprite &brick)
 	for (int tileX = startX; tileX < startX + tilesInX; ++ tileX)
 	for (int tileY = startY; tileY < startY + tilesInY; ++ tileY)
 	{
-		if (getTile(tileX, tileY).flags & tf_Blocking)
+		if (int proxyID = getTile(tileX, tileY).backID)
 		{
-			// draw shade and original sprite:
-			CL_Pointf pt = toScreen(CL_Pointf(tileX, tileY));
-			brick.draw(gc, pt.x, pt.y);
+			CL_Pointf point = toScreen(CL_Pointf(tileX, tileY));
+			TileProxy proxy = getProxy(proxyID, ctx);
+
+			proxy.sprite.set_frame(proxy.frame);
+			proxy.sprite.draw(ctx.gc, point.x, point.y);
 		}
 	}
 }
