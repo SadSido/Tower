@@ -17,7 +17,6 @@ class Area
 
 public:
 	explicit Area();
-	explicit Area(CL_Sizef window);
 	explicit Area(CL_Sizef window, CL_String path, CL_String name);
 
 	// member accessors:

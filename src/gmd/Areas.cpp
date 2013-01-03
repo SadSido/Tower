@@ -10,22 +10,6 @@
 Area::Area()
 {}
 
-Area::Area(CL_Sizef window)
-{
-	// generate tilemap:
-	m_tilemap = Tilemap::Ref(new Tilemap(20, 20, 64));
-	m_tilemap->window(window);
-
-	// generate entities:
-	m_entities = Entities::Ref(new Entities());
-
-	for (size_t no = 0; no < 10; ++ no)
-	{ m_entities->push_back(Entity::Ref(new EntTest(CL_Pointf(5.0f,1.0f), CL_Sizef(1.0f, 1.0f)))); }
-
-	// generate entry points:
-	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
-}
-
 Area::Area(CL_Sizef window, CL_String path, CL_String name)
 : m_name(name)
 {
@@ -38,6 +22,9 @@ Area::Area(CL_Sizef window, CL_String path, CL_String name)
 
 	// load the entities:
 	m_entities = Entities::Ref(new Entities());
+
+	for (size_t no = 0; no < 10; ++ no)
+	{ m_entities->push_back(Entity::Ref(new EntTest(CL_Pointf(2.0f,2.0f), CL_Sizef(1.0f, 1.0f)))); }
 
 	// generate entry points:
 	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
