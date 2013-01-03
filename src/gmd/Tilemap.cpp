@@ -74,7 +74,7 @@ void checkLines(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf del
 			{ 
 				CL_Pointf result;
 				x(result) = inter;
-				y(result) = line - moveSg * 0.02f;
+				y(result) = line - moveSg * 0.015f;
 
 				// fill in the collision info:
 				test.tile  = tile;
