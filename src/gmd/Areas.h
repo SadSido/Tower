@@ -41,8 +41,8 @@ private:
 
 	// loading stuff from xml:
 
-	Tilemap::Ref loadTilemap(CL_DomElement &tmxRoot);
-
+	static Tilemap::Ref  loadTilemap  (CL_DomElement &tmxRoot);
+	static Entities::Ref loadEntities (CL_DomElement &tmxRoot);
 };
 
 //************************************************************************************************************************

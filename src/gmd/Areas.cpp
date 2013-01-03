@@ -7,6 +7,8 @@
 
 //************************************************************************************************************************
 
+// c-tors and d-tors:
+
 Area::Area()
 {}
 
@@ -21,14 +23,13 @@ Area::Area(CL_Sizef window, CL_String path, CL_String name)
 	m_tilemap->window(window);
 
 	// load the entities:
-	m_entities = Entities::Ref(new Entities());
-
-	for (size_t no = 0; no < 10; ++ no)
-	{ m_entities->push_back(Entity::Ref(new EntTest(CL_Pointf(2.0f,2.0f), CL_Sizef(1.0f, 1.0f)))); }
+	m_entities = loadEntities(root);
 
 	// generate entry points:
 	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
 }
+
+// loading tmx:
 
 Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 {
@@ -96,6 +97,35 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 	}
 
 	return result;
+}
+
+Entities::Ref Area::loadEntities(CL_DomElement &root)
+{
+	auto groups = root.get_elements_by_tag_name("objectgroup");
+	for (int no = 0; no < groups.get_length(); ++ no)
+	{
+		CL_DomElement group = groups.item(no).to_element(); 
+		auto objects = group.get_elements_by_tag_name("object");
+
+		// resolve all object entries:
+		for (int obNo = 0; obNo < objects.get_length(); ++ obNo)
+		{
+			CL_DomElement object = objects.item(obNo).to_element();
+			const CL_String name = object.get_attribute("name");
+			const CL_String type = object.get_attribute("type");
+
+			// ... create named entity by type factoty ...
+		}
+	}
+
+	// that's the debug stuff:
+
+	Entities::Ref entities = Entities::Ref(new Entities());
+
+	for (size_t no = 0; no < 10; ++ no)
+	{ entities->push_back(Entity::Ref(new EntTest(CL_Pointf(2.0f,2.0f), CL_Sizef(1.0f, 1.0f)))); }
+
+	return entities;
 }
 
 //************************************************************************************************************************
