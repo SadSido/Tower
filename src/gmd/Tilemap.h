@@ -99,6 +99,7 @@ private:
 
 	CL_Sizef  m_window;
 	CL_Pointf m_offset;
+	CL_Sizef  m_offmin;
 
 	std::vector<TileDesc>  m_tiles;
 	std::vector<TileProxy> m_proxies;

@@ -9,6 +9,11 @@
 namespace 
 {
 
+// range clamping:
+
+float clamp(float value, float vmin, float vmax)
+{ return max(min(value, vmax), vmin); }
+
 // collision test helpers:
 
 bool between(float a, float b, float test)
@@ -108,8 +113,8 @@ TileDesc Tilemap::getTile(int x, int y) const
 {
 	static const TileDesc defTile = { tf_Blocking, 0, 0 };
 
-	if (x <= 0 || x >= m_dimX) { return defTile; }
-	if (y <= 0 || y >= m_dimY) { return defTile; }
+	if (x < 0 || x >= m_dimX) { return defTile; }
+	if (y < 0 || y >= m_dimY) { return defTile; }
 	
 	return m_tiles[m_dimX * y + x]; 
 }
@@ -128,19 +133,14 @@ TileProxy Tilemap::getProxy(int id, RenderCtx &ctx)
 
 void Tilemap::offset (CL_Pointf pt) 
 { 
-	float xmin = m_window.width / m_size / 2.0f;
-	float xmax = (float)m_dimX - xmin;
-
-	float ymin = m_window.height / m_size / 2.0f;
-	float ymax = (float)m_dimY - ymin;
-
-	m_offset.x = min(max(pt.x, xmin), xmax);
-	m_offset.y = min(max(pt.y, ymin), ymax);
+	m_offset.x = clamp(pt.x, m_offmin.width, (float)m_dimX - m_offmin.width);
+	m_offset.y = clamp(pt.y, m_offmin.height, (float)m_dimY - m_offmin.height);
 }
 
 void Tilemap::window (CL_Sizef sz)  
 { 
 	m_window = sz; 
+	m_offmin = sz / (2.0f * m_size);
 }
 
 
