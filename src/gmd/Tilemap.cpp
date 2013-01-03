@@ -204,23 +204,24 @@ TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta) const
 
 void Tilemap::render(RenderCtx ctx)
 {
-	// render tilemap:
-	const int tilesInX = 3 + m_window.width  / m_size;
-	const int tilesInY = 3 + m_window.height / m_size;
+	const int tilesInX = (int)m_window.width  / m_size + 3;
+	const int tilesInY = (int)m_window.height / m_size + 3;
 
 	const int startX = (int)m_offset.x - tilesInX / 2;
 	const int startY = (int)m_offset.y - tilesInY / 2;
 
-	for (int tileX = startX; tileX < startX + tilesInX; ++ tileX)
-	for (int tileY = startY; tileY < startY + tilesInY; ++ tileY)
+	// screen coordinate of the top-left tile:
+	const CL_Pointf anchor = toScreen(CL_Pointf(startX, startY));
+
+	// rendering in "ints" results in seamless tiling:
+	for (int tileY = startY, pointY = (int)anchor.y; tileY < startY + tilesInY; ++ tileY, pointY += (int)m_size)
+	for (int tileX = startX, pointX = (int)anchor.x; tileX < startX + tilesInX; ++ tileX, pointX += (int)m_size)
 	{
 		if (int proxyID = getTile(tileX, tileY).backID)
 		{
-			CL_Pointf point = toScreen(CL_Pointf(tileX, tileY));
 			TileProxy proxy = getProxy(proxyID, ctx);
-
 			proxy.sprite.set_frame(proxy.frame);
-			proxy.sprite.draw(ctx.gc, point.x, point.y);
+			proxy.sprite.draw(ctx.gc, pointX, pointY);
 		}
 	}
 }
