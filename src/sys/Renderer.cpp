@@ -8,7 +8,7 @@
 Renderer::Renderer()
 {
 	// create a window:
-	m_window = CL_DisplayWindow("Title", 800, 600, false);
+	m_window = CL_DisplayWindow("Title", 1024, 768, false);
 }
 
 void Renderer::preRender()
