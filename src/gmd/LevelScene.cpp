@@ -71,8 +71,8 @@ void LevelScene::render()
 	Renderer::Ref renderer = m_manager->getRenderer();
 	RenderCtx ctx = { renderer->getGC(), m_entities, m_tilemap, m_assets };
 	
-	// render map:
-	ctx.tilemap->render(ctx);
+	// render map (1st pass):
+	ctx.tilemap->renderBackground(ctx);
 
 	// render player:
 	m_player.render(ctx);
@@ -80,6 +80,9 @@ void LevelScene::render()
 	// render entities:
 	for (auto it = ctx.entities->begin(); it != ctx.entities->end(); ++ it)
 	{ (*it)->render(ctx); }
+
+	// render map (2nd pass):
+	ctx.tilemap->renderForeground(ctx);
 }
 
 // areas management:

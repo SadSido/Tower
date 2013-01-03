@@ -90,7 +90,8 @@ public:
 	void pushProxy (CL_String name, int count);
 
 	// rendering:
-	void render(RenderCtx ctx);
+	void renderForeground(RenderCtx ctx);
+	void renderBackground(RenderCtx ctx);
 
 private:
 	const float m_size;

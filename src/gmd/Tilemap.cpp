@@ -99,6 +99,43 @@ void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf 
 	return checkLines<th_Vertical, getX, getY, noSwap>(map, ptOne, length, delta, test); 
 }
 
+// layer getters:
+
+typedef int (*FnLayer)(const TileDesc &desc);
+
+int backLayer(const TileDesc &desc)
+{ return desc.backID; }
+
+int foreLayer(const TileDesc &desc)
+{ return desc.foreID; }
+
+// generalized version of layer rendering:
+
+template <FnLayer layer>
+void renderLayer(Tilemap &map, RenderCtx ctx, CL_Pointf offset, CL_Sizef wndSize, float tileSize)
+{
+	const int tilesInX = (int)wndSize.width  / tileSize + 3;
+	const int tilesInY = (int)wndSize.height / tileSize + 3;
+
+	const int startX = (int)offset.x - tilesInX / 2;
+	const int startY = (int)offset.y - tilesInY / 2;
+
+	// screen coordinate of the top-left tile:
+	const CL_Pointf anchor = map.toScreen(CL_Pointf(startX, startY));
+
+	// rendering in "ints" results in seamless tiling:
+	for (int tileY = startY, pointY = (int)anchor.y; tileY < startY + tilesInY; ++ tileY, pointY += (int)tileSize)
+	for (int tileX = startX, pointX = (int)anchor.x; tileX < startX + tilesInX; ++ tileX, pointX += (int)tileSize)
+	{
+		if (int proxyID = layer(map.getTile(tileX, tileY)))
+		{
+			TileProxy proxy = map.getProxy(proxyID, ctx);
+			proxy.sprite.set_frame(proxy.frame);
+			proxy.sprite.draw(ctx.gc, pointX, pointY);
+		}
+	}
+}
+
 }
 
 //************************************************************************************************************************
@@ -106,7 +143,11 @@ void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf 
 Tilemap::Tilemap(int dimX, int dimY, int size)
 : m_dimX(dimX), m_dimY(dimY), m_size(float(size))
 {
+	// reserve tilespace:
 	m_tiles.reserve(dimX * dimY);
+
+	// init null proxy:
+	m_proxies.push_back(TileProxy());
 }
 
 TileDesc Tilemap::getTile(int x, int y) const
@@ -202,28 +243,14 @@ TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta) const
 
 // rendering:
 
-void Tilemap::render(RenderCtx ctx)
+void Tilemap::renderBackground(RenderCtx ctx)
 {
-	const int tilesInX = (int)m_window.width  / m_size + 3;
-	const int tilesInY = (int)m_window.height / m_size + 3;
+	renderLayer<backLayer>(*this, ctx, m_offset, m_window, m_size);
+}
 
-	const int startX = (int)m_offset.x - tilesInX / 2;
-	const int startY = (int)m_offset.y - tilesInY / 2;
-
-	// screen coordinate of the top-left tile:
-	const CL_Pointf anchor = toScreen(CL_Pointf(startX, startY));
-
-	// rendering in "ints" results in seamless tiling:
-	for (int tileY = startY, pointY = (int)anchor.y; tileY < startY + tilesInY; ++ tileY, pointY += (int)m_size)
-	for (int tileX = startX, pointX = (int)anchor.x; tileX < startX + tilesInX; ++ tileX, pointX += (int)m_size)
-	{
-		if (int proxyID = getTile(tileX, tileY).backID)
-		{
-			TileProxy proxy = getProxy(proxyID, ctx);
-			proxy.sprite.set_frame(proxy.frame);
-			proxy.sprite.draw(ctx.gc, pointX, pointY);
-		}
-	}
+void Tilemap::renderForeground(RenderCtx ctx)
+{
+	renderLayer<foreLayer>(*this, ctx, m_offset, m_window, m_size);
 }
 
 //************************************************************************************************************************
