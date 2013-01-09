@@ -25,7 +25,7 @@ Area::Area(CL_Sizef window, CL_String path, CL_String name)
 	m_entities = loadEntities(root);
 
 	// generate entry points:
-	m_entries["main"] = CL_Pointf(9.0f, 14.0f);
+	m_entryMap = loadEntryMap(root);
 }
 
 // loading tmx:
@@ -106,14 +106,43 @@ Entities::Ref Area::loadEntities(CL_DomElement &root)
 	auto groups = root.get_elements_by_tag_name("objectgroup");
 	for (int no = 0; no < groups.get_length(); ++ no)
 	{
-		CL_DomElement group = groups.item(no).to_element(); 
-		auto objects = group.get_elements_by_tag_name("object");
+		CL_DomElement group  = groups.item(no).to_element(); 
+		if (group.get_attribute("name") != "entities") continue;
 
 		// resolve all object entries:
+		auto objects = group.get_elements_by_tag_name("object");
+
 		for (int obNo = 0; obNo < objects.get_length(); ++ obNo)
 		{
 			CL_DomElement object = objects.item(obNo).to_element();
 			result->push_back(createEntity(object, tilesz));
+		}
+	}
+
+	return result;
+}
+
+Area::EntryMap::Ref Area::loadEntryMap(CL_DomElement &root)
+{
+	const float tilesz = root.get_attribute_float("tilewidth");
+	EntryMap::Ref result = EntryMap::Ref(new EntryMap());
+
+	auto groups = root.get_elements_by_tag_name("objectgroup");
+	for (int no = 0; no < groups.get_length(); ++ no)
+	{
+		CL_DomElement group  = groups.item(no).to_element(); 
+		if (group.get_attribute("name") != "entries") continue;
+
+		// resolve all object entries:
+		auto objects = group.get_elements_by_tag_name("object");
+		for (int obNo = 0; obNo < objects.get_length(); ++ obNo)
+		{
+			CL_DomElement object = objects.item(obNo).to_element();
+
+			const CL_String name = object.get_attribute("name");
+			const CL_Pointf exit = CL_Pointf(object.get_attribute_float("x"), object.get_attribute_float("y")) / tilesz;
+
+			result->operator[](name) = exit;
 		}
 	}
 

@@ -131,4 +131,8 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="entries" width="20" height="20">
+  <object name="mirror" x="256" y="704"/>
+  <object name="main" x="960" y="704"/>
+ </objectgroup>
 </map>
