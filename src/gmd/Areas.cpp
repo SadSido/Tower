@@ -3,6 +3,7 @@
 
 #include "Areas.h"
 #include "../util/Parsing.h"
+#include "../util/XmlUtils.h"
 
 //************************************************************************************************************************
 
@@ -140,7 +141,7 @@ Area::EntryMap::Ref Area::loadEntryMap(CL_DomElement &root)
 			CL_DomElement object = objects.item(obNo).to_element();
 
 			const CL_String name = object.get_attribute("name");
-			const CL_Pointf exit = CL_Pointf(object.get_attribute_float("x"), object.get_attribute_float("y")) / tilesz;
+			const CL_Pointf exit = readPos(object) / tilesz;
 
 			result->operator[](name) = exit;
 		}

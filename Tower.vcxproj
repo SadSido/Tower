@@ -100,6 +100,7 @@
     <ClCompile Include="src\util\Base64.cpp" />
     <ClCompile Include="src\util\BasePath.cpp" />
     <ClCompile Include="src\util\Parsing.cpp" />
+    <ClCompile Include="src\util\XmlUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gmd\Areas.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="src\util\Base64.h" />
     <ClInclude Include="src\util\BasePath.h" />
     <ClInclude Include="src\util\Parsing.h" />
+    <ClInclude Include="src\util\XmlUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\level01.desc" />

@@ -53,6 +53,9 @@
     <ClCompile Include="src\gmd\EntityFactory.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\XmlUtils.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -119,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="src\gmd\EntityFactory.h">
       <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\XmlUtils.h">
+      <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
