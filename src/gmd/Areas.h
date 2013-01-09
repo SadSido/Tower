@@ -5,7 +5,7 @@
 #define _Areas_h_
 
 #include "Tilemap.h"
-#include "Entities.h"
+#include "EntityFactory.h"
 #include <ClanLib/core.h>
 #include <map>
 

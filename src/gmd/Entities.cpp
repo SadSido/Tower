@@ -7,8 +7,8 @@
 
 // c-tor and d-tor:
 
-Entity::Entity(CL_Pointf pos, CL_Sizef size)
-: m_rect(pos, size)
+Entity::Entity(CL_String type, CL_String name)
+: m_type(type), m_name(name)
 {}
 
 Entity::~Entity()

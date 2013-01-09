@@ -14,7 +14,8 @@
 class EntTest : public Entity
 {
 public:
-	explicit EntTest(CL_Pointf pos, CL_Sizef size);
+	// common constructor for the entities:
+	explicit EntTest(CL_String name, CL_DomElement node);
 
 	virtual bool update(const UpdateCtx &ctx, float secs);
 	virtual bool render(const RenderCtx &ctx);

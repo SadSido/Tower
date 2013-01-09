@@ -106,16 +106,28 @@
 </data>
  </layer>
  <objectgroup name="entities" width="20" height="20">
-  <object name="main" type="entry" x="1088" y="192" width="64" height="128">
+  <object name="one" type="EntTest" x="1088" y="192" width="64" height="64">
    <properties>
     <property name="area" value="main"/>
     <property name="entry" value="store1"/>
    </properties>
   </object>
-  <object name="store1" type="entry" x="128" y="1088" width="64" height="128">
+  <object name="two" type="EntTest" x="128" y="1088" width="64" height="64">
    <properties>
     <property name="area" value="main"/>
     <property name="entry" value="main"/>
+   </properties>
+  </object>
+  <object name="one" type="EntTest" x="256" y="448" width="64" height="64">
+   <properties>
+    <property name="area" value="main"/>
+    <property name="entry" value="store1"/>
+   </properties>
+  </object>
+  <object name="one" type="EntTest" x="128" y="128" width="64" height="64">
+   <properties>
+    <property name="area" value="main"/>
+    <property name="entry" value="store1"/>
    </properties>
   </object>
  </objectgroup>

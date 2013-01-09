@@ -2,7 +2,6 @@
 // ORIGIN: minor sections of every level
 
 #include "Areas.h"
-#include "EntTest.h"
 #include "../util/Parsing.h"
 
 //************************************************************************************************************************
@@ -101,6 +100,9 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 
 Entities::Ref Area::loadEntities(CL_DomElement &root)
 {
+	const float tilesz = root.get_attribute_float("tilewidth");
+	Entities::Ref result = Entities::Ref(new Entities());
+
 	auto groups = root.get_elements_by_tag_name("objectgroup");
 	for (int no = 0; no < groups.get_length(); ++ no)
 	{
@@ -111,21 +113,11 @@ Entities::Ref Area::loadEntities(CL_DomElement &root)
 		for (int obNo = 0; obNo < objects.get_length(); ++ obNo)
 		{
 			CL_DomElement object = objects.item(obNo).to_element();
-			const CL_String name = object.get_attribute("name");
-			const CL_String type = object.get_attribute("type");
-
-			// ... create named entity by type factoty ...
+			result->push_back(createEntity(object, tilesz));
 		}
 	}
 
-	// that's the debug stuff:
-
-	Entities::Ref entities = Entities::Ref(new Entities());
-
-	for (size_t no = 0; no < 10; ++ no)
-	{ entities->push_back(Entity::Ref(new EntTest(CL_Pointf(2.0f,2.0f), CL_Sizef(1.0f, 1.0f)))); }
-
-	return entities;
+	return result;
 }
 
 //************************************************************************************************************************

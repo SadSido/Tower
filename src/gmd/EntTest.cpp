@@ -6,8 +6,8 @@
 
 //************************************************************************************************************************
 	
-EntTest::EntTest(CL_Pointf pos, CL_Sizef size)
-: Entity(pos, size), m_collapse(false)
+EntTest::EntTest(CL_String name, CL_DomElement node)
+: Entity("EntTest", name), m_collapse(false)
 {
 	m_vel = CL_Pointf(rand() % 100, rand() % 100).normalize() * 5.0f;
 }

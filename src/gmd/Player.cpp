@@ -7,8 +7,10 @@
 //************************************************************************************************************************
 	
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity(pos, size), m_ground(false), m_mount(false)
+: Entity("player", "player"), m_ground(false), m_mount(false)
 {
+	setPos(pos);
+	setSize(size);
 }
 
 bool Player::update(const UpdateCtx &ctx, float secs)
