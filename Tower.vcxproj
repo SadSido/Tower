@@ -85,6 +85,7 @@
     <ClCompile Include="src\gmd\Areas.cpp" />
     <ClCompile Include="src\gmd\Dialogs.cpp" />
     <ClCompile Include="src\gmd\Entities.cpp" />
+    <ClCompile Include="src\gmd\EntityFactory.cpp" />
     <ClCompile Include="src\gmd\EntTest.cpp" />
     <ClCompile Include="src\gmd\Globals.cpp" />
     <ClCompile Include="src\gmd\IntroScene.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="src\gmd\Areas.h" />
     <ClInclude Include="src\gmd\Dialogs.h" />
     <ClInclude Include="src\gmd\Entities.h" />
+    <ClInclude Include="src\gmd\EntityFactory.h" />
     <ClInclude Include="src\gmd\EntTest.h" />
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\IntroScene.h" />
