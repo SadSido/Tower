@@ -9,7 +9,8 @@
 EntTest::EntTest(CL_String name, CL_DomElement node)
 : Entity("EntTest", name), m_collapse(false)
 {
-	m_vel = CL_Pointf(rand() % 100, rand() % 100).normalize() * 5.0f;
+	int vx = rand() % 100, vy = rand() % 100;
+	m_vel = CL_Pointf(float(vx), float(vy)).normalize() * 5.0f;
 }
 
 bool EntTest::update(const UpdateCtx &ctx, float secs)
