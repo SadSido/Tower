@@ -14,21 +14,13 @@ struct RenderCtx;
 
 //************************************************************************************************************************
 
-// set of options for the tile:
-
-enum TileHit
-{
-	th_None,
-	th_Vertical,
-	th_Horizontal,
-};
-
 // single tile decsriptor:
 
 enum TileFlags
 {
 	tf_Empty    = 0,
 	tf_Blocking = 1 << 0,
+	tf_Stair    = 1 << 1,
 };
 
 struct TileDesc
@@ -45,7 +37,14 @@ struct TileProxy
 	CL_Sprite sprite;
 };
 
-// collision test result:
+// collision test results:
+
+enum TileHit
+{
+	th_None,
+	th_Vertical,
+	th_Horizontal,
+};
 
 struct TileTest
 {
@@ -61,6 +60,9 @@ typedef bool (*TileChecker)(const TileDesc &desc);
 inline bool anyBlocking(const TileDesc &desc)
 { return desc.flags & tf_Blocking; }
 
+inline bool isBlocking(const TileDesc &desc)
+{ return desc.flags == tf_Blocking; }
+
 //************************************************************************************************************************
 
 class Tilemap
@@ -73,6 +75,7 @@ public:
 	// coords will return the default descriptor:
 
 	TileDesc  getTile  (int x, int y) const;
+	TileDesc  getTile  (CL_Pointf pt) const;
 	TileProxy getProxy (int id, RenderCtx &ctx);
 
 	// Checks the rect, trying to move by "delta" offset within

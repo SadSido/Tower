@@ -160,6 +160,11 @@ TileDesc Tilemap::getTile(int x, int y) const
 	return m_tiles[m_dimX * y + x]; 
 }
 
+TileDesc Tilemap::getTile(CL_Pointf pt) const
+{
+	return getTile((int)pt.x, (int)pt.y);
+}
+
 TileProxy Tilemap::getProxy(int id, RenderCtx &ctx)
 {
 	TileProxy &proxy = m_proxies[id];
