@@ -16,7 +16,7 @@ bool EntTest::update(const UpdateCtx &ctx, float secs)
 {
 	if (!m_collapse)
 	{
-		TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs);
+		TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, anyBlocking);
 
 		if (moveTest.type == th_Horizontal) { m_vel.x *= -1.0f; }
 		if (moveTest.type == th_Vertical)   { m_vel.y *= -1.0f; }

@@ -42,7 +42,7 @@ void noSwap(int& one, int& two)
 // generalized version of line checker:
 
 template<TileHit type, FnGet x, FnGet y, FnSwap sw>
-void checkLines(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf delta, TileTest &test)
+void checkLines(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf delta, TileChecker checker, TileTest &test)
 {
 	// precalc some useful deltas and parameters which differ for positive
 	// and negative directions of movement:
@@ -69,8 +69,8 @@ void checkLines(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf del
 			sw(coords[0], coords[1]);
 
 			// finally, request the tilemap:
-			TileDesc tile = map.getTile(coords[0], coords[1]);
-			if (tile.flags & tf_Blocking)
+			const TileDesc &tile = map.getTile(coords[0], coords[1]);
+			if (checker(tile))
 			{ 
 				CL_Pointf result;
 				x(result) = inter;
@@ -89,14 +89,14 @@ void checkLines(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf del
 
 // wrappers for readability:
 
-void checkHorizontal(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf delta, TileTest &test)
+void checkHorizontal(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf delta, TileChecker checker, TileTest &test)
 { 
-	return checkLines<th_Horizontal, getY, getX, doSwap>(map, ptOne, length, delta, test); 
+	return checkLines<th_Horizontal, getY, getX, doSwap>(map, ptOne, length, delta, checker, test); 
 }
 
-void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf delta, TileTest &test)
+void checkVertical(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf delta, TileChecker checker, TileTest &test)
 { 
-	return checkLines<th_Vertical, getX, getY, noSwap>(map, ptOne, length, delta, test); 
+	return checkLines<th_Vertical, getX, getY, noSwap>(map, ptOne, length, delta, checker, test); 
 }
 
 // layer getters:
@@ -222,20 +222,20 @@ void Tilemap::pushProxy(CL_String name, int count)
 
 // movement constraints:
 
-TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta) const
+TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta, TileChecker checker) const
 {
 	TileTest test = { th_None, TileDesc(), delta };
 
 	if (delta.x != 0.0f) // check horizontal movement
 	{
 		CL_Pointf ptTop = (delta.x > 0) ? rect.get_top_right() : rect.get_top_left();
-		checkHorizontal(*this, ptTop, rect.get_height(), test.delta, test);
+		checkHorizontal(*this, ptTop, rect.get_height(), test.delta, checker, test);
 	}
 
 	if (delta.y != 0.0f) // check vertical movement
 	{
 		CL_Pointf ptLef = (delta.y > 0) ? rect.get_bottom_left()  : rect.get_top_left();
-		checkVertical(*this, ptLef, rect.get_width(), test.delta, test);
+		checkVertical(*this, ptLef, rect.get_width(), test.delta, checker, test);
 	}
 
 	return test;

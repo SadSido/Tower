@@ -46,7 +46,7 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 		CL_Pointf ptr = ctx.tilemap->toTilespace(CL_Pointf(ctx.mouse.get_position()));
 		CL_Pointf ropeDelta = ptr - m_rect.get_center();
 		CL_Rectf ropeRect = CL_Rectf(m_rect.get_center(), CL_Sizef(0.01f, 0.01f));
-		TileTest ropeTest = ctx.tilemap->checkMove(ropeRect, ropeDelta);
+		TileTest ropeTest = ctx.tilemap->checkMove(ropeRect, ropeDelta, anyBlocking);
 
 		if (ropeTest.type)
 		{
@@ -91,8 +91,8 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 		}
 	}
 
-	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs);
-	TileTest gravTest = ctx.tilemap->checkMove(m_rect, CL_Pointf(0, 0.1f));
+	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, anyBlocking);
+	TileTest gravTest = ctx.tilemap->checkMove(m_rect, CL_Pointf(0, 0.1f), anyBlocking);
 
 	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
 	if (moveTest.type == th_Vertical)   { m_vel.y = 0.0f; }

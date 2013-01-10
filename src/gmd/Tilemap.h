@@ -54,6 +54,13 @@ struct TileTest
 	CL_Pointf  delta;
 };
 
+// pre-defined collision checkers:
+
+typedef bool (*TileChecker)(const TileDesc &desc);
+
+inline bool anyBlocking(const TileDesc &desc)
+{ return desc.flags & tf_Blocking; }
+
 //************************************************************************************************************************
 
 class Tilemap
@@ -71,7 +78,7 @@ public:
 	// Checks the rect, trying to move by "delta" offset within
 	// the tilemap. Returns the actual available offset: 
 	
-	TileTest checkMove(CL_Rectf rect, CL_Pointf delta) const;
+	TileTest checkMove(CL_Rectf rect, CL_Pointf delta, TileChecker checker) const;
 
 	// Sets the camera offset for rendering this tilemap:
 
