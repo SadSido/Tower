@@ -26,9 +26,13 @@ public:
 private:
 	bool      m_ground;
 	bool      m_mount;
+	bool      m_stairs;
 
 	float     m_ropeLen;
 	CL_Pointf m_rope;
+
+	bool standOnGround(const UpdateCtx &ctx);
+	bool standOnStairs(const UpdateCtx &ctx);
 };
 
 //************************************************************************************************************************

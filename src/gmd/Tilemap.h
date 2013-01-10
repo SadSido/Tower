@@ -60,6 +60,9 @@ typedef bool (*TileChecker)(const TileDesc &desc);
 inline bool anyBlocking(const TileDesc &desc)
 { return desc.flags & tf_Blocking; }
 
+inline bool anyStairs(const TileDesc &desc)
+{ return desc.flags & tf_Stair; }
+
 inline bool isBlocking(const TileDesc &desc)
 { return desc.flags == tf_Blocking; }
 

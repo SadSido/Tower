@@ -7,7 +7,7 @@
 //************************************************************************************************************************
 	
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_ground(false), m_mount(false)
+: Entity("player", "player"), m_ground(false), m_mount(false), m_stairs(false)
 {
 	setPos(pos);
 	setSize(size);
@@ -16,12 +16,20 @@ Player::Player(CL_Pointf pos, CL_Sizef size)
 bool Player::update(const UpdateCtx &ctx, float secs)
 {
 	// update input:
-	m_acc.y = (m_ground) ? 0 : +10.0f;
+	m_acc.y = (m_ground || m_stairs) ? 0 : +10.0f;
 
 	if (ctx.keys.get_keycode(CL_KEY_W) && m_ground)
 	{ 
 		m_vel.y = -8.0f;
 		m_ground = false;
+	}
+	else if (ctx.keys.get_keycode(CL_KEY_S))
+	{ 
+		if (standOnStairs(ctx))
+		{
+			m_vel.y  = 6.0f;
+			m_stairs = true;
+		}
 	}
 
 	if (ctx.keys.get_keycode(CL_KEY_D))
@@ -35,7 +43,7 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 	else 
 	{
 		m_acc.x = 0.0f;
-		if (m_ground)
+		if (m_ground || m_stairs)
 		{
 			m_vel.x = 0.0f;
 		}
@@ -91,14 +99,14 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 		}
 	}
 
-	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, anyBlocking);
-	TileTest gravTest = ctx.tilemap->checkMove(m_rect, CL_Pointf(0, 0.1f), anyBlocking);
+	TileChecker check = (m_stairs) ? isBlocking : anyBlocking;
+	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, check);
 
 	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
 	if (moveTest.type == th_Vertical)   { m_vel.y = 0.0f; }
 
-	m_ground = (gravTest.delta.y < 0.1f);
-
+	m_ground = standOnGround(ctx);
+	if (!standOnStairs(ctx)) m_stairs = false;
 
 	m_rect.translate(moveTest.delta);
 	return true;
@@ -118,6 +126,24 @@ bool Player::render(const RenderCtx &ctx)
 	}
 
 	return true;
+}
+
+// tilemap check helpers:
+
+bool Player::standOnStairs(const UpdateCtx &ctx)
+{
+	bool one = anyStairs(ctx.tilemap->getTile(m_rect.get_bottom_left() + CL_Pointf(0, 0.5f)));
+	bool two = anyStairs(ctx.tilemap->getTile(m_rect.get_bottom_right() + CL_Pointf(0, 0.5f)));
+
+	return one && two;
+}
+
+bool Player::standOnGround(const UpdateCtx &ctx)
+{
+	bool one = anyBlocking(ctx.tilemap->getTile(m_rect.get_bottom_left() + CL_Pointf(0, 0.5f)));
+	bool two = anyBlocking(ctx.tilemap->getTile(m_rect.get_bottom_right() + CL_Pointf(0, 0.5f)));
+
+	return one || two;
 }
 
 //************************************************************************************************************************
