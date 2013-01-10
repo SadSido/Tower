@@ -54,7 +54,8 @@ void checkLines(const Tilemap &map, CL_Pointf ptOne, float length, CL_Pointf del
 	// checking against the coordinate lines. consider the code as a checking
 	// against latitudes, and swap x and y, when checking longitudes:
 
-	for (float line = int(y(ptOne)) + offset; between(y(ptOne), y(ptOne) + y(delta), line); line += moveSg)
+	int start = int(y(ptOne)) + offset;
+	for (float line = float(start); between(y(ptOne), y(ptOne) + y(delta), line); line += moveSg)
 	{
 		float inter = x(ptOne) + ((line - y(ptOne)) * x(delta)) / y(delta);
 
