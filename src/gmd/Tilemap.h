@@ -58,13 +58,13 @@ struct TileTest
 typedef bool (*TileChecker)(const TileDesc &desc);
 
 inline bool anyBlocking(const TileDesc &desc)
-{ return desc.flags & tf_Blocking; }
+{ return (desc.flags & tf_Blocking) > 0; }
 
 inline bool anyStairs(const TileDesc &desc)
-{ return desc.flags & tf_Stair; }
+{ return (desc.flags & tf_Stair) > 0; }
 
 inline bool isBlocking(const TileDesc &desc)
-{ return desc.flags == tf_Blocking; }
+{ return (desc.flags == tf_Blocking); }
 
 //************************************************************************************************************************
 

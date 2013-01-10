@@ -114,14 +114,15 @@ int foreLayer(const TileDesc &desc)
 template <FnLayer layer>
 void renderLayer(Tilemap &map, RenderCtx ctx, CL_Pointf offset, CL_Sizef wndSize, float tileSize)
 {
-	const int tilesInX = (int)wndSize.width  / tileSize + 3;
-	const int tilesInY = (int)wndSize.height / tileSize + 3;
+	const int tilesInX = (int)(wndSize.width  / tileSize) + 3;
+	const int tilesInY = (int)(wndSize.height / tileSize) + 3;
 
 	const int startX = (int)offset.x - tilesInX / 2;
 	const int startY = (int)offset.y - tilesInY / 2;
 
 	// screen coordinate of the top-left tile:
-	const CL_Pointf anchor = map.toScreen(CL_Pointf(startX, startY));
+	const CL_Pointf topLeft = CL_Pointf((float)startX, (float)startY);
+	const CL_Pointf anchor  = map.toScreen(topLeft);
 
 	// rendering in "ints" results in seamless tiling:
 	for (int tileY = startY, pointY = (int)anchor.y; tileY < startY + tilesInY; ++ tileY, pointY += (int)tileSize)
