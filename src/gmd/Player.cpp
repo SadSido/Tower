@@ -77,7 +77,7 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 
 	// resolve gravity and movement:
 
-	m_acc.y = (posFlags) ? 0.0f : +10.0f;
+	m_acc.y = (posFlags) ? 0.0f : +12.0f;
 	m_vel += m_acc * secs;
 
 	TileChecker check = (m_climbing) ? isBlocking : anyBlocking;
@@ -123,7 +123,7 @@ void Player::handleUpKey(const UpdateCtx &ctx, int posFlags)
 	}
 	else if (posFlags & pf_OnGround)
 	{
-		m_vel.y = -8.0f;
+		m_vel.y = abs(m_vel.x) > 0.0f ? -6.0f : -9.0f;
 	}
 }
 
@@ -148,7 +148,7 @@ void Player::handleLeftKey(const UpdateCtx &ctx, int posFlags)
 	} 
 	else 
 	{
-		m_vel.x = -6.0f;
+		m_vel.x = -4.0f;
 	}
 }
 
@@ -160,7 +160,7 @@ void Player::handleRightKey(const UpdateCtx &ctx, int posFlags)
 	} 
 	else 
 	{
-		m_vel.x = +6.0f;
+		m_vel.x = +4.0f;
 	}
 }
 
