@@ -66,6 +66,9 @@ inline bool anyStairs(const TileDesc &desc)
 inline bool isBlocking(const TileDesc &desc)
 { return (desc.flags == tf_Blocking); }
 
+inline bool topStairs(const TileDesc &desc)
+{ return (desc.flags == (tf_Blocking | tf_Stair)); }
+
 //************************************************************************************************************************
 
 class Tilemap
