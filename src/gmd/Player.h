@@ -24,15 +24,24 @@ public:
 	virtual bool render(const RenderCtx &ctx);
 
 private:
-	bool      m_ground;
-	bool      m_mount;
-	bool      m_stairs;
+	enum PosFlags
+	{
+		pf_OnGround  = 1 << 0,
+		pf_OnStairs  = 1 << 1,
+		pf_TopStairs = 1 << 2,
+	};
 
-	float     m_ropeLen;
-	CL_Pointf m_rope;
+	// action state flags:
+	bool m_climbing;
 
-	bool standOnGround(const UpdateCtx &ctx);
-	bool standOnStairs(const UpdateCtx &ctx);
+	// tilemap helpers:
+	int getPosFlags(const UpdateCtx &ctx);
+
+	// input helpers:
+	void handleUpKey(const UpdateCtx &ctx, int posFlags);
+	void handleDownKey(const UpdateCtx &ctx, int posFlags);
+	void handleLeftKey(const UpdateCtx &ctx, int posFlags);
+	void handleRightKey(const UpdateCtx &ctx, int posFlags);
 };
 
 //************************************************************************************************************************
