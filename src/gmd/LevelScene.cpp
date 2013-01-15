@@ -55,6 +55,10 @@ void LevelScene::update(float secs)
 	ctx.tilemap->offset(m_player.getRect().get_center());
 
 	// check the globals:
+	if (ctx.keys.get_keycode(CL_KEY_ESCAPE))
+	{
+		m_manager->popScene();
+	}
 	if (m_globals.check(Globals::victory()))
 	{
 		m_manager->popScene();
