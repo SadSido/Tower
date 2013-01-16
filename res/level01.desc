@@ -1,5 +1,4 @@
 
-resource "intro/intro.xml"
 resource "level01/tiles.xml"
 
-area "level01/tilemap.tmx" as "main"
+area "level01/main.tmx" as "main"

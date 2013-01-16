@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <resources>
-  <sprite name="tileset">
-    <image file="tileset.png">
-      <grid size="64,64" array="3,4" />
-    </image>
-  </sprite>
-  <sprite name="tileset2">
-    <image file="tileset2.png">
-      <grid size="64,64" array="3,4" />
+  <sprite name="castle_ext">
+    <image file="castle_ext.png">
+      <grid size="64,64" array="10,6" />
     </image>
   </sprite>
 </resources>
