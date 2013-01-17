@@ -98,29 +98,29 @@ void DialogSet::loadDlgFile(CL_String::const_iterator it)
 	{
 		CL_String token = parseToken(it);
 
-		// we allow single-line comments:
+		// allow single-line comments:
 		if (token == "//")
-		{
-			parseLine(it);
-			continue;
-		}
+		{ parseLine(it); }
 			
-		// entering dialog section:
-		if (token == "dialog")
-		{
-			DialogScript::Ref script(new DialogScript());
+		else if (token == "dialog")
+		{ loadDialog(it); }
 
-			parsePrecs(it, script);
-			parsePosts(it, script);
-			parsePhrases(it, script);
-
-			m_dialogs.push_back(script);
-			continue;
-		}
-
-		// invalid syntax:
-		// assert(false);
+		else
+		{ /* assert(false); */ }
 	}
+}
+
+void DialogSet::loadDialog(CL_String::const_iterator it)
+{
+	DialogScript::Ref script(new DialogScript());
+
+	// read dialog parts:
+	parsePrecs(it, script);
+	parsePosts(it, script);
+	parsePhrases(it, script);
+
+	// commit to the list:
+	m_dialogs.push_back(script);
 }
 
 //************************************************************************************************************************

@@ -118,13 +118,13 @@ void LevelScene::loadDescFile(CL_String::const_iterator it)
 		if (token == "//")
 		{ parseLine(it); }
 
-		if (token == "resource")
+		else if (token == "resource")
 		{ loadResource(it); }
 
-		if (token == "area")
+		else if (token == "area")
 		{ loadAreaFile(it); }
 
-		if (token == "dialog")
+		else if (token == "dialog")
 		{ loadAreaFile(it); }
 
 		else

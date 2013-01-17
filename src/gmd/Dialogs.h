@@ -53,6 +53,7 @@ public:
 private:
 	std::list<DialogScript::Ref> m_dialogs;
 	void loadDlgFile(CL_String::const_iterator it);
+	void loadDialog(CL_String::const_iterator it);
 };
 
 //************************************************************************************************************************
