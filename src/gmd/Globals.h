@@ -16,6 +16,7 @@ public:
 
 	// variable query:
 	bool check(CL_String var) const;
+	long getGen() const;
 
 	// modifications:
 	void add(CL_String var);
@@ -27,6 +28,7 @@ public:
 	static CL_String defeat();
 
 private:
+	long m_gen;
 	std::set<CL_String> m_vars;
 };
 

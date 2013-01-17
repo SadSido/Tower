@@ -6,8 +6,8 @@
 //************************************************************************************************************************
 
 Globals::Globals()
-{
-}
+: m_gen(1)
+{}
 
 // variables query:
 
@@ -16,13 +16,22 @@ bool Globals::check(CL_String var) const
 	return m_vars.find(var) != m_vars.end();
 }
 
+long Globals::getGen() const
+{
+	return m_gen;
+}
+
+// modifications:
+
 void Globals::add(CL_String var)
 {
+	++ m_gen;
 	m_vars.insert(var);
 }
 
 void Globals::del(CL_String var)
 {
+	++ m_gen;
 	m_vars.erase(var);
 }
 
