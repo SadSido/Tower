@@ -114,6 +114,10 @@ void LevelScene::loadDescFile(CL_String::const_iterator it)
 		// load stuff depending on token:
 		CL_String token = parseToken(it);
 
+		// allow single-line comments:
+		if (token == "//")
+		{ parseLine(it); }
+
 		if (token == "resource")
 		{ loadResource(it); }
 

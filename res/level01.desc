@@ -1,4 +1,6 @@
 
+// resources:
+
 resource "level01/tiles.xml"
 
 area "level01/main.tmx" as "main"
