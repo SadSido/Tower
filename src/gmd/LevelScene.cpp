@@ -36,7 +36,7 @@ void LevelScene::update(float secs)
 	CL_InputDevice  &keys   = m_manager->getRenderer()->getIC().get_keyboard();
 	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
 
-	UpdateCtx ctx = { keys, mouse, m_entities, m_tilemap, m_globals, m_player };
+	UpdateCtx ctx = { keys, mouse, m_entities, m_tilemap, m_dialogs, m_globals, m_player };
 
 	// update player:
 	m_player.update(ctx, secs);
@@ -120,6 +120,9 @@ void LevelScene::loadDescFile(CL_String::const_iterator it)
 		if (token == "area")
 		{ loadAreaFile(it); }
 
+		if (token == "dialog")
+		{ loadAreaFile(it); }
+
 		else
 		{ /* assert false; */ }
 	}
@@ -143,6 +146,16 @@ void LevelScene::loadAreaFile(CL_String::const_iterator &it)
 
 	Area area = Area(window, makePath(path), name);
 	m_areas[name] = area;
+}
+
+void LevelScene::loadDlgFile(CL_String::const_iterator &it)
+{
+	CL_String path = parseQuotes(it);
+	parseAssert(it, "as");
+	CL_String name = parseQuotes(it);
+
+	DialogSet::Ref dlgset = DialogSet::Ref(new DialogSet(path));
+	m_dialogs[name] = dlgset;
 }
 
 //************************************************************************************************************************

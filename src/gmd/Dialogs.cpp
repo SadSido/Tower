@@ -3,6 +3,7 @@
 
 #include "Dialogs.h"
 #include "../util/Parsing.h"
+#include "../util/BasePath.h"
 
 //************************************************************************************************************************
 
@@ -20,8 +21,8 @@ namespace
 
 	// parsing conditions:
 
-	template<void (DlgScript::*FUNC)(bool, const CL_String&)>
-	void parseConditions(CL_String::const_iterator &it, DlgScript &script)
+	template<void (DialogScript::*FUNC)(bool, const CL_String&)>
+	void parseConditions(CL_String::const_iterator &it, DialogScript::Ref script)
 	{
 		parseAssert(it, "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
@@ -31,19 +32,19 @@ namespace
 			const int  starts = (direct) ? 0 : 1;
 
 			// apply parsed condition:
-			(script.*FUNC)(direct, token.substr(starts));
+			(*script.*FUNC)(direct, token.substr(starts));
 		}
 	}
 
-	void parsePrecs(CL_String::const_iterator &it, DlgScript &script)
-	{ parseConditions<&DlgScript::addPrec>(it, script);	}
+	void parsePrecs(CL_String::const_iterator &it, DialogScript::Ref script)
+	{ parseConditions<&DialogScript::addPrec>(it, script);	}
 
-	void parsePosts(CL_String::const_iterator &it, DlgScript &script)
-	{ parseConditions<&DlgScript::addPost>(it, script);	}
+	void parsePosts(CL_String::const_iterator &it, DialogScript::Ref script)
+	{ parseConditions<&DialogScript::addPost>(it, script);	}
 
 	// parsing scenario:
 
-	void parsePhrases(CL_String::const_iterator &it, DlgScript &script)
+	void parsePhrases(CL_String::const_iterator &it, DialogScript::Ref script)
 	{
 		parseAssert(it, "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
@@ -53,39 +54,7 @@ namespace
 			const CL_String  text = parseQuotes(it);
 
 			// apply the phrase:
-			script.addText(type, text);
-		}
-	}
-
-	// parsing entire script:
-
-	void parseDialogs(const CL_String &source)
-	{
-		for (CL_String::const_iterator it = source.begin(); it != source.end(); /**/)
-		{
-			CL_String token = parseToken(it);
-
-			// we allow single-line comments:
-			if (token == "//")
-			{
-				parseLine(it);
-				continue;
-			}
-			
-			// entering dialog section:
-			if (token == "dialog")
-			{
-				CL_String owner = parseToken(it);
-				DlgScript script;
-
-				parsePrecs(it, script);
-				parsePosts(it, script);
-				parsePhrases(it, script);
-				continue;
-			}
-
-			// invalid syntax:
-			// assert(false);
+			script->addText(type, text);
 		}
 	}
 
@@ -93,23 +62,65 @@ namespace
 
 //************************************************************************************************************************
 
-DlgScript::DlgScript()
+DialogScript::DialogScript()
 {
 }
 
-void DlgScript::addPrec(bool direct, const CL_String &global)
+void DialogScript::addPrec(bool direct, const CL_String &global)
 {
 	m_precs.push_back(std::make_pair(direct, global));
 }
 
-void DlgScript::addPost(bool direct, const CL_String &global)
+void DialogScript::addPost(bool direct, const CL_String &global)
 {
 	m_posts.push_back(std::make_pair(direct, global));
 }
 
-void DlgScript::addText(PhraseType type, const CL_String &text)
+void DialogScript::addText(PhraseType type, const CL_String &text)
 {
 	m_texts.push_back(std::make_pair(type, text));
+}
+
+//************************************************************************************************************************
+
+DialogSet::DialogSet(CL_String path)
+{
+	CL_String mkpath = makePath(path);
+	CL_String source = CL_File::read_text(mkpath);
+
+	// init stuff from dlg file:
+	loadDlgFile(source.begin());
+}
+
+void DialogSet::loadDlgFile(CL_String::const_iterator it)
+{
+	while (*it)
+	{
+		CL_String token = parseToken(it);
+
+		// we allow single-line comments:
+		if (token == "//")
+		{
+			parseLine(it);
+			continue;
+		}
+			
+		// entering dialog section:
+		if (token == "dialog")
+		{
+			DialogScript::Ref script(new DialogScript());
+
+			parsePrecs(it, script);
+			parsePosts(it, script);
+			parsePhrases(it, script);
+
+			m_dialogs.push_back(script);
+			continue;
+		}
+
+		// invalid syntax:
+		// assert(false);
+	}
 }
 
 //************************************************************************************************************************

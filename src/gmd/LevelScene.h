@@ -27,6 +27,7 @@ struct UpdateCtx
 	Entities::Ref entities;
 	Tilemap::Ref  tilemap;
 
+	Dialogs  &dialogs;
 	Globals  &globals;
 	Player   &player;
 };
@@ -62,6 +63,7 @@ private:
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	
+	Dialogs m_dialogs;
 	Globals m_globals;
 	Player  m_player;
 	Areas   m_areas;
@@ -71,6 +73,7 @@ private:
 	void loadDescFile(CL_String::const_iterator  it);
 	void loadResource(CL_String::const_iterator &it);
 	void loadAreaFile(CL_String::const_iterator &it);
+	void loadDlgFile(CL_String::const_iterator &it);
 };
 
 //************************************************************************************************************************
