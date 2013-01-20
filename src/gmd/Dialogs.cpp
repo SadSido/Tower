@@ -66,6 +66,16 @@ DialogScript::DialogScript()
 {
 }
 
+bool DialogScript::checkPrecs(const Globals &globals) const
+{
+	for (auto it = m_precs.begin(); it != m_precs.end(); ++ it)
+	{
+		// xor is the operation for this!
+		if (it->first ^ globals.check(it->second)) return false;
+	}
+	return true;
+}
+
 void DialogScript::addPrec(bool direct, const CL_String &global)
 {
 	m_precs.push_back(std::make_pair(direct, global));
@@ -84,12 +94,27 @@ void DialogScript::addText(PhraseType type, const CL_String &text)
 //************************************************************************************************************************
 
 DialogSet::DialogSet(CL_String path)
+: m_gen(0)
 {
 	CL_String mkpath = makePath(path);
 	CL_String source = CL_File::read_text(mkpath);
 
 	// init stuff from dlg file:
 	loadDlgFile(source.begin());
+}
+
+DialogScript::Ref DialogSet::getDialog(const Globals &globals) const
+{
+	// maybe precalculated already:
+	if (m_gen == globals.getGen())
+	{ return m_dlg; } 
+
+	// must calculate for these globals:
+	m_dlg = getDialogImp(globals);
+	m_gen = globals.getGen();
+
+	// may be null here:
+	return m_dlg;
 }
 
 void DialogSet::loadDlgFile(CL_String::const_iterator it)
@@ -121,6 +146,15 @@ void DialogSet::loadDialog(CL_String::const_iterator it)
 
 	// commit to the list:
 	m_dialogs.push_back(script);
+}
+
+DialogScript::Ref DialogSet::getDialogImp(const Globals &globals) const
+{
+	for (auto it = m_dialogs.begin(); it != m_dialogs.end(); ++ it)
+	{ if ((*it)->checkPrecs(globals)) return (*it); }
+
+	// none of the dialogs satisfies:
+	return DialogScript::Ref(); 
 }
 
 //************************************************************************************************************************
