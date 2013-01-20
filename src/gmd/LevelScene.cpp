@@ -125,7 +125,7 @@ void LevelScene::loadDescFile(CL_String::const_iterator it)
 		{ loadAreaFile(it); }
 
 		else if (token == "dialog")
-		{ loadAreaFile(it); }
+		{ loadDlgFile(it); }
 
 		else
 		{ /* assert false; */ }

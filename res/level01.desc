@@ -4,3 +4,5 @@
 resource "level01/tiles.xml"
 
 area "level01/main.tmx" as "main"
+
+dialog "level01/castle_guard.dlg" as "CastleGuard"
