@@ -44,7 +44,8 @@ CL_String parseQuotes (CL_String::const_iterator &it)
 	skipUntil(it, quotes);
 	auto beg = ++ it;
 	skipUntil(it, quotes);
-	return CL_String(beg, it - beg);
+	auto end = it ++;
+	return CL_String(beg, end - beg);
 }
 
 CL_String parseLine(CL_String::const_iterator &it)
