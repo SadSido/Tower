@@ -82,7 +82,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="entities" width="30" height="15"/>
+ <objectgroup name="entities" width="30" height="15">
+  <object name="CastleGuard" type="DialogEntity" x="640" y="768" width="64" height="128">
+   <properties>
+    <property name="Distance" value="2.0"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup name="entries" width="30" height="15">
   <object name="main" x="1728" y="768"/>
  </objectgroup>

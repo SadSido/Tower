@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ent\DialogEntity.cpp" />
     <ClCompile Include="src\gmd\Areas.cpp" />
     <ClCompile Include="src\gmd\Dialogs.cpp" />
     <ClCompile Include="src\gmd\Entities.cpp" />
@@ -103,6 +104,7 @@
     <ClCompile Include="src\util\XmlUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ent\DialogEntity.h" />
     <ClInclude Include="src\gmd\Areas.h" />
     <ClInclude Include="src\gmd\Dialogs.h" />
     <ClInclude Include="src\gmd\Entities.h" />

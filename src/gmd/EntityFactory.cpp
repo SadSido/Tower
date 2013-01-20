@@ -3,7 +3,7 @@
 
 #include "EntityFactory.h"
 #include "../util/XmlUtils.h"
-#include "EntTest.h"
+#include "../ent/DialogEntity.h"
 
 //************************************************************************************************************************
 
@@ -11,13 +11,14 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 {
 	const CL_String name = node.get_attribute("name");
 	const CL_String type = node.get_attribute("type");
+	CL_DomNodeList props = node.get_elements_by_tag_name("properties");
 
 	Entity::Ref result;
 	
 	// generate entity by type:
 
-	if (type == "EntTest")
-	{ result = Entity::Ref(new EntTest(name, node)); }
+	if (type == "DialogEntity")
+	{ result = Entity::Ref(new DialogEntity(name, props)); }
 
 	// set common attributes:
 
