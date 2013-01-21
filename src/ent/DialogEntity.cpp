@@ -13,7 +13,7 @@ DialogEntity::DialogEntity(CL_String name, const CL_DomNodeList &props)
 		// process current property:
 		CL_DomElement prop = props.item(prNo).to_element();
 
-		if (prop.get_attribute("name") == "distance") 
+		if (prop.get_attribute("name") == "Distance") 
 		{ m_distance = prop.get_attribute_float("value"); }
 	}
 
@@ -27,7 +27,7 @@ bool DialogEntity::update(const UpdateCtx &ctx, float secs)
 	if (auto dialog = m_dlgSet->getDialog(ctx.globals))
 	{
 		const float distance = m_rect.get_center().distance(ctx.player.getRect().get_center());
-		if (distance < m_distance && ctx.keys.get_keycode(CL_KEY_UP))
+		if ((distance < m_distance) && ctx.keys.get_keycode(CL_KEY_W))
 		{
 			ctx.player.setVel(CL_Pointf(0,0));
 			// start the dialog:

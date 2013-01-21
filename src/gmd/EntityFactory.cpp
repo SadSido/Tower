@@ -11,14 +11,16 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 {
 	const CL_String name = node.get_attribute("name");
 	const CL_String type = node.get_attribute("type");
-	CL_DomNodeList props = node.get_elements_by_tag_name("properties");
+	
+	CL_DomElement  props = node.get_first_child().to_element();
+	CL_DomNodeList plist = props.get_elements_by_tag_name("property");
 
 	Entity::Ref result;
 	
 	// generate entity by type:
 
 	if (type == "DialogEntity")
-	{ result = Entity::Ref(new DialogEntity(name, props)); }
+	{ result = Entity::Ref(new DialogEntity(name, plist)); }
 
 	// set common attributes:
 
