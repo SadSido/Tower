@@ -24,6 +24,7 @@ private:
 	
 	CL_Rectf m_rect;
 	CL_SpanLayout m_layout;
+	CL_Font_System m_font;
 
 	DialogScript::Ref  m_script;
 	DialogScript::Iter m_iter;

@@ -7,6 +7,17 @@
 #include "../util/BasePath.h"
 
 /*
+	CL_FontDescription font_desc;
+	font_desc.set_typeface_name("Tahoma");
+	font_desc.set_anti_alias(true);
+	font_desc.set_height(32);
+	CL_Font_System font_normal(gc, font_desc);
+
+	font_desc.set_weight(800);
+	font_desc.set_height(40);
+	CL_Font_System font_bold(gc, font_desc);
+
+
 	std::vector<CL_SpanLayout> layout;
 
 	// Count number of lines
@@ -60,6 +71,14 @@ DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script)
 	CL_Sizef window = renderer->getGCSize();
 
 	m_rect = CL_Rectf(CL_Sizef(window.width, window.height/3.0f));
+
+	CL_FontDescription font_desc;
+	font_desc.set_typeface_name("Tahoma");
+	font_desc.set_anti_alias(true);
+	font_desc.set_height(32);
+	m_font = CL_Font_System(renderer->getGC(), font_desc);
+
+	updateLayout();
 }
 
 // scene lifecycle:
@@ -85,13 +104,21 @@ void DialogScene::render()
 	// fade out a little:
 	CL_Draw::fill(renderer->getGC(), CL_Rectf(window), CL_Colorf(0.0f, 0.0f, 0.0f, 0.5f));
 	CL_Draw::fill(renderer->getGC(), m_rect, CL_Colorf(1.0f, 1.0f, 1.0f, 1.0f));
+
+	m_layout.draw_layout(renderer->getGC());
 }
 
 // helpers:
 
 void DialogScene::updateLayout()
 {
+	m_layout.clear();
+	m_layout.set_position(CL_Point());
+	m_layout.set_align(cl_left);
 
+	const CL_String &text = m_iter->second;
+	m_layout.add_text(text, m_font, CL_Colorf::red);
+	m_layout.layout(m_manager->getRenderer()->getGC(), m_rect.get_width());
 }
 
 //************************************************************************************************************************
