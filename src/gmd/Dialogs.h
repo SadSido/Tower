@@ -27,6 +27,8 @@ struct DialogScript
 
 public:
 	typedef std::shared_ptr<DialogScript> Ref;
+	typedef std::list<Phrase>::const_iterator Iter;
+
 	explicit DialogScript();
 
 	// handling precs and posts:
@@ -36,6 +38,10 @@ public:
 	void addPrec (bool direct, const CL_String &global);
 	void addPost (bool direct, const CL_String &global);
 	void addText (PhraseType type, const CL_String &text);
+
+	// iterating through the script:
+	Iter begin() const { return m_texts.begin(); }
+	Iter end() const { return m_texts.end(); }
 
 private:
 	std::list<Condition> m_precs;

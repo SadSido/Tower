@@ -25,6 +25,9 @@ public:
 	inline CL_DisplayWindow& getWindow()
 	{ return m_window; }
 
+	inline CL_Sizef getGCSize() const
+	{ return m_window.get_gc().get_size(); }
+
 	void preRender();
 	void postRender();
 

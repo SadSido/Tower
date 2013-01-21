@@ -21,7 +21,14 @@ public:
 
 private:
 	GameScene::Ref m_topScene;
-	DialogScript::Ref m_script;
+	
+	CL_Rectf m_rect;
+	CL_SpanLayout m_layout;
+
+	DialogScript::Ref  m_script;
+	DialogScript::Iter m_iter;
+
+	void updateLayout();
 };
 
 //************************************************************************************************************************
