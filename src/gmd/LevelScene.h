@@ -21,6 +21,8 @@ typedef CL_ResourceManager Assets;
 // level objects get this when they calculate update:
 struct UpdateCtx
 {
+	GameManager * manager;
+
 	CL_InputDevice &keys;
 	CL_InputDevice &mouse;
 

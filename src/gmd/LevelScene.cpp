@@ -36,7 +36,7 @@ void LevelScene::update(float secs)
 	CL_InputDevice  &keys   = m_manager->getRenderer()->getIC().get_keyboard();
 	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
 
-	UpdateCtx ctx = { keys, mouse, m_entities, m_tilemap, m_dialogs, m_globals, m_player };
+	UpdateCtx ctx = { m_manager, keys, mouse, m_entities, m_tilemap, m_dialogs, m_globals, m_player };
 
 	// update player:
 	m_player.update(ctx, secs);
