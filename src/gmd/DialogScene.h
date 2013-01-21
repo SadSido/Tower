@@ -22,6 +22,7 @@ public:
 private:
 	GameScene::Ref m_topScene;
 	
+	float m_delay;
 	CL_Rectf m_rect;
 	CL_SpanLayout m_layout;
 	CL_Font_System m_font;

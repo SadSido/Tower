@@ -65,7 +65,7 @@
 // c-tor and d-tor:
 
 DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script)
-: GameScene(manager), m_topScene(manager->getTopScene()), m_script(script), m_iter(m_script->begin())
+: GameScene(manager), m_topScene(manager->getTopScene()), m_script(script), m_iter(m_script->begin()), m_delay(0.0f)
 {
 	auto renderer = m_manager->getRenderer();
 	CL_Sizef window = renderer->getGCSize();
@@ -88,8 +88,21 @@ void DialogScene::update(float secs)
 	CL_InputDevice  &keys   = m_manager->getRenderer()->getIC().get_keyboard();
 	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
 
+	if (m_delay == 0.0f && mouse.get_keycode(CL_MOUSE_LEFT))
+	{
+		++ m_iter;
+		if (m_iter != m_script->end())
+		{ 
+			m_delay = 0.5f;
+			updateLayout();
+		}
+	}
+
 	if (m_iter == m_script->end())
 	{ m_manager->popScene(); }
+
+	// update mouse clicking delay:
+	m_delay = max(0.0f, m_delay - secs);
 
 }
 
@@ -118,7 +131,7 @@ void DialogScene::updateLayout()
 
 	const CL_String &text = m_iter->second;
 	m_layout.add_text(text, m_font, CL_Colorf::red);
-	m_layout.layout(m_manager->getRenderer()->getGC(), m_rect.get_width());
+	m_layout.layout(m_manager->getRenderer()->getGC(), (int)m_rect.get_width());
 }
 
 //************************************************************************************************************************

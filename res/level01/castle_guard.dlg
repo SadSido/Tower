@@ -1,4 +1,6 @@
 dialog { } { }
 {
-npc "Greetings, stranger!"
+npc "Hold on, stranger!"
+npc "Noone is allowed to enter the kings domain"
+pla "I wonder where they have got a talking can on guard duty"
 }
