@@ -14,10 +14,14 @@
 class DialogScene : public GameScene
 {
 public:
-	explicit DialogScene(GameManager * manager);
+	explicit DialogScene(GameManager * manager, DialogScript::Ref script);
 
 	virtual void update(float secs);
 	virtual void render();
+
+private:
+	GameScene::Ref m_topScene;
+	DialogScript::Ref m_script;
 };
 
 //************************************************************************************************************************

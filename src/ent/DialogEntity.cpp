@@ -2,6 +2,8 @@
 // ORIGIN: entity, which triggers a dialog scene
 
 #include "DialogEntity.h"
+#include "../sys/GameManager.h"
+#include "../gmd/DialogScene.h"
 
 //************************************************************************************************************************
 	
@@ -31,6 +33,8 @@ bool DialogEntity::update(const UpdateCtx &ctx, float secs)
 		{
 			ctx.player.setVel(CL_Pointf(0,0));
 			// start the dialog:
+			GameScene::Ref dlgScene (new DialogScene(ctx.manager, dialog));
+			ctx.manager->pushScene(dlgScene);
 		}
 	}
 
