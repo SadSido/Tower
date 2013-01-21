@@ -49,7 +49,7 @@ int GameManager::runMainLoop()
 	// main game loop:
 	while (m_stack.size())
 	{
-		GameScene::Ref topScene = m_stack.back();
+		GameScene::Ref topScene = getTopScene();
 
 		unsigned int currTick = CL_System::get_time();
 		unsigned int interval = (currTick - lastTick);

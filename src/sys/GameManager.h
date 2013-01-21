@@ -24,6 +24,9 @@ public:
 	void popScene();
 
 	// services and managers:
+	GameScene::Ref getTopScene() const
+	{ return m_stack.back(); }
+
 	Configuration::Ref getConfig() const
 	{ return m_config; }
 
