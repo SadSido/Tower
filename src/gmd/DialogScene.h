@@ -34,7 +34,10 @@ private:
 	CL_Rect m_rcBub;
 	CL_Rect m_rcText;
 
-	PhraseType m_type;
+	float m_percent;
+	PhraseType m_oldtype;
+	PhraseType m_newtype;
+
 	DialogScript::Ref  m_script;
 	DialogScript::Iter m_iter;
 

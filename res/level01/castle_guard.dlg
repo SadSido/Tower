@@ -1,6 +1,11 @@
 dialog { } { }
 {
 npc "Hold on, stranger!"
-npc "Noone is allowed to enter the kings domain"
-pla "I wonder where they have got a talking can on guard duty"
+pla "That piece of rust can talk? Sorry, guys, I thought you were some statues at the entrance..."
+npc "Wh... How dare you say that to the royal guards? Ill teach you a tough lesson, hoodie!"
+pla "First, learn which end of your spear is sharp"
+pla "I am his majesty hunter. King Arathel had sent for me"
+npc "Your luck, hoodie. King Arathel awaits you. You may pass"
+pla "At last, the kind of service, I expected"
+npc "Just go"
 }
