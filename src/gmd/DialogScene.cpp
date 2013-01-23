@@ -65,10 +65,11 @@
 // c-tor and d-tor:
 
 DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script)
-: GameScene(manager), m_topScene(manager->getTopScene()), m_script(script), m_iter(m_script->begin()), m_delay(0.0f)
+: GameScene(manager), m_topScene(manager->getTopScene()), m_script(script), m_iter(m_script->begin())
 {
 	auto renderer = m_manager->getRenderer();
 	CL_Sizef window = renderer->getGCSize();
+
 
 	m_rect = CL_Rectf(CL_Sizef(window.width, window.height/3.0f));
 
@@ -79,31 +80,19 @@ DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script)
 	m_font = CL_Font_System(renderer->getGC(), font_desc);
 
 	updateLayout();
+
+	// attach input handlers:
+	m_slots.connect(renderer->getIC().get_keyboard().sig_key_down(), this, &DialogScene::onKeyDown);
+	m_slots.connect(renderer->getIC().get_mouse().sig_key_down(), this, &DialogScene::onKeyDown);
 }
 
 // scene lifecycle:
 
 void DialogScene::update(float secs)
 {
-	CL_InputDevice  &keys   = m_manager->getRenderer()->getIC().get_keyboard();
-	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
-
-	if (m_delay == 0.0f && mouse.get_keycode(CL_MOUSE_LEFT))
-	{
-		++ m_iter;
-		if (m_iter != m_script->end())
-		{ 
-			m_delay = 0.5f;
-			updateLayout();
-		}
-	}
-
+	// finish the dialog:
 	if (m_iter == m_script->end())
 	{ m_manager->popScene(); }
-
-	// update mouse clicking delay:
-	m_delay = max(0.0f, m_delay - secs);
-
 }
 
 void DialogScene::render()
@@ -121,6 +110,15 @@ void DialogScene::render()
 	m_layout.draw_layout(renderer->getGC());
 }
 
+// input handlers:
+
+void DialogScene::onKeyDown(const CL_InputEvent &key, const CL_InputState &state)
+{
+	// proceed to the next replic:
+	if (++ m_iter != m_script->end())
+	{ updateLayout(); }	
+}
+
 // helpers:
 
 void DialogScene::updateLayout()
@@ -129,8 +127,10 @@ void DialogScene::updateLayout()
 	m_layout.set_position(CL_Point());
 	m_layout.set_align(cl_left);
 
+	// that's the current replic:
 	const CL_String &text = m_iter->second;
-	m_layout.add_text(text, m_font, CL_Colorf::red);
+
+	m_layout.add_text(text, m_font, CL_Colorf::black);
 	m_layout.layout(m_manager->getRenderer()->getGC(), (int)m_rect.get_width());
 }
 

@@ -20,9 +20,13 @@ public:
 	virtual void render();
 
 private:
+	// input event handlers:
+	void onKeyDown(const CL_InputEvent &key, const CL_InputState &state);
+
+private:
 	GameScene::Ref m_topScene;
+	CL_SlotContainer m_slots;
 	
-	float m_delay;
 	CL_Rectf m_rect;
 	CL_SpanLayout m_layout;
 	CL_Font_System m_font;
