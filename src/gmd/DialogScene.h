@@ -16,6 +16,7 @@ class DialogScene : public GameScene
 public:
 	explicit DialogScene(GameManager * manager, DialogScript::Ref script);
 
+	// scene lifecycle:
 	virtual void update(float secs);
 	virtual void render();
 
@@ -26,14 +27,18 @@ private:
 private:
 	GameScene::Ref m_topScene;
 	CL_SlotContainer m_slots;
-	
-	CL_Rectf m_rect;
-	CL_SpanLayout m_layout;
-	CL_Font_System m_font;
 
+	CL_Font_System m_font;
+	CL_SpanLayout  m_layout;
+	
+	CL_Rect m_rcBub;
+	CL_Rect m_rcText;
+
+	PhraseType m_type;
 	DialogScript::Ref  m_script;
 	DialogScript::Iter m_iter;
 
+	void updateRects(CL_Size window);
 	void updateLayout();
 };
 
