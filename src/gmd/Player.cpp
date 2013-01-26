@@ -116,6 +116,12 @@ int Player::getPosFlags(const UpdateCtx &ctx)
 
 void Player::handleUpKey(const UpdateCtx &ctx, int posFlags)
 {
+	if (m_action)
+	{
+		m_action->execute(ctx);
+		return;
+	}
+
 	if (posFlags & pf_OnStairs)
 	{
 		m_vel.y = -6.0f;

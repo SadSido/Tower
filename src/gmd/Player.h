@@ -15,6 +15,18 @@ struct RenderCtx;
 
 //************************************************************************************************************************
 
+class PlayerAction
+{
+public:
+	typedef std::shared_ptr<PlayerAction> Ref;
+	virtual ~PlayerAction() {}
+
+	// action to be triggered by action key:
+	virtual void execute(const UpdateCtx &ctx) = 0;
+};
+
+//************************************************************************************************************************
+
 class Player : public Entity
 {
 public:
@@ -22,6 +34,10 @@ public:
 
 	virtual bool update(const UpdateCtx &ctx, float secs);
 	virtual bool render(const RenderCtx &ctx);
+
+	// assign an action to the player:
+	void setAction(PlayerAction::Ref action)
+	{ m_action = action; }
 
 private:
 	enum PosFlags
@@ -33,6 +49,9 @@ private:
 
 	// action state flags:
 	bool m_climbing;
+
+	// current action if any:
+	PlayerAction::Ref m_action;
 
 	// tilemap helpers:
 	int getPosFlags(const UpdateCtx &ctx);

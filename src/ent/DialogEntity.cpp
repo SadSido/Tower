@@ -6,6 +6,19 @@
 #include "../gmd/DialogScene.h"
 
 //************************************************************************************************************************
+
+DialogAction::DialogAction(DialogScript::Ref script)
+: m_script(script)
+{}
+
+void DialogAction::execute(const UpdateCtx &ctx)
+{
+	// assert(m_script);
+	GameScene::Ref dlgScene (new DialogScene(ctx.manager, m_script));
+	ctx.manager->pushScene(dlgScene);
+}
+
+//************************************************************************************************************************
 	
 DialogEntity::DialogEntity(CL_String name, const CL_DomNodeList &props)
 : Entity("DialogEntity", name)
@@ -26,17 +39,14 @@ bool DialogEntity::update(const UpdateCtx &ctx, float secs)
 	// checks whether we have a dialog available:
 	if (!m_dlgSet) { m_dlgSet = ctx.dialogs[m_name]; }
 
-	if (auto dialog = m_dlgSet->getDialog(ctx.globals))
-	{
-		const float distance = m_rect.get_center().distance(ctx.player.getRect().get_center());
-		if ((distance < m_distance) && ctx.keys.get_keycode(CL_KEY_W))
-		{
-			ctx.player.setVel(CL_Pointf(0,0));
-			// start the dialog:
-			GameScene::Ref dlgScene (new DialogScene(ctx.manager, dialog));
-			ctx.manager->pushScene(dlgScene);
-		}
-	}
+	auto dialog = m_dlgSet->getDialog(ctx.globals);
+	const float distance = m_rect.get_center().distance(ctx.player.getRect().get_center());
+
+	if (!m_assigned && dialog && (distance < m_distance))
+	{ assignAction(ctx.player, dialog); }
+
+	else if (m_assigned && (!dialog || (distance >= m_distance)))
+	{ resetAction(ctx.player); }
 
 	// perform the rest of the update:
 	// ...
@@ -48,5 +58,19 @@ bool DialogEntity::render(const RenderCtx &ctx)
 	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,255));
 	return true;
 }
+
+
+void DialogEntity::assignAction(Player& player, DialogScript::Ref script)
+{
+	player.setAction(PlayerAction::Ref(new DialogAction(script)));
+	m_assigned = true;
+}
+
+void DialogEntity::resetAction(Player& player)
+{
+	player.setAction(0);
+	m_assigned = false;
+}
+
 
 //************************************************************************************************************************
