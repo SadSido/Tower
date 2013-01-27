@@ -14,4 +14,9 @@ Entity::Entity(CL_String type, CL_String name)
 Entity::~Entity()
 {}
 
+// base entity does not react on notifications:
+
+void Entity::notify(const UpdateCtx &ctx, Notify code)
+{}
+
 //************************************************************************************************************************

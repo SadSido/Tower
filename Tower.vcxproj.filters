@@ -141,6 +141,9 @@
     <ClInclude Include="src\gmd\DialogScene.h">
       <Filter>gmd</Filter>
     </ClInclude>
+    <ClInclude Include="src\gmd\Notify.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\level01.desc">

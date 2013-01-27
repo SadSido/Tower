@@ -42,7 +42,7 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_climbing(false)
+: Entity("player", "player"), m_climbing(false), m_action(NULL)
 {
 	setPos(pos);
 	setSize(size);
@@ -95,7 +95,15 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 
 bool Player::render(const RenderCtx &ctx)
 {
-	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(0,255,0));
+	CL_Rectf rect = ctx.tilemap->toScreen(m_rect);
+	CL_Draw::box(ctx.gc, rect, CL_Colorf(0,255,0));
+
+	if (m_action)
+	{
+		CL_Rectf rcAction (rect.get_top_left() - CL_Pointf(0,20), CL_Sizef(20,20));
+		CL_Draw::fill(ctx.gc, rcAction, CL_Colorf(255,0,0,100));
+	}
+
 	return true;
 }
 
@@ -118,7 +126,8 @@ void Player::handleUpKey(const UpdateCtx &ctx, int posFlags)
 {
 	if (m_action)
 	{
-		m_action->execute(ctx);
+		m_action->notify(ctx, n_DoAction);
+		m_action = NULL;
 		return;
 	}
 
@@ -169,5 +178,13 @@ void Player::handleRightKey(const UpdateCtx &ctx, int posFlags)
 		m_vel.x = +4.0f;
 	}
 }
+
+// action handling:
+
+void Player::setAction(Entity * action)
+{ m_action = action; }
+
+bool Player::checkAction(Entity * action)
+{ return (m_action == action); }
 
 //************************************************************************************************************************

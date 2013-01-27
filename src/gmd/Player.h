@@ -32,12 +32,13 @@ class Player : public Entity
 public:
 	explicit Player(CL_Pointf pos, CL_Sizef size);
 
+	// virtual entity interface:
 	virtual bool update(const UpdateCtx &ctx, float secs);
 	virtual bool render(const RenderCtx &ctx);
 
 	// assign an action to the player:
-	void setAction(PlayerAction::Ref action)
-	{ m_action = action; }
+	void setAction(Entity * action);
+	bool checkAction(Entity * action);
 
 private:
 	enum PosFlags
@@ -51,7 +52,7 @@ private:
 	bool m_climbing;
 
 	// current action if any:
-	PlayerAction::Ref m_action;
+	Entity * m_action;
 
 	// tilemap helpers:
 	int getPosFlags(const UpdateCtx &ctx);

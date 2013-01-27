@@ -12,33 +12,18 @@
 
 //************************************************************************************************************************
 
-class DialogAction : public PlayerAction
-{
-public:
-	explicit DialogAction(DialogScript::Ref script);
-	virtual void execute(const UpdateCtx &ctx);
-
-private:
-	DialogScript::Ref m_script;
-};
-
-//************************************************************************************************************************
-
 class DialogEntity : public Entity
 {
 public:
 	// common constructor for the entities:
 	explicit DialogEntity(CL_String name, const CL_DomNodeList &props);
 
+	// virtual entity interface:
 	virtual bool update(const UpdateCtx &ctx, float secs);
 	virtual bool render(const RenderCtx &ctx);
-
-	// assign / unassign action to player:
-	void assignAction(Player& player, DialogScript::Ref script);
-	void resetAction(Player& player);
+	virtual void notify(const UpdateCtx &ctx, Notify code);
 
 private:
-	bool m_assigned;
 	float m_distance;
 	DialogSet::Ref m_dlgSet;
 };

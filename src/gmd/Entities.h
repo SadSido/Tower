@@ -4,6 +4,7 @@
 #ifndef _Entities_h_
 #define _Entities_h_
 
+#include "Notify.h"
 #include <ClanLib/core.h>
 #include <list>
 
@@ -28,6 +29,7 @@ public:
 
 	virtual bool update(const UpdateCtx &ctx, float secs) = 0;
 	virtual bool render(const RenderCtx &ctx) = 0;
+	virtual void notify(const UpdateCtx &ctx, Notify code);
 
 	// member querries:
 

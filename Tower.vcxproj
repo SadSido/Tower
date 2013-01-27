@@ -115,6 +115,7 @@
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\IntroScene.h" />
     <ClInclude Include="src\gmd\LevelScene.h" />
+    <ClInclude Include="src\gmd\Notify.h" />
     <ClInclude Include="src\gmd\Player.h" />
     <ClInclude Include="src\gmd\Tilemap.h" />
     <ClInclude Include="src\sys\Configuration.h" />
