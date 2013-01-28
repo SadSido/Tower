@@ -45,6 +45,14 @@ struct RenderCtx
 	Assets &assets;
 };
 
+// data, passed to "switch areas" notification:
+
+struct NotifyAreaData
+{
+	CL_String area;
+	CL_String entry;
+};
+
 //************************************************************************************************************************
 
 class LevelScene : public GameScene
@@ -55,6 +63,9 @@ public:
 	// scene lifecycle:	
 	virtual void update(float secs);
 	virtual void render();
+
+	// notification handling:
+	virtual void notify(Notify code, void * data);
 
 	// area management:
 	void enterArea(CL_String name, CL_String entry);

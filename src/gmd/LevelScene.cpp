@@ -105,6 +105,17 @@ void LevelScene::enterArea(CL_String name, CL_String entry)
 	m_player.setVel(CL_Pointf());
 }
 
+// notification handling:
+
+void LevelScene::notify(Notify code, void * data)
+{
+	if (code == n_EnterArea)
+	{
+		auto nadata = (NotifyAreaData*)data;
+		enterArea(nadata->area, nadata->entry);
+	}
+}
+
 // pasing and initialization stuff:
 
 void LevelScene::loadDescFile(CL_String::const_iterator it)
