@@ -43,8 +43,8 @@ CL_Colorf blendColors(CL_Colorf one, CL_Colorf two, float percent)
 
 // c-tor and d-tor:
 
-DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script)
-: GameScene(manager), m_topScene(manager->getTopScene()), m_script(script), m_iter(m_script->begin())
+DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script, Globals & globals)
+: GameScene(manager), m_topScene(manager->getTopScene()), m_script(script), m_iter(m_script->begin()), m_globals(globals)
 {
 	auto renderer = m_manager->getRenderer();
 	
@@ -78,7 +78,10 @@ void DialogScene::update(float secs)
 
 	// finish the dialog:
 	if (m_iter == m_script->end())
-	{ m_manager->popScene(); }
+	{
+		m_script->applyPosts(m_globals);
+		m_manager->popScene(); 
+	}
 }
 
 void DialogScene::render()

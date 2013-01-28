@@ -24,7 +24,11 @@ namespace
 	template<void (DialogScript::*FUNC)(bool, const CL_String&)>
 	void parseConditions(CL_String::const_iterator &it, DialogScript::Ref script)
 	{
-		parseAssert(it, "{");		
+		// allow empty braces:
+		CL_String start = parseToken(it);
+		if (start == "{}") return;
+
+		// assert(it == "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
 		{
 			// direct or reverse condition?
@@ -46,7 +50,11 @@ namespace
 
 	void parsePhrases(CL_String::const_iterator &it, DialogScript::Ref script)
 	{
-		parseAssert(it, "{");		
+		// allow empty braces:
+		CL_String start = parseToken(it);
+		if (start == "{}") return;
+
+		// assert(it == "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
 		{
 			// parsing <type "phrase"> pattern:
@@ -74,6 +82,15 @@ bool DialogScript::checkPrecs(const Globals &globals) const
 		if (it->first ^ globals.check(it->second)) return false;
 	}
 	return true;
+}
+
+void DialogScript::applyPosts(Globals &globals) const
+{
+	for (auto it = m_posts.begin(); it != m_posts.end(); ++ it)
+	{
+		(it->first) ? globals.add(it->second) 
+			        : globals.del(it->second);
+	}
 }
 
 void DialogScript::addPrec(bool direct, const CL_String &global)

@@ -33,6 +33,7 @@ public:
 
 	// handling precs and posts:
 	bool checkPrecs(const Globals &globals) const;
+	void applyPosts(Globals &globals) const;
 
 	// script editing:
 	void addPrec (bool direct, const CL_String &global);

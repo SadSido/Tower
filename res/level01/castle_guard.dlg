@@ -1,4 +1,4 @@
-dialog { } { }
+dialog { ~first_talk } { first_talk }
 {
 npc "Hold on, stranger!"
 pla "That piece of rust can talk? Sorry, guys, I thought you were some statues at the entrance..."
@@ -8,4 +8,10 @@ pla "I am his majesty hunter. King Arathel had sent for me"
 npc "Your luck, hoodie. King Arathel awaits you. You may pass"
 pla "At last, the kind of service, I expected"
 npc "Just go"
+}
+
+dialog { first_talk } {}
+{
+npc "Dont keep his majesty waiting"
+pla "Sure"
 }

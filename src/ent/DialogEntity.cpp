@@ -54,7 +54,7 @@ void DialogEntity::notify(const UpdateCtx &ctx, Notify code)
 	// assert(code == n_DoAction);
 	if (auto dialog = m_dlgSet->getDialog(ctx.globals))
 	{
-		GameScene::Ref dlgScene(new DialogScene(ctx.manager, dialog));
+		GameScene::Ref dlgScene(new DialogScene(ctx.manager, dialog, ctx.globals));
 		ctx.manager->pushScene(dlgScene);
 	}
 }
