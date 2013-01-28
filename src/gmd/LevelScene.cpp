@@ -103,6 +103,9 @@ void LevelScene::enterArea(CL_String name, CL_String entry)
 	// update player position in the new area:
 	m_player.setPos(it->second.getEntryPoint(entry));
 	m_player.setVel(CL_Pointf());
+
+	// set correct camera:
+	m_tilemap->offset(m_player.getRect().get_center());
 }
 
 // notification handling:
