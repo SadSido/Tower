@@ -4,6 +4,7 @@
 #ifndef _GameScene_h_
 #define _GameScene_h_
 
+#include "Notify.h"
 #include <memory>
 
 //************************************************************************************************************************
@@ -18,6 +19,7 @@ public:
 
 	virtual void update(float secs) = 0;
 	virtual void render() = 0;
+	virtual void notify(Notify code, void * data);
 
 protected:
 	GameManager * m_manager;

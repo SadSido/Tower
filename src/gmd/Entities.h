@@ -4,7 +4,7 @@
 #ifndef _Entities_h_
 #define _Entities_h_
 
-#include "Notify.h"
+#include "../sys/Notify.h"
 #include <ClanLib/core.h>
 #include <list>
 

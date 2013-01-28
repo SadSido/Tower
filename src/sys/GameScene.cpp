@@ -7,7 +7,11 @@
 
 GameScene::GameScene(GameManager * manager)
 : m_manager(manager)
-{
-}
+{}
+
+// no implementation for basic notification:
+
+void GameScene::notify(Notify code, void * data)
+{}
 
 //************************************************************************************************************************
