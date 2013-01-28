@@ -3,7 +3,9 @@
 
 #include "EntityFactory.h"
 #include "../util/XmlUtils.h"
+
 #include "../ent/DialogEntity.h"
+#include "../ent/AreaEntity.h"
 
 //************************************************************************************************************************
 
@@ -21,6 +23,9 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 
 	if (type == "DialogEntity")
 	{ result = Entity::Ref(new DialogEntity(name, plist)); }
+
+	if (type == "AreaEntity")
+	{ result = Entity::Ref(new AreaEntity(name, plist)); }
 
 	// set common attributes:
 

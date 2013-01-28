@@ -65,6 +65,9 @@
     <ClCompile Include="src\gmd\AreaScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\ent\AreaEntity.cpp">
+      <Filter>ent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="src\gmd\Notify.h">
       <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\AreaEntity.h">
+      <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

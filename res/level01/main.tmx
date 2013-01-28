@@ -88,6 +88,13 @@
     <property name="Distance" value="2.0"/>
    </properties>
   </object>
+  <object name="Entrance" type="AreaEntity" x="448" y="768" width="128" height="128">
+   <properties>
+    <property name="Area" value="main"/>
+    <property name="Distance" value="1"/>
+    <property name="Entry" value="main"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="entries" width="30" height="15">
   <object name="main" x="1728" y="768"/>
