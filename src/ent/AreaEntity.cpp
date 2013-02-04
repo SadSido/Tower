@@ -16,9 +16,6 @@ AreaEntity::AreaEntity(CL_String name, const CL_DomNodeList &props)
 		// process current property:
 		CL_DomElement prop = props.item(prNo).to_element();
 
-		if (prop.get_attribute("name") == "Distance") 
-		{ m_distance = prop.get_attribute_float("value"); }
-
 		if (prop.get_attribute("name") == "Area") 
 		{ m_area = prop.get_attribute("value"); }
 	
@@ -30,13 +27,13 @@ AreaEntity::AreaEntity(CL_String name, const CL_DomNodeList &props)
 
 bool AreaEntity::update(const UpdateCtx &ctx, float secs)
 {
-	const float distance = m_rect.get_center().distance(ctx.player.getRect().get_center());
+	const bool isInside = m_rect.is_inside(ctx.player.getRect());
 	const bool assigned = ctx.player.checkAction(this);
 
-	if (!assigned && (distance < m_distance))
+	if (!assigned && isInside)
 	{ ctx.player.setAction(this); }
 
-	else if (assigned && (distance >= m_distance))
+	else if (assigned && !isInside)
 	{ ctx.player.setAction(NULL); }
 
 	// perform the rest of the update:

@@ -24,7 +24,6 @@ public:
 	virtual void notify(const UpdateCtx &ctx, Notify code);
 
 private:
-	float m_distance;
 	DialogSet::Ref m_dlgSet;
 };
 

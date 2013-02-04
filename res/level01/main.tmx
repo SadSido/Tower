@@ -87,7 +87,6 @@
   <object name="Entrance" type="AreaEntity" x="448" y="768" width="128" height="128">
    <properties>
     <property name="Area" value="main"/>
-    <property name="Distance" value="1"/>
     <property name="Entry" value="main"/>
    </properties>
   </object>

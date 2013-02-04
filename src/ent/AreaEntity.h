@@ -23,8 +23,6 @@ public:
 	virtual void notify(const UpdateCtx &ctx, Notify code);
 
 private:
-	float m_distance;
-
 	CL_String m_area;
 	CL_String m_entry;
 };
