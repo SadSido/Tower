@@ -10,15 +10,6 @@
 DialogEntity::DialogEntity(CL_String name, const CL_DomNodeList &props)
 : Entity("DialogEntity", name)
 {
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
-
-		if (prop.get_attribute("name") == "Distance") 
-		{ m_distance = prop.get_attribute_float("value"); }
-	}
-
 }
 
 bool DialogEntity::update(const UpdateCtx &ctx, float secs)
@@ -28,13 +19,13 @@ bool DialogEntity::update(const UpdateCtx &ctx, float secs)
 
 	auto dialog = m_dlgSet->getDialog(ctx.globals);
 	
-	const float distance = m_rect.get_center().distance(ctx.player.getRect().get_center());
+	const bool isInside = m_rect.is_inside(ctx.player.getRect());
 	const bool assigned = ctx.player.checkAction(this);
 
-	if (!assigned && dialog && (distance < m_distance))
+	if (!assigned && dialog && isInside)
 	{ ctx.player.setAction(this); }
 
-	else if (assigned && (!dialog || (distance >= m_distance)))
+	else if (assigned && (!dialog || !isInside))
 	{ ctx.player.setAction(NULL); }
 
 	// perform the rest of the update:
