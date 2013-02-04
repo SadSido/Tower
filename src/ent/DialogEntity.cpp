@@ -4,6 +4,7 @@
 #include "DialogEntity.h"
 #include "../sys/GameManager.h"
 #include "../gmd/DialogScene.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 	
@@ -42,7 +43,7 @@ bool DialogEntity::render(const RenderCtx &ctx)
 
 void DialogEntity::notify(const UpdateCtx &ctx, Notify code)
 {
-	// assert(code == n_DoAction);
+	assert(code == n_DoAction);
 	if (auto dialog = m_dlgSet->getDialog(ctx.globals))
 	{
 		GameScene::Ref dlgScene(new DialogScene(ctx.manager, dialog, ctx.globals));

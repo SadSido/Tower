@@ -8,6 +8,7 @@
 #include "../sys/Renderer.h"
 #include "../util/Parsing.h"
 #include "../util/BasePath.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 
@@ -94,7 +95,7 @@ void LevelScene::render()
 void LevelScene::enterArea(CL_String name, CL_String entry)
 {
 	auto it = m_areas.find(name);
-	// assert(it != m_areas.end());
+	assert(it != m_areas.end());
 
 	// take entities & tilemap into processing:
 	m_entities = it->second.getEntities();
@@ -142,7 +143,7 @@ void LevelScene::loadDescFile(CL_String::const_iterator it)
 		{ loadDlgFile(it); }
 
 		else
-		{ /* assert false; */ }
+		{ assert(false); }
 	}
 }
 

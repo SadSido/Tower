@@ -4,6 +4,7 @@
 #include "AreaEntity.h"
 #include "../sys/GameManager.h"
 #include "../gmd/AreaScene.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 	
@@ -51,7 +52,7 @@ bool AreaEntity::render(const RenderCtx &ctx)
 
 void AreaEntity::notify(const UpdateCtx &ctx, Notify code)
 {
-	// assert(code == n_DoAction);
+	assert(code == n_DoAction);
 	GameScene::Ref dlgScene(new AreaScene(ctx.manager, m_area, m_entry));
 	ctx.manager->pushScene(dlgScene);
 }

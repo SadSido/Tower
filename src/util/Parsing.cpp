@@ -2,6 +2,7 @@
 // ORIGIN: mischellaneous parsing utilities
 
 #include "Parsing.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 
@@ -60,7 +61,7 @@ CL_String parseLine(CL_String::const_iterator &it)
 void parseAssert(CL_String::const_iterator &it, const CL_String &value)
 {
 	CL_String token = parseToken(it);
-	// assert(token == value);
+	assert(token == value);
 }
 
 // block data loading:

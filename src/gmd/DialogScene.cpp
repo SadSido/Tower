@@ -5,6 +5,7 @@
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
 #include "../util/BasePath.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 
@@ -22,7 +23,7 @@ CL_Colorf getPhraseColor(PhraseType type)
 	case pht_NPC:    return CL_Colorf::gray80;
 	}
 
-	// assert (false);
+	assert(false);
 	return CL_Colorf::black;
 }
 

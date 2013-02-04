@@ -4,6 +4,7 @@
 #include "Dialogs.h"
 #include "../util/Parsing.h"
 #include "../util/BasePath.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 
@@ -11,11 +12,11 @@ namespace
 {
 	PhraseType getPhraseType(const CL_String &desc)
 	{
-		if (desc == "play") { return pht_Player; }
-		if (desc == "npc")  { return pht_NPC;    }
-		if (desc == "none") { return pht_None;   }
+		if (desc == "pla") { return pht_Player; }
+		if (desc == "npc") { return pht_NPC;    }
+		if (desc == "non") { return pht_None;   }
 
-		// assert(false);
+		assert(false);
 		return pht_None;
 	}
 
@@ -28,7 +29,7 @@ namespace
 		CL_String start = parseToken(it);
 		if (start == "{}") return;
 
-		// assert(it == "{");		
+		assert(start == "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
 		{
 			// direct or reverse condition?
@@ -54,7 +55,7 @@ namespace
 		CL_String start = parseToken(it);
 		if (start == "{}") return;
 
-		// assert(it == "{");		
+		assert(start == "{");		
 		for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
 		{
 			// parsing <type "phrase"> pattern:
@@ -148,11 +149,11 @@ void DialogSet::loadDlgFile(CL_String::const_iterator it)
 		{ loadDialog(it); }
 
 		else
-		{ /* assert(false); */ }
+		{ assert(false); }
 	}
 }
 
-void DialogSet::loadDialog(CL_String::const_iterator it)
+void DialogSet::loadDialog(CL_String::const_iterator &it)
 {
 	DialogScript::Ref script(new DialogScript());
 
