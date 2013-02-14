@@ -2,7 +2,7 @@
 <resources>
   <sprite name="castle_ext">
     <image file="castle_ext.png">
-      <grid size="64,64" array="10,6" />
+      <grid size="64,64" array="10,10" />
     </image>
   </sprite>
 </resources>
