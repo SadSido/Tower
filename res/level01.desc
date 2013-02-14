@@ -4,5 +4,6 @@
 resource "level01/tiles.xml"
 
 area "level01/main.tmx" as "main"
+area "level01/entrance_hall.tmx" as "entrance_hall"
 
 dialog "level01/castle_guard.dlg" as "CastleGuard"
