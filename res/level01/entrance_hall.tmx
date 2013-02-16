@@ -101,6 +101,12 @@
     <property name="Entry" value="from_entrance_hall"/>
    </properties>
   </object>
+  <object type="AreaEntity" x="64" y="320" width="128" height="128">
+   <properties>
+    <property name="Area" value="watch_tower"/>
+    <property name="Entry" value="from_entrance_hall"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="entries" width="20" height="15">
   <object name="from_main" x="576" y="768"/>
