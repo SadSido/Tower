@@ -58,6 +58,7 @@ private:
 	int getPosFlags(const UpdateCtx &ctx);
 
 	// sprites:
+	float m_facing;
 	CL_Sprite * m_sprWalk;
 
 	// input helpers:

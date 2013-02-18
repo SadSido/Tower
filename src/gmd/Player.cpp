@@ -42,7 +42,7 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_climbing(false), m_action(NULL), m_sprWalk(NULL)
+: Entity("player", "player"), m_climbing(false), m_action(NULL), m_sprWalk(NULL), m_facing(1.0f)
 {
 	setPos(pos);
 	setSize(size);
@@ -94,7 +94,19 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 	// update sprites animation:
 	if (m_sprWalk)
 	{ 
-		(m_vel.x) ? m_sprWalk->update(secs * 1000) : m_sprWalk->restart();
+		if (m_vel.x) 
+		{ 
+			m_facing = (m_vel.x > 0) ? +1 : -1;
+			m_sprWalk->update(secs * 1000);
+		} 
+		else if (m_climbing && m_vel.y)
+		{
+			m_sprWalk->update(secs * 1000);
+		}
+		else
+		{ 
+			m_sprWalk->restart();
+		}
 	}
 
 	return true;
@@ -115,8 +127,12 @@ bool Player::render(const RenderCtx &ctx)
 		CL_Draw::fill(ctx.gc, rcAction, CL_Colorf(255,0,0,100));
 	}
 
-	m_sprWalk->draw(ctx.gc, rect.left, rect.top);
-	// m_sprWalk->draw(
+
+	auto anchor = (m_facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
+
+	m_sprWalk->set_scale(m_facing, 1.0f);
+	m_sprWalk->draw(ctx.gc, anchor.x, anchor.y);
+
 	return true;
 }
 
