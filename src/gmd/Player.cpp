@@ -42,7 +42,7 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_climbing(false), m_action(NULL)
+: Entity("player", "player"), m_climbing(false), m_action(NULL), m_sprWalk(NULL)
 {
 	setPos(pos);
 	setSize(size);
@@ -90,11 +90,22 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 
 	// discard action flags if any:
 	if (!(posFlags & pf_OnStairs)) { m_climbing = false; }
+
+	// update sprites animation:
+	if (m_sprWalk)
+	{ 
+		(m_vel.x) ? m_sprWalk->update(secs * 1000) : m_sprWalk->restart();
+	}
+
 	return true;
 }
 
 bool Player::render(const RenderCtx &ctx)
 {
+	if (!m_sprWalk)
+	{ m_sprWalk = new CL_Sprite(ctx.gc, "arteus_walk", &ctx.assets); }
+
+
 	CL_Rectf rect = ctx.tilemap->toScreen(m_rect);
 	CL_Draw::box(ctx.gc, rect, CL_Colorf(0,255,0));
 
@@ -104,6 +115,8 @@ bool Player::render(const RenderCtx &ctx)
 		CL_Draw::fill(ctx.gc, rcAction, CL_Colorf(255,0,0,100));
 	}
 
+	m_sprWalk->draw(ctx.gc, rect.left, rect.top);
+	// m_sprWalk->draw(
 	return true;
 }
 

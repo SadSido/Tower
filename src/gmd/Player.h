@@ -57,6 +57,9 @@ private:
 	// tilemap helpers:
 	int getPosFlags(const UpdateCtx &ctx);
 
+	// sprites:
+	CL_Sprite * m_sprWalk;
+
 	// input helpers:
 	void handleUpKey(const UpdateCtx &ctx, int posFlags);
 	void handleDownKey(const UpdateCtx &ctx, int posFlags);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<resources>
+	<sprite name="arteus_walk" base_angle="0">
+		<image file="arteus_walk_00.png" />
+    <image file="arteus_walk_01.png" />
+    <image file="arteus_walk_02.png" />
+    <image file="arteus_walk_03.png" />
+ 		<animation loop="yes" speed="100"></animation>
+	</sprite>
+</resources>

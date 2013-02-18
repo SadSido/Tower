@@ -2,6 +2,7 @@
 // resources:
 
 resource "level01/tiles.xml"
+resource "common/arteus.xml"
 
 area "level01/main.tmx" as "main"
 area "level01/entrance_hall.tmx" as "entrance_hall"

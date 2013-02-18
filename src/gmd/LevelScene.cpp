@@ -13,7 +13,7 @@
 //************************************************************************************************************************
 
 LevelScene::LevelScene(GameManager * manager, CL_String descFile)
-: GameScene(manager), m_player(CL_Pointf(), CL_Sizef(0.8f, 1.6f))
+: GameScene(manager), m_player(CL_Pointf(), CL_Sizef(0.9f, 1.8f))
 {
 	Configuration::Ref config = m_manager->getConfig();
 	Renderer::Ref renderer = m_manager->getRenderer();
