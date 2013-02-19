@@ -6,6 +6,7 @@
 
 #include "../sys/Notify.h"
 #include <ClanLib/core.h>
+#include <ClanLib/display.h>
 #include <list>
 
 //************************************************************************************************************************
@@ -22,7 +23,7 @@ public:
 
 	// c-tor and d-tor:
 
-	explicit Entity(CL_String type, CL_String name);
+	explicit Entity(CL_String type, CL_String name, int spriteCount = 0);
 	virtual ~Entity();
 
 	// virtual interface:
@@ -62,6 +63,13 @@ public:
 	void setAcc(CL_Pointf acc)
 	{ m_acc = acc; }
 
+	// sprites handling:
+
+	void setSpriteNo(int no);
+	int  getSpriteNo();
+
+	CL_Sprite & getSprite();
+
 protected:
 	CL_Rectf  m_rect;
 	CL_Pointf m_vel;
@@ -69,6 +77,9 @@ protected:
 
 	const CL_String m_name;
 	const CL_String m_type;
+
+	int m_spriteNo;
+	std::vector<CL_Sprite> m_sprites;
 };
 
 //************************************************************************************************************************
