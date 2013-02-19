@@ -59,7 +59,7 @@ private:
 
 	// sprites:
 	float m_facing;
-	CL_Sprite * m_sprWalk;
+	CL_Sprite m_sprWalk;
 
 	// input helpers:
 	void handleUpKey(const UpdateCtx &ctx, int posFlags);

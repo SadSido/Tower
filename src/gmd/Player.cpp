@@ -42,7 +42,7 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_climbing(false), m_action(NULL), m_sprWalk(NULL), m_facing(1.0f)
+: Entity("player", "player"), m_climbing(false), m_action(NULL), m_facing(1.0f)
 {
 	setPos(pos);
 	setSize(size);
@@ -92,21 +92,18 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 	if (!(posFlags & pf_OnStairs)) { m_climbing = false; }
 
 	// update sprites animation:
-	if (m_sprWalk)
+	if (m_vel.x) 
 	{ 
-		if (m_vel.x) 
-		{ 
-			m_facing = (m_vel.x > 0) ? +1 : -1;
-			m_sprWalk->update(secs * 1000);
-		} 
-		else if (m_climbing && m_vel.y)
-		{
-			m_sprWalk->update(secs * 1000);
-		}
-		else
-		{ 
-			m_sprWalk->restart();
-		}
+		m_facing = (m_vel.x > 0) ? +1 : -1;
+		m_sprWalk.update(secs * 1000);
+	} 
+	else if (m_climbing && m_vel.y)
+	{
+		m_sprWalk.update(secs * 1000);
+	}
+	else
+	{ 
+		m_sprWalk.restart();
 	}
 
 	return true;
@@ -114,8 +111,8 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 
 bool Player::render(const RenderCtx &ctx)
 {
-	if (!m_sprWalk)
-	{ m_sprWalk = new CL_Sprite(ctx.gc, "arteus_walk", &ctx.assets); }
+	if (m_sprWalk.is_null())
+	{ m_sprWalk = CL_Sprite(ctx.gc, "arteus_walk", &ctx.assets); }
 
 
 	CL_Rectf rect = ctx.tilemap->toScreen(m_rect);
@@ -130,8 +127,8 @@ bool Player::render(const RenderCtx &ctx)
 
 	auto anchor = (m_facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
 
-	m_sprWalk->set_scale(m_facing, 1.0f);
-	m_sprWalk->draw(ctx.gc, anchor.x, anchor.y);
+	m_sprWalk.set_scale(m_facing, 1.0f);
+	m_sprWalk.draw(ctx.gc, anchor.x, anchor.y);
 
 	return true;
 }
