@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "LevelScene.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 
@@ -42,7 +43,7 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_climbing(false), m_action(NULL), m_facing(1.0f)
+: Entity("player", "player", spr_Count), m_climbing(false), m_action(NULL), m_facing(1.0f)
 {
 	setPos(pos);
 	setSize(size);
@@ -87,32 +88,44 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 	if (moveTest.type == th_Vertical)   { m_vel.y = 0.0f; }
 
 	m_rect.translate(moveTest.delta);
+	m_facing = (m_vel.x) ? (m_vel.x > 0.0f) ? +1.0f : -1.0f : m_facing;
 
 	// discard action flags if any:
 	if (!(posFlags & pf_OnStairs)) { m_climbing = false; }
 
-	// update sprites animation:
-	if (m_vel.x) 
+	// select and update sprite:
+
+	bool mustUpdate = true;
+	CL_Sprite & sprite = getSprite();
+
+	if (m_climbing) 
 	{ 
-		m_facing = (m_vel.x > 0) ? +1 : -1;
-		m_sprWalk.update(secs * 1000);
+		setSpriteNo(spr_Walk);
+		mustUpdate = (m_vel.y != 0.0f);
 	} 
-	else if (m_climbing && m_vel.y)
-	{
-		m_sprWalk.update(secs * 1000);
-	}
-	else
+	else if (posFlags & pf_OnGround) 
 	{ 
-		m_sprWalk.restart();
+		setSpriteNo(spr_Walk);
+		mustUpdate = (m_vel.x != 0.0f);
+	} 
+	else
+	{
+		setSpriteNo(spr_Jump);
+		mustUpdate = true;
 	}
+
+	if (!sprite.is_null())
+	{ (mustUpdate) ? sprite.update(secs * 1000) : sprite.restart(); }
 
 	return true;
 }
 
 bool Player::render(const RenderCtx &ctx)
 {
-	if (m_sprWalk.is_null())
-	{ m_sprWalk = CL_Sprite(ctx.gc, "arteus_walk", &ctx.assets); }
+	CL_Sprite & sprite = getSprite();
+
+	if (sprite.is_null())
+	{ sprite = CL_Sprite(ctx.gc, getSpriteID(getSpriteNo()), &ctx.assets); }
 
 
 	CL_Rectf rect = ctx.tilemap->toScreen(m_rect);
@@ -127,8 +140,8 @@ bool Player::render(const RenderCtx &ctx)
 
 	auto anchor = (m_facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
 
-	m_sprWalk.set_scale(m_facing, 1.0f);
-	m_sprWalk.draw(ctx.gc, anchor.x, anchor.y);
+	sprite.set_scale(m_facing, 1.0f);
+	sprite.draw(ctx.gc, anchor.x, anchor.y);
 
 	return true;
 }
@@ -144,6 +157,18 @@ int Player::getPosFlags(const UpdateCtx &ctx)
 	if (standTopStairs(ctx.tilemap, m_rect)) { result |= pf_TopStairs; }
 	
 	return result;
+}
+
+CL_String Player::getSpriteID (int sNo)
+{
+	switch (sNo)
+	{
+	case spr_Walk: return "arteus_walk";
+	case spr_Jump: return "arteus_jump";
+	}
+
+	assert(false);
+	return CL_String();
 }
 
 // input processing helpers:

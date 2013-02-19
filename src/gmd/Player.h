@@ -41,13 +41,24 @@ public:
 	bool checkAction(Entity * action);
 
 private:
+	#pragma region enums
+
 	enum PosFlags
 	{
 		pf_OnGround  = 1 << 0,
 		pf_OnStairs  = 1 << 1,
 		pf_TopStairs = 1 << 2,
 	};
+	enum Sprites
+	{
+		spr_Walk,
+		spr_Jump,
+		spr_Count
+	};
+	
+	#pragma endregion
 
+private:
 	// action state flags:
 	bool m_climbing;
 
@@ -57,9 +68,9 @@ private:
 	// tilemap helpers:
 	int getPosFlags(const UpdateCtx &ctx);
 
-	// sprites:
+	// sprites & rendering:
 	float m_facing;
-	CL_Sprite m_sprWalk;
+	CL_String getSpriteID (int sprNo);
 
 	// input helpers:
 	void handleUpKey(const UpdateCtx &ctx, int posFlags);
