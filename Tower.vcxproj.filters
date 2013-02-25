@@ -32,9 +32,6 @@
     <ClCompile Include="src\util\Parsing.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="src\gmd\EntTest.cpp">
-      <Filter>gmd</Filter>
-    </ClCompile>
     <ClCompile Include="src\gmd\Entities.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
@@ -116,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="src\util\Parsing.h">
       <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gmd\EntTest.h">
-      <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\Entities.h">
       <Filter>gmd</Filter>

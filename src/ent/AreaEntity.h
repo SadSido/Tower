@@ -17,14 +17,14 @@ public:
 	// common constructor for the entities:
 	explicit AreaEntity(CL_String name, const CL_DomNodeList &props);
 
+private:
+	CL_String m_area;
+	CL_String m_entry;
+
 	// virtual entity interface:
 	virtual bool update(const LevelCtx &ctx, float secs, int msecs);
 	virtual bool render(const LevelCtx &ctx);
 	virtual void notify(const LevelCtx &ctx, Notify code);
-
-private:
-	CL_String m_area;
-	CL_String m_entry;
 };
 
 //************************************************************************************************************************
