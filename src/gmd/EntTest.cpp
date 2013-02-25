@@ -13,7 +13,7 @@ EntTest::EntTest(CL_String name, CL_DomElement node)
 	m_vel = CL_Pointf(float(vx), float(vy)).normalize() * 5.0f;
 }
 
-bool EntTest::update(const UpdateCtx &ctx, float secs)
+bool EntTest::update(const LevelCtx &ctx, float secs, int msecs)
 {
 	if (!m_collapse)
 	{
@@ -34,7 +34,7 @@ bool EntTest::update(const UpdateCtx &ctx, float secs)
 	}
 }
 
-bool EntTest::render(const RenderCtx &ctx)
+bool EntTest::render(const LevelCtx &ctx)
 {
 	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,0));
 	return true;

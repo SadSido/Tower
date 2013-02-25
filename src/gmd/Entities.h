@@ -11,8 +11,7 @@
 
 //************************************************************************************************************************
 
-struct UpdateCtx;
-struct RenderCtx;
+struct LevelCtx;
 
 //************************************************************************************************************************
 
@@ -23,14 +22,14 @@ public:
 
 	// c-tor and d-tor:
 
-	explicit Entity(CL_String type, CL_String name, int spriteCount = 0);
+	explicit Entity(CL_String type, CL_String name);
 	virtual ~Entity();
 
-	// virtual interface:
+	// public interface:
 
-	virtual bool update(const UpdateCtx &ctx, float secs) = 0;
-	virtual bool render(const RenderCtx &ctx) = 0;
-	virtual void notify(const UpdateCtx &ctx, Notify code);
+	bool doUpdate (const LevelCtx &ctx, float secs, int msecs);
+	bool doRender (const LevelCtx &ctx);
+	void doNotify (const LevelCtx &ctx, Notify code);
 
 	// member querries:
 
@@ -63,10 +62,21 @@ public:
 	void setAcc(CL_Pointf acc)
 	{ m_acc = acc; }
 
-	// sprites handling:
+protected:
+
+	// virtual interface:
+
+	virtual bool update (const LevelCtx &ctx, float secs, int msecs) = 0;
+	virtual bool render (const LevelCtx &ctx) = 0;
+	virtual void notify (const LevelCtx &ctx, Notify code);
+	virtual void upload (const LevelCtx &ctx);
+
+	// sprites nums:
 
 	void setSpriteNo(int no);
 	int  getSpriteNo();
+
+	// sprites data:
 
 	CL_Sprite & getSprite();
 
@@ -78,7 +88,9 @@ protected:
 	const CL_String m_name;
 	const CL_String m_type;
 
-	int m_spriteNo;
+	bool m_uploaded;
+	int  m_spriteNo;
+
 	std::vector<CL_Sprite> m_sprites;
 };
 

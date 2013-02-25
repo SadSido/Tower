@@ -8,19 +8,39 @@
 
 // c-tor and d-tor:
 
-Entity::Entity(CL_String type, CL_String name, int spriteCount)
-: m_type(type), m_name(name), m_spriteNo(0)
+Entity::Entity(CL_String type, CL_String name)
+: m_type(type), m_name(name), m_spriteNo(0), m_uploaded(false)
 {
-	// allocate sprites array:
-	if (spriteCount) { m_sprites.resize(spriteCount); }
 }
 
 Entity::~Entity()
 {}
 
-// base entity does not react on notifications:
+// entity lifecycle (not so virtual now):
 
-void Entity::notify(const UpdateCtx &ctx, Notify code)
+bool Entity::doUpdate (const LevelCtx &ctx, float secs, int msecs)
+{
+	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
+	return update(ctx, secs, msecs);
+}
+
+bool Entity::doRender (const LevelCtx &ctx)
+{
+	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
+	return render(ctx);
+}
+
+void Entity::doNotify(const LevelCtx &ctx, Notify code)
+{
+	notify(ctx, code);
+}
+
+// base entity does not react on notifications and loads nothing:
+
+void Entity::notify(const LevelCtx &ctx, Notify code)
+{}
+
+void Entity::upload(const LevelCtx &ctx)
 {}
 
 // handling the set of sprites:
@@ -29,9 +49,6 @@ void Entity::setSpriteNo(int no)
 {
 	assert(no < m_sprites.size());
 	m_spriteNo = no;
-	
-	// restart when switched:
-	// getSprite().restart();
 }
 
 int Entity::getSpriteNo()

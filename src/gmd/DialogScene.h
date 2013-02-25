@@ -17,7 +17,7 @@ public:
 	explicit DialogScene(GameManager * manager, DialogScript::Ref script, Globals & globals);
 
 	// scene lifecycle:
-	virtual void update(float secs);
+	virtual void update(float secs, int msecs);
 	virtual void render();
 
 private:

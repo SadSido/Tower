@@ -113,7 +113,7 @@ int foreLayer(const TileDesc &desc)
 // generalized version of layer rendering:
 
 template <FnLayer layer>
-void renderLayer(Tilemap &map, RenderCtx ctx, CL_Pointf offset, CL_Sizef wndSize, float tileSize)
+void renderLayer(Tilemap &map, LevelCtx ctx, CL_Pointf offset, CL_Sizef wndSize, float tileSize)
 {
 	const int tilesInX = (int)(wndSize.width  / tileSize) + 3;
 	const int tilesInY = (int)(wndSize.height / tileSize) + 3;
@@ -167,7 +167,7 @@ TileDesc Tilemap::getTile(CL_Pointf pt) const
 	return getTile((int)pt.x, (int)pt.y);
 }
 
-TileProxy Tilemap::getProxy(int id, RenderCtx &ctx)
+TileProxy Tilemap::getProxy(int id, LevelCtx &ctx)
 {
 	TileProxy &proxy = m_proxies[id];
 
@@ -250,12 +250,12 @@ TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta, TileChecker checker)
 
 // rendering:
 
-void Tilemap::renderBackground(RenderCtx ctx)
+void Tilemap::renderBackground(LevelCtx ctx)
 {
 	renderLayer<backLayer>(*this, ctx, m_offset, m_window, m_size);
 }
 
-void Tilemap::renderForeground(RenderCtx ctx)
+void Tilemap::renderForeground(LevelCtx ctx)
 {
 	renderLayer<foreLayer>(*this, ctx, m_offset, m_window, m_size);
 }

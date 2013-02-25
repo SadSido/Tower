@@ -19,10 +19,11 @@
 typedef CL_ResourceManager Assets;
 
 // level objects get this when they calculate update:
-struct UpdateCtx
+struct LevelCtx
 {
 	GameManager * manager;
 
+	CL_GraphicContext &gc;
 	CL_InputDevice &keys;
 	CL_InputDevice &mouse;
 
@@ -32,17 +33,7 @@ struct UpdateCtx
 	Dialogs  &dialogs;
 	Globals  &globals;
 	Player   &player;
-};
-
-// level objects get this when they have to render:
-struct RenderCtx
-{
-	CL_GraphicContext &gc;
-	
-	Entities::Ref entities;
-	Tilemap::Ref  tilemap;
-
-	Assets &assets;
+	Assets   &assets;
 };
 
 // data, passed to "switch areas" notification:
@@ -61,18 +52,14 @@ public:
 	explicit LevelScene(GameManager * manager, CL_String descFile);
 
 	// scene lifecycle:	
-	virtual void update(float secs);
+	virtual void update(float secs, int msecs);
 	virtual void render();
-
-	// notification handling:
 	virtual void notify(Notify code, void * data);
 
 	// area management:
 	void enterArea(CL_String name, CL_String entry);
 
 private:
-	CL_Sprite m_brick;
-
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	
@@ -81,6 +68,9 @@ private:
 	Player  m_player;
 	Areas   m_areas;
 	Assets  m_assets;
+
+	// generating context:
+	LevelCtx getContext();
 
 	// parsing the desc file:
 	void loadDescFile(CL_String::const_iterator  it);

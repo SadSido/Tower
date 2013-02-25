@@ -9,8 +9,7 @@
 
 //************************************************************************************************************************
 
-struct UpdateCtx;
-struct RenderCtx;
+struct LevelCtx;
 
 //************************************************************************************************************************
 
@@ -82,7 +81,7 @@ public:
 
 	TileDesc  getTile  (int x, int y) const;
 	TileDesc  getTile  (CL_Pointf pt) const;
-	TileProxy getProxy (int id, RenderCtx &ctx);
+	TileProxy getProxy (int id, LevelCtx &ctx);
 
 	// Checks the rect, trying to move by "delta" offset within
 	// the tilemap. Returns the actual available offset: 
@@ -106,8 +105,8 @@ public:
 	void pushProxy (CL_String name, int count);
 
 	// rendering:
-	void renderForeground(RenderCtx ctx);
-	void renderBackground(RenderCtx ctx);
+	void renderForeground(LevelCtx ctx);
+	void renderBackground(LevelCtx ctx);
 
 private:
 	const float m_size;

@@ -10,20 +10,7 @@
 
 //************************************************************************************************************************
 
-struct UpdateCtx;
-struct RenderCtx;
-
-//************************************************************************************************************************
-
-class PlayerAction
-{
-public:
-	typedef std::shared_ptr<PlayerAction> Ref;
-	virtual ~PlayerAction() {}
-
-	// action to be triggered by action key:
-	virtual void execute(const UpdateCtx &ctx) = 0;
-};
+struct LevelCtx;
 
 //************************************************************************************************************************
 
@@ -31,10 +18,6 @@ class Player : public Entity
 {
 public:
 	explicit Player(CL_Pointf pos, CL_Sizef size);
-
-	// virtual entity interface:
-	virtual bool update(const UpdateCtx &ctx, float secs);
-	virtual bool render(const RenderCtx &ctx);
 
 	// assign an action to the player:
 	void setAction(Entity * action);
@@ -66,17 +49,21 @@ private:
 	Entity * m_action;
 
 	// tilemap helpers:
-	int getPosFlags(const UpdateCtx &ctx);
+	int getPosFlags(const LevelCtx &ctx);
 
 	// sprites & rendering:
 	float m_facing;
-	CL_String getSpriteID (int sprNo);
+
+	// virtual entity interface:
+	virtual bool update(const LevelCtx &ctx, float secs, int msecs);
+	virtual bool render(const LevelCtx &ctx);
+	virtual void upload(const LevelCtx &ctx);
 
 	// input helpers:
-	void handleUpKey(const UpdateCtx &ctx, int posFlags);
-	void handleDownKey(const UpdateCtx &ctx, int posFlags);
-	void handleLeftKey(const UpdateCtx &ctx, int posFlags);
-	void handleRightKey(const UpdateCtx &ctx, int posFlags);
+	void handleUpKey(const LevelCtx &ctx, int posFlags);
+	void handleDownKey(const LevelCtx &ctx, int posFlags);
+	void handleLeftKey(const LevelCtx &ctx, int posFlags);
+	void handleRightKey(const LevelCtx &ctx, int posFlags);
 };
 
 //************************************************************************************************************************

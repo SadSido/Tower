@@ -21,7 +21,7 @@ AreaScene::AreaScene(GameManager * manager, CL_String areaName, CL_String entryN
 
 // scene lifecycle:
 
-void AreaScene::update(float secs)
+void AreaScene::update(float secs, int msecs)
 {
 	if (m_direct)
 	{

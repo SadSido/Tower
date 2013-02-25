@@ -25,7 +25,7 @@ AreaEntity::AreaEntity(CL_String name, const CL_DomNodeList &props)
 
 }
 
-bool AreaEntity::update(const UpdateCtx &ctx, float secs)
+bool AreaEntity::update(const LevelCtx &ctx, float secs, int msecs)
 {
 	const bool isInside = m_rect.is_inside(ctx.player.getRect());
 	const bool assigned = ctx.player.checkAction(this);
@@ -41,13 +41,13 @@ bool AreaEntity::update(const UpdateCtx &ctx, float secs)
 	return true;
 }
 
-bool AreaEntity::render(const RenderCtx &ctx)
+bool AreaEntity::render(const LevelCtx &ctx)
 {
 	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,255));
 	return true;
 }
 
-void AreaEntity::notify(const UpdateCtx &ctx, Notify code)
+void AreaEntity::notify(const LevelCtx &ctx, Notify code)
 {
 	assert(code == n_DoAction);
 	GameScene::Ref dlgScene(new AreaScene(ctx.manager, m_area, m_entry));

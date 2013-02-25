@@ -68,7 +68,7 @@ DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script, Global
 
 // scene lifecycle:
 
-void DialogScene::update(float secs)
+void DialogScene::update(float secs, int msecs)
 {
 	// phrase type animation:
 	if (m_oldtype != m_newtype)

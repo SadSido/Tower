@@ -43,13 +43,13 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player", spr_Count), m_climbing(false), m_action(NULL), m_facing(1.0f)
+: Entity("player", "player"), m_climbing(false), m_action(NULL), m_facing(1.0f)
 {
 	setPos(pos);
 	setSize(size);
 }
 
-bool Player::update(const UpdateCtx &ctx, float secs)
+bool Player::update(const LevelCtx &ctx, float secs, int msecs)
 {
 	// get position flags:
 	int posFlags = getPosFlags(ctx);
@@ -114,19 +114,13 @@ bool Player::update(const UpdateCtx &ctx, float secs)
 		mustUpdate = true;
 	}
 
-	if (!sprite.is_null())
-	{ (mustUpdate) ? sprite.update(secs * 1000) : sprite.restart(); }
-
+	(mustUpdate) ? sprite.update(msecs) : sprite.restart();
 	return true;
 }
 
-bool Player::render(const RenderCtx &ctx)
+bool Player::render(const LevelCtx &ctx)
 {
 	CL_Sprite & sprite = getSprite();
-
-	if (sprite.is_null())
-	{ sprite = CL_Sprite(ctx.gc, getSpriteID(getSpriteNo()), &ctx.assets); }
-
 
 	CL_Rectf rect = ctx.tilemap->toScreen(m_rect);
 	CL_Draw::box(ctx.gc, rect, CL_Colorf(0,255,0));
@@ -146,9 +140,17 @@ bool Player::render(const RenderCtx &ctx)
 	return true;
 }
 
+void Player::upload(const LevelCtx &ctx)
+{
+	m_sprites.resize(spr_Count);
+
+	m_sprites[spr_Walk] = CL_Sprite(ctx.gc, "arteus_walk", &ctx.assets);
+	m_sprites[spr_Jump] = CL_Sprite(ctx.gc, "arteus_jump", &ctx.assets);
+}
+
 // tilemap check helpers:
 
-int Player::getPosFlags(const UpdateCtx &ctx)
+int Player::getPosFlags(const LevelCtx &ctx)
 {
 	int result = 0;
 	
@@ -159,25 +161,13 @@ int Player::getPosFlags(const UpdateCtx &ctx)
 	return result;
 }
 
-CL_String Player::getSpriteID (int sNo)
-{
-	switch (sNo)
-	{
-	case spr_Walk: return "arteus_walk";
-	case spr_Jump: return "arteus_jump";
-	}
-
-	assert(false);
-	return CL_String();
-}
-
 // input processing helpers:
 
-void Player::handleUpKey(const UpdateCtx &ctx, int posFlags)
+void Player::handleUpKey(const LevelCtx &ctx, int posFlags)
 {
 	if (m_action)
 	{
-		m_action->notify(ctx, n_DoAction);
+		m_action->doNotify(ctx, n_DoAction);
 		m_action = NULL;
 		return;
 	}
@@ -193,7 +183,7 @@ void Player::handleUpKey(const UpdateCtx &ctx, int posFlags)
 	}
 }
 
-void Player::handleDownKey(const UpdateCtx &ctx, int posFlags)
+void Player::handleDownKey(const LevelCtx &ctx, int posFlags)
 {
 	if (posFlags & pf_TopStairs)
 	{
@@ -206,7 +196,7 @@ void Player::handleDownKey(const UpdateCtx &ctx, int posFlags)
 	}
 }
 
-void Player::handleLeftKey(const UpdateCtx &ctx, int posFlags)
+void Player::handleLeftKey(const LevelCtx &ctx, int posFlags)
 {
 	if (!posFlags)
 	{
@@ -218,7 +208,7 @@ void Player::handleLeftKey(const UpdateCtx &ctx, int posFlags)
 	}
 }
 
-void Player::handleRightKey(const UpdateCtx &ctx, int posFlags)
+void Player::handleRightKey(const LevelCtx &ctx, int posFlags)
 {
 	if (!posFlags)
 	{

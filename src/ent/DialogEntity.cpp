@@ -13,7 +13,7 @@ DialogEntity::DialogEntity(CL_String name, const CL_DomNodeList &props)
 {
 }
 
-bool DialogEntity::update(const UpdateCtx &ctx, float secs)
+bool DialogEntity::update(const LevelCtx &ctx, float secs, int msecs)
 {
 	// checks whether we have a dialog available:
 	if (!m_dlgSet) { m_dlgSet = ctx.dialogs[m_name]; }
@@ -34,14 +34,14 @@ bool DialogEntity::update(const UpdateCtx &ctx, float secs)
 	return true;
 }
 
-bool DialogEntity::render(const RenderCtx &ctx)
+bool DialogEntity::render(const LevelCtx &ctx)
 {
 	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,255));
 	return true;
 }
 
 
-void DialogEntity::notify(const UpdateCtx &ctx, Notify code)
+void DialogEntity::notify(const LevelCtx &ctx, Notify code)
 {
 	assert(code == n_DoAction);
 	if (auto dialog = m_dlgSet->getDialog(ctx.globals))

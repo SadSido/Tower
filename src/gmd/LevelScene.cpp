@@ -31,22 +31,18 @@ LevelScene::LevelScene(GameManager * manager, CL_String descFile)
 
 // scene lifecycle:
 
-void LevelScene::update(float secs)
+void LevelScene::update(float secs, int msecs)
 {
-	// create update context:
-	CL_InputDevice  &keys   = m_manager->getRenderer()->getIC().get_keyboard();
-	CL_InputDevice  &mouse  = m_manager->getRenderer()->getIC().get_mouse();
-
-	UpdateCtx ctx = { m_manager, keys, mouse, m_entities, m_tilemap, m_dialogs, m_globals, m_player };
+	auto ctx = getContext();
 
 	// update player:
-	m_player.update(ctx, secs);
+	m_player.doUpdate(ctx, secs, msecs);
 
 	// update the entities:
 	for (auto it = ctx.entities->begin(); it != ctx.entities->end(); /**/)
 	{
 		auto cur = it ++;
-		bool res = (*cur)->update(ctx, secs);
+		bool res = (*cur)->doUpdate(ctx, secs, msecs);
 
 		// drop the entity, which returned false:
 		if (!res) { ctx.entities->erase(cur); }
@@ -72,22 +68,29 @@ void LevelScene::update(float secs)
 
 void LevelScene::render()
 {
-	// create render context:
-	Renderer::Ref renderer = m_manager->getRenderer();
-	RenderCtx ctx = { renderer->getGC(), m_entities, m_tilemap, m_assets };
+	auto ctx = getContext();
 	
 	// render map (1st pass):
 	ctx.tilemap->renderBackground(ctx);
 
 	// render player:
-	m_player.render(ctx);
+	m_player.doRender(ctx);
 
 	// render entities:
 	for (auto it = ctx.entities->begin(); it != ctx.entities->end(); ++ it)
-	{ (*it)->render(ctx); }
+	{ (*it)->doRender(ctx); }
 
 	// render map (2nd pass):
 	ctx.tilemap->renderForeground(ctx);
+}
+
+void LevelScene::notify(Notify code, void * data)
+{
+	if (code == n_EnterArea)
+	{
+		auto nadata = (NotifyAreaData*)data;
+		enterArea(nadata->area, nadata->entry);
+	}
 }
 
 // areas management:
@@ -109,16 +112,18 @@ void LevelScene::enterArea(CL_String name, CL_String entry)
 	m_tilemap->offset(m_player.getRect().get_center());
 }
 
-// notification handling:
+// level context:
 
-void LevelScene::notify(Notify code, void * data)
+LevelCtx LevelScene::getContext()
 {
-	if (code == n_EnterArea)
-	{
-		auto nadata = (NotifyAreaData*)data;
-		enterArea(nadata->area, nadata->entry);
-	}
+	CL_GraphicContext &gc = m_manager->getRenderer()->getGC();
+	CL_InputDevice    &kb = m_manager->getRenderer()->getIC().get_keyboard();
+	CL_InputDevice    &ms = m_manager->getRenderer()->getIC().get_mouse();
+
+	LevelCtx ctx = { m_manager, gc, kb, ms, m_entities, m_tilemap, m_dialogs, m_globals, m_player, m_assets };
+	return ctx;
 }
+
 
 // pasing and initialization stuff:
 

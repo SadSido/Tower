@@ -17,8 +17,8 @@ public:
 	// common constructor for the entities:
 	explicit EntTest(CL_String name, CL_DomElement node);
 
-	virtual bool update(const UpdateCtx &ctx, float secs);
-	virtual bool render(const RenderCtx &ctx);
+	virtual bool update(const LevelCtx &ctx, float secs, int msecs);
+	virtual bool render(const LevelCtx &ctx);
 
 private:
 	bool m_collapse;
