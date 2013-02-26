@@ -34,7 +34,9 @@ private:
 	};
 	enum Sprites
 	{
+		spr_Stand,
 		spr_Walk,
+		spr_Climb,
 		spr_Jump,
 		spr_Count
 	};
@@ -42,9 +44,6 @@ private:
 	#pragma endregion
 
 private:
-	// action state flags:
-	bool m_climbing;
-
 	// current action if any:
 	Entity * m_action;
 
@@ -55,15 +54,15 @@ private:
 	float m_facing;
 
 	// virtual entity interface:
-	virtual bool update(const LevelCtx &ctx, float secs, int msecs);
-	virtual bool render(const LevelCtx &ctx);
-	virtual void upload(const LevelCtx &ctx);
+	virtual bool update (const LevelCtx &ctx, float secs, int msecs);
+	virtual bool render (const LevelCtx &ctx);
+	virtual void upload (const LevelCtx &ctx);
 
-	// input helpers:
-	void handleUpKey(const LevelCtx &ctx, int posFlags);
-	void handleDownKey(const LevelCtx &ctx, int posFlags);
-	void handleLeftKey(const LevelCtx &ctx, int posFlags);
-	void handleRightKey(const LevelCtx &ctx, int posFlags);
+	// per-state updates:
+	void update_Stand (const LevelCtx &ctx, int posFlags);
+	void update_Walk  (const LevelCtx &ctx, int posFlags);
+	void update_Climb (const LevelCtx &ctx, int posFlags);
+	void update_Jump  (const LevelCtx &ctx, int posFlags);
 };
 
 //************************************************************************************************************************

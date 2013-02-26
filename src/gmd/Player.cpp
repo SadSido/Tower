@@ -43,7 +43,7 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_climbing(false), m_action(NULL), m_facing(1.0f)
+: Entity("player", "player"), m_action(NULL), m_facing(1.0f)
 {
 	setPos(pos);
 	setSize(size);
@@ -54,34 +54,21 @@ bool Player::update(const LevelCtx &ctx, float secs, int msecs)
 	// get position flags:
 	int posFlags = getPosFlags(ctx);
 
-	// up/down movement:
-
-	if (ctx.keys.get_keycode(CL_KEY_W))
-	{ handleUpKey(ctx, posFlags); }
-
-	else if (ctx.keys.get_keycode(CL_KEY_S))
-	{ handleDownKey(ctx, posFlags); }
-
-	else
-	{ if (m_climbing) m_vel.y = 0.0f; }
-
-	// left/right movement:
-
-	if (ctx.keys.get_keycode(CL_KEY_A))
-	{ handleLeftKey(ctx, posFlags); }
-
-	else if (ctx.keys.get_keycode(CL_KEY_D))
-	{ handleRightKey(ctx, posFlags); }
-	
-	else
-	{ m_acc.x = 0.0f; if (posFlags & pf_OnGround) m_vel.x = 0.0f; }
+	// dispatch state-based update:
+	switch (getSpriteNo())
+	{
+	case spr_Stand: { update_Stand (ctx, posFlags); break; }
+	case spr_Walk:  { update_Walk  (ctx, posFlags); break; }
+	case spr_Climb: { update_Climb (ctx, posFlags); break; }
+	case spr_Jump:  { update_Jump  (ctx, posFlags); break; }
+	}
 
 	// resolve gravity and movement:
 
 	m_acc.y = (posFlags) ? 0.0f : +12.0f;
 	m_vel += m_acc * secs;
 
-	TileChecker check = (m_climbing) ? isBlocking : anyBlocking;
+	TileChecker check = (getSpriteNo() == spr_Climb) ? isBlocking : anyBlocking;;
 	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, check);
 
 	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
@@ -90,31 +77,11 @@ bool Player::update(const LevelCtx &ctx, float secs, int msecs)
 	m_rect.translate(moveTest.delta);
 	m_facing = (m_vel.x) ? (m_vel.x > 0.0f) ? +1.0f : -1.0f : m_facing;
 
-	// discard action flags if any:
-	if (!(posFlags & pf_OnStairs)) { m_climbing = false; }
-
 	// select and update sprite:
 
-	bool mustUpdate = true;
 	CL_Sprite & sprite = getSprite();
+	sprite.update();
 
-	if (m_climbing) 
-	{ 
-		setSpriteNo(spr_Walk);
-		mustUpdate = (m_vel.y != 0.0f);
-	} 
-	else if (posFlags & pf_OnGround) 
-	{ 
-		setSpriteNo(spr_Walk);
-		mustUpdate = (m_vel.x != 0.0f);
-	} 
-	else
-	{
-		setSpriteNo(spr_Jump);
-		mustUpdate = true;
-	}
-
-	(mustUpdate) ? sprite.update(msecs) : sprite.restart();
 	return true;
 }
 
@@ -144,8 +111,10 @@ void Player::upload(const LevelCtx &ctx)
 {
 	m_sprites.resize(spr_Count);
 
-	m_sprites[spr_Walk] = CL_Sprite(ctx.gc, "arteus_walk", &ctx.assets);
-	m_sprites[spr_Jump] = CL_Sprite(ctx.gc, "arteus_jump", &ctx.assets);
+	m_sprites[spr_Stand] = CL_Sprite(ctx.gc, "arteus_stand", &ctx.assets);
+	m_sprites[spr_Walk]  = CL_Sprite(ctx.gc, "arteus_walk",  &ctx.assets);
+	m_sprites[spr_Climb] = CL_Sprite(ctx.gc, "arteus_climb", &ctx.assets);
+	m_sprites[spr_Jump]  = CL_Sprite(ctx.gc, "arteus_jump",  &ctx.assets);
 }
 
 // tilemap check helpers:
@@ -161,62 +130,157 @@ int Player::getPosFlags(const LevelCtx &ctx)
 	return result;
 }
 
-// input processing helpers:
+// state-based updates:
 
-void Player::handleUpKey(const LevelCtx &ctx, int posFlags)
+void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 {
-	if (m_action)
+	// up-key:
+	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
-		m_action->doNotify(ctx, n_DoAction);
-		m_action = NULL;
-		return;
+		if (m_action)
+		{
+			m_action->doNotify(ctx, n_DoAction);
+			m_action = NULL;
+		} 
+		else if (posFlags & pf_OnStairs)
+		{
+			m_vel.y = -6.0f;
+			setSpriteNo(spr_Climb);
+		}
+		else if (!(posFlags & pf_TopStairs))
+		{
+			m_vel.y = -9.0f;
+			setSpriteNo(spr_Jump);
+		}
 	}
 
-	if (posFlags & pf_OnStairs)
+	// down-key:
+	if (ctx.keys.get_keycode(CL_KEY_S))
 	{
-		m_vel.y = -6.0f;
-		m_climbing = true;
+		if (posFlags & pf_TopStairs)
+		{
+			m_vel.y = +6.0f;
+			setSpriteNo(spr_Climb);
+		}
 	}
-	else if (posFlags & pf_OnGround)
+
+	// left-key:
+	if (ctx.keys.get_keycode(CL_KEY_A))
 	{
-		m_vel.y = abs(m_vel.x) > 0.0f ? -6.0f : -9.0f;
+		m_vel.x = -4.0f;
+		setSpriteNo(spr_Walk);
+	}
+
+	// right-key:
+	if (ctx.keys.get_keycode(CL_KEY_D))
+	{
+		m_vel.x = +4.0f;
+		setSpriteNo(spr_Walk);
 	}
 }
 
-void Player::handleDownKey(const LevelCtx &ctx, int posFlags)
+void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 {
-	if (posFlags & pf_TopStairs)
+	// up key:
+	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
-		m_vel.y = +6.0f;
-		m_climbing = true;
+		if (m_action)
+		{
+			m_action->doNotify(ctx, n_DoAction);
+			m_action = NULL;
+		} 
+		else if (posFlags & pf_OnStairs)
+		{
+			m_vel.y = -6.0f;
+			setSpriteNo(spr_Climb);
+		}
+		else
+		{
+			m_vel.y = -6.0f;
+			setSpriteNo(spr_Jump);
+		}
 	}
-	else if (posFlags & pf_OnStairs)
-	{
-		m_vel.y = +6.0f;
-	}
-}
-
-void Player::handleLeftKey(const LevelCtx &ctx, int posFlags)
-{
-	if (!posFlags)
-	{
-		m_acc.x = -6.0f;
-	} 
-	else 
+	// direction-key:
+	if (ctx.keys.get_keycode(CL_KEY_A))
 	{
 		m_vel.x = -4.0f;
 	}
-}
-
-void Player::handleRightKey(const LevelCtx &ctx, int posFlags)
-{
-	if (!posFlags)
-	{
-		m_acc.x = +6.0f;
-	} 
-	else 
+	else if (ctx.keys.get_keycode(CL_KEY_D))
 	{
 		m_vel.x = +4.0f;
+	}
+	else
+	{
+		m_vel.x = 0.0f;
+		setSpriteNo(spr_Stand);
+	}
+}
+
+void Player::update_Climb(const LevelCtx &ctx, int posFlags)
+{
+	// SPA-effect:
+	if (m_vel.y < 0 && !posFlags)
+	{
+		setSpriteNo(spr_Jump);
+	}
+	if (m_vel.y > 0 && posFlags & pf_OnGround && !(posFlags & pf_TopStairs))
+	{
+		setSpriteNo(spr_Stand);
+	}
+
+	// up-key:
+	if (ctx.keys.get_keycode(CL_KEY_W))
+	{
+		if (posFlags & pf_OnStairs)
+		{
+			m_vel.y = -6.0f;
+		}
+		else if (posFlags & pf_TopStairs)
+		{
+			m_vel.y = 0.0f;
+			setSpriteNo(spr_Stand);
+		}
+	}
+
+	// down-key:
+	if (ctx.keys.get_keycode(CL_KEY_S))
+	{
+		if (posFlags & pf_OnStairs)
+		{
+			m_vel.y = +6.0f;
+		}
+		else if (posFlags & pf_OnGround)
+		{
+			m_vel.y = 0.0f;
+			setSpriteNo(spr_Stand);
+		}
+	}
+}
+
+void Player::update_Jump(const LevelCtx &ctx, int posFlags)
+{
+	// SBA-effects:
+	if (posFlags & pf_OnGround)
+	{
+		m_vel.x = 0;
+		setSpriteNo(spr_Stand);
+	}
+
+	// left-key:
+	if (ctx.keys.get_keycode(CL_KEY_A))
+	{
+		m_acc.x = -4.0f;
+	}
+
+	// right-key:
+	else if (ctx.keys.get_keycode(CL_KEY_D))
+	{
+		m_acc.x = +4.0f;
+	}
+
+	else 
+	{
+		m_acc.x = 0.0f;
 	}
 }
 

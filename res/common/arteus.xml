@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <resources>
+	<sprite name="arteus_stand">
+		<image file="arteus_walk_00.png" />
+ 		<animation loop="yes" speed="100"/>
+	</sprite>
 	<sprite name="arteus_walk">
+		<image file="arteus_walk_00.png" />
+		<image file="arteus_walk_01.png" />
+		<image file="arteus_walk_02.png" />
+		<image file="arteus_walk_03.png" />
+ 		<animation loop="yes" speed="100"/>
+	</sprite>
+	<sprite name="arteus_climb">
 		<image file="arteus_walk_00.png" />
 		<image file="arteus_walk_01.png" />
 		<image file="arteus_walk_02.png" />
