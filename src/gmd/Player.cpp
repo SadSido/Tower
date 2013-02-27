@@ -23,7 +23,7 @@ bool bothPoints(bool one, bool two)
 template <TileChecker checker, LogicFunc logic, bool under>
 bool testTile(const Tilemap::Ref map, CL_Rectf rect)
 {
-	const float dy = (under) ? 0.1f : 0.0f;
+	const float dy = (under) ? 0.01f : 0.0f;
 	const bool one = checker(map->getTile(rect.get_bottom_left()  + CL_Pointf(0.0f, dy)));
 	const bool two = checker(map->getTile(rect.get_bottom_right() + CL_Pointf(0.0f, dy)));
 	return logic(one, two);
@@ -33,7 +33,8 @@ bool standOnStairs(const Tilemap::Ref map, CL_Rectf rect)
 { return testTile<anyStairs, bothPoints, false>(map, rect); }
 
 bool standOnGround(const Tilemap::Ref map, CL_Rectf rect)
-{ return testTile<anyBlocking, anyPoint, true>(map, rect); }
+{ return testTile<anyBlocking, anyPoint, true>(map, rect) &&
+        !testTile<anyBlocking, anyPoint, false>(map, rect); }
 
 bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 { return testTile<topStairs, bothPoints, true>(map, rect); }
@@ -142,6 +143,12 @@ int Player::getPosFlags(const LevelCtx &ctx)
 
 // state-based updates:
 
+void Player::enterAction(const LevelCtx &ctx)
+{
+	m_action->doNotify(ctx, n_DoAction);
+	m_action = NULL;
+}
+
 void Player::enterState(Sprites spr, CL_Pointf vel, CL_Pointf acc)
 {
 	m_vel = vel;
@@ -156,10 +163,7 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
 		if (m_action)
-		{
-			m_action->doNotify(ctx, n_DoAction);
-			m_action = NULL;
-		} 
+		{ return enterAction(ctx); }
 		
 		else if (posFlags & pf_OnStairs)
 		{ return enterState(spr_Climb, -v_climb, a_zero); }
@@ -190,10 +194,8 @@ void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
 		if (m_action)
-		{
-			m_action->doNotify(ctx, n_DoAction);
-			m_action = NULL;
-		} 
+		{ return enterAction(ctx); }
+
 		else
 		{ return enterState(spr_Jump, CL_Pointf(m_vel.x, -v_leap.y), a_free); }
 	}
@@ -232,44 +234,30 @@ void Player::update_Jump(const LevelCtx &ctx, int posFlags)
 
 void Player::update_Climb(const LevelCtx &ctx, int posFlags)
 {
-	// SPA-effect:
-	if (m_vel.y < 0 && !posFlags)
-	{
-		setSpriteNo(spr_Jump);
-	}
-	if (m_vel.y > 0 && posFlags & pf_OnGround && !(posFlags & pf_TopStairs))
-	{
-		setSpriteNo(spr_Stand);
-	}
+	// SBA-effects:
+	if (!posFlags)
+	{ return enterState(spr_Jump, m_vel, a_zero); }
+
+	if ((posFlags & pf_OnGround) && (posFlags & pf_OnStairs))
+	{ return enterState(spr_Stand, v_zero, a_zero); }
 
 	// up-key:
 	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
 		if (posFlags & pf_OnStairs)
-		{
-			m_vel.y = -6.0f;
-		}
-		else if (posFlags & pf_TopStairs)
-		{
-			m_vel.y = 0.0f;
-			setSpriteNo(spr_Stand);
-		}
+		{ return enterState(spr_Climb, -v_climb, a_zero); }
 	}
 
 	// down-key:
-	if (ctx.keys.get_keycode(CL_KEY_S))
+	else if (ctx.keys.get_keycode(CL_KEY_S))
 	{
 		if (posFlags & pf_OnStairs)
-		{
-			m_vel.y = +6.0f;
-		}
-		else if (posFlags & pf_OnGround)
-		{
-			m_vel.y = 0.0f;
-			setSpriteNo(spr_Stand);
-		}
+		{ return enterState(spr_Climb, v_climb, a_zero); }
 	}
-}
+
+	else
+	{ return enterState(spr_Climb, v_zero, a_zero); }
+}  
 
 // action handling:
 

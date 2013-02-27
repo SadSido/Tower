@@ -59,6 +59,7 @@ private:
 	virtual void upload (const LevelCtx &ctx);
 
 	// per-state updates:
+	void enterAction  (const LevelCtx &ctx);
 	void enterState   (Sprites num, CL_Pointf vel, CL_Pointf acc);
 	void update_Stand (const LevelCtx &ctx, int posFlags);
 	void update_Walk  (const LevelCtx &ctx, int posFlags);
