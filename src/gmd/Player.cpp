@@ -159,6 +159,10 @@ void Player::enterState(Sprites spr, CL_Pointf vel, CL_Pointf acc)
 
 void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 {
+	// SBA-effects:
+	if (!posFlags)
+	{ return enterState(spr_Jump, m_vel, a_free); }
+
 	// up-key:
 	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
@@ -236,7 +240,7 @@ void Player::update_Climb(const LevelCtx &ctx, int posFlags)
 {
 	// SBA-effects:
 	if (!posFlags)
-	{ return enterState(spr_Jump, m_vel, a_zero); }
+	{ return enterState(spr_Jump, m_vel, a_free); }
 
 	if ((posFlags & pf_OnGround) && (posFlags & pf_OnStairs))
 	{ return enterState(spr_Stand, v_zero, a_zero); }
