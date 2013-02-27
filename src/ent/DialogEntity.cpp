@@ -13,7 +13,7 @@ DialogEntity::DialogEntity(CL_String name, const CL_DomNodeList &props)
 {
 }
 
-bool DialogEntity::update(const LevelCtx &ctx, float secs, int msecs)
+bool DialogEntity::update(const LevelCtx &ctx, float secs)
 {
 	// checks whether we have a dialog available:
 	if (!m_dlgSet) { m_dlgSet = ctx.dialogs[m_name]; }

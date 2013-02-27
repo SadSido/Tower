@@ -54,7 +54,7 @@ private:
 	float m_facing;
 
 	// virtual entity interface:
-	virtual bool update (const LevelCtx &ctx, float secs, int msecs);
+	virtual bool update (const LevelCtx &ctx, float secs);
 	virtual bool render (const LevelCtx &ctx);
 	virtual void upload (const LevelCtx &ctx);
 

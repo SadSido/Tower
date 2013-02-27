@@ -58,7 +58,7 @@ int GameManager::runMainLoop()
 		if (interval)
 		{ 
 			float secs = interval / 1000.0f;
-			topScene->update(secs, interval); 
+			topScene->update(secs); 
 		}
 
 		// render the scene:

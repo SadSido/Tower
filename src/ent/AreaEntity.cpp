@@ -25,7 +25,7 @@ AreaEntity::AreaEntity(CL_String name, const CL_DomNodeList &props)
 
 }
 
-bool AreaEntity::update(const LevelCtx &ctx, float secs, int msecs)
+bool AreaEntity::update(const LevelCtx &ctx, float secs)
 {
 	const bool isInside = m_rect.is_inside(ctx.player.getRect());
 	const bool assigned = ctx.player.checkAction(this);

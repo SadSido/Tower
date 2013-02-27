@@ -30,18 +30,18 @@ LevelScene::LevelScene(GameManager * manager, CL_String descFile)
 
 // scene lifecycle:
 
-void LevelScene::update(float secs, int msecs)
+void LevelScene::update(float secs)
 {
 	auto ctx = getContext();
 
 	// update player:
-	m_player.doUpdate(ctx, secs, msecs);
+	m_player.doUpdate(ctx, secs);
 
 	// update the entities:
 	for (auto it = ctx.entities->begin(); it != ctx.entities->end(); /**/)
 	{
 		auto cur = it ++;
-		bool res = (*cur)->doUpdate(ctx, secs, msecs);
+		bool res = (*cur)->doUpdate(ctx, secs);
 
 		// drop the entity, which returned false:
 		if (!res) { ctx.entities->erase(cur); }

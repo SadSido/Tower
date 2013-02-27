@@ -18,10 +18,10 @@ Entity::~Entity()
 
 // entity lifecycle (not so virtual now):
 
-bool Entity::doUpdate (const LevelCtx &ctx, float secs, int msecs)
+bool Entity::doUpdate (const LevelCtx &ctx, float secs)
 {
 	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
-	return update(ctx, secs, msecs);
+	return update(ctx, secs);
 }
 
 bool Entity::doRender (const LevelCtx &ctx)

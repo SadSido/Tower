@@ -52,7 +52,7 @@ public:
 	explicit LevelScene(GameManager * manager, CL_String descFile);
 
 	// scene lifecycle:	
-	virtual void update(float secs, int msecs);
+	virtual void update(float secs);
 	virtual void render();
 	virtual void notify(Notify code, void * data);
 

@@ -21,7 +21,7 @@ IntroScene::IntroScene(GameManager * manager)
 	m_logo = CL_Sprite(renderer->getGC(), "spr_logo", &resMan);
 }
 
-void IntroScene::update(float secs, int msecs)
+void IntroScene::update(float secs)
 {
 	CL_InputContext &input  = m_manager->getRenderer()->getIC();
 	CL_InputDevice  &keybrd = input.get_keyboard();

@@ -22,7 +22,7 @@ private:
 	CL_String m_entry;
 
 	// virtual entity interface:
-	virtual bool update(const LevelCtx &ctx, float secs, int msecs);
+	virtual bool update(const LevelCtx &ctx, float secs);
 	virtual bool render(const LevelCtx &ctx);
 	virtual void notify(const LevelCtx &ctx, Notify code);
 };

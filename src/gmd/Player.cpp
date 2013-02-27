@@ -62,7 +62,7 @@ Player::Player(CL_Pointf pos, CL_Sizef size)
 	setSize(size);
 }
 
-bool Player::update(const LevelCtx &ctx, float secs, int msecs)
+bool Player::update(const LevelCtx &ctx, float secs)
 {
 	// get position flags:
 	int posFlags = getPosFlags(ctx);
@@ -76,7 +76,7 @@ bool Player::update(const LevelCtx &ctx, float secs, int msecs)
 	case spr_Jump:  { update_Jump  (ctx, posFlags); break; }
 	}
 
-	// resolve gravity and movement:
+	// resolve movement:
 	m_vel += m_acc * secs;
 
 	TileChecker check = (getSpriteNo() == spr_Climb) ? isBlocking : anyBlocking;;
@@ -89,9 +89,7 @@ bool Player::update(const LevelCtx &ctx, float secs, int msecs)
 	m_facing = (m_vel.x) ? (m_vel.x > 0.0f) ? +1.0f : -1.0f : m_facing;
 
 	// select and update sprite:
-
-	CL_Sprite & sprite = getSprite();
-	sprite.update();
+	getSprite().update();
 
 	return true;
 }

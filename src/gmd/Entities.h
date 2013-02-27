@@ -27,7 +27,7 @@ public:
 
 	// public interface:
 
-	bool doUpdate (const LevelCtx &ctx, float secs, int msecs);
+	bool doUpdate (const LevelCtx &ctx, float secs);
 	bool doRender (const LevelCtx &ctx);
 	void doNotify (const LevelCtx &ctx, Notify code);
 
@@ -66,7 +66,7 @@ protected:
 
 	// virtual interface:
 
-	virtual bool update (const LevelCtx &ctx, float secs, int msecs) = 0;
+	virtual bool update (const LevelCtx &ctx, float secs) = 0;
 	virtual bool render (const LevelCtx &ctx) = 0;
 	virtual void notify (const LevelCtx &ctx, Notify code);
 	virtual void upload (const LevelCtx &ctx);
