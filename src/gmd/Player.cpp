@@ -192,6 +192,10 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 
 void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 {
+	// SBA-effects:
+	if (!posFlags)
+	{ return enterState(spr_Jump, m_vel, a_free); }
+
 	// up key:
 	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
