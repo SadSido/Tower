@@ -187,6 +187,9 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 	{
 		if (posFlags & pf_TopStairs)
 		{ return enterState(spr_Climb, v_climb, a_zero); }
+
+		if (posFlags & pf_OnStairs)
+		{ return enterState(spr_Climb, v_climb, a_zero); }
 	}
 
 	// left-key:
@@ -222,7 +225,7 @@ void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 		if (m_action)
 		{ return enterAction(ctx); }
 
-		else
+		else if (!(posFlags & pf_OnStairs))
 		{ return enterState(spr_Jump, CL_Pointf(m_vel.x, -v_leap.y), a_free); }
 	}
 	
@@ -282,7 +285,7 @@ void Player::update_Climb(const LevelCtx &ctx, int posFlags)
 	}
 
 	else
-	{ return enterState(spr_Climb, v_zero, a_zero); }
+	{ return enterState(spr_Stand, v_zero, a_zero); }
 }  
 
 void Player::update_Shield(const LevelCtx &ctx, int posFlags)
