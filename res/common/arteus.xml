@@ -30,4 +30,10 @@
 		<image file="arteus_shield_02.png" />
  		<animation loop="no" on_finish="last_frame" speed="50"/>
 	</sprite>
+	<sprite name="arteus_pierce">
+		<image file="arteus_walk_00.png" />
+		<image file="arteus_pierce_00.png" />
+		<image file="arteus_pierce_01.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="100"/>
+	</sprite>
 </resources>

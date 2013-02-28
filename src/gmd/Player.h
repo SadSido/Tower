@@ -39,6 +39,7 @@ private:
 		spr_Climb,
 		spr_Jump,
 		spr_Shield,
+		spr_Pierce,
 		spr_Count
 	};
 	
@@ -68,6 +69,7 @@ private:
 	void update_Climb  (const LevelCtx &ctx, int posFlags);
 	void update_Jump   (const LevelCtx &ctx, int posFlags);
 	void update_Shield (const LevelCtx &ctx, int posFlags);
+	void update_Pierce (const LevelCtx &ctx, int posFlags);
 };
 
 //************************************************************************************************************************
