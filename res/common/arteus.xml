@@ -23,4 +23,11 @@
 		<image file="arteus_jump_00.png" />
  		<animation loop="yes" speed="100"/>
 	</sprite>
+	<sprite name="arteus_shield">
+		<image file="arteus_walk_00.png" />
+		<image file="arteus_shield_00.png" />
+		<image file="arteus_shield_01.png" />
+		<image file="arteus_shield_02.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="50"/>
+	</sprite>
 </resources>

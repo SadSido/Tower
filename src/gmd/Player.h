@@ -38,6 +38,7 @@ private:
 		spr_Walk,
 		spr_Climb,
 		spr_Jump,
+		spr_Shield,
 		spr_Count
 	};
 	
@@ -59,12 +60,14 @@ private:
 	virtual void upload (const LevelCtx &ctx);
 
 	// per-state updates:
-	void enterAction  (const LevelCtx &ctx);
-	void enterState   (Sprites num, CL_Pointf vel, CL_Pointf acc);
-	void update_Stand (const LevelCtx &ctx, int posFlags);
-	void update_Walk  (const LevelCtx &ctx, int posFlags);
-	void update_Climb (const LevelCtx &ctx, int posFlags);
-	void update_Jump  (const LevelCtx &ctx, int posFlags);
+	void enterAction   (const LevelCtx &ctx);
+	void enterState    (Sprites num, CL_Pointf vel, CL_Pointf acc);
+
+	void update_Stand  (const LevelCtx &ctx, int posFlags);
+	void update_Walk   (const LevelCtx &ctx, int posFlags);
+	void update_Climb  (const LevelCtx &ctx, int posFlags);
+	void update_Jump   (const LevelCtx &ctx, int posFlags);
+	void update_Shield (const LevelCtx &ctx, int posFlags);
 };
 
 //************************************************************************************************************************
