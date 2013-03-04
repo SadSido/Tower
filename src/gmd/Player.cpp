@@ -42,15 +42,15 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 // some predefined velocities and accelerations:
 
 static const auto v_zero  = CL_Pointf();
-static const auto v_climb = CL_Pointf(0.0f, 4.0f); 
-static const auto v_walk  = CL_Pointf(4.0f, 0.0f);
-static const auto v_jump  = CL_Pointf(0.0f, 9.0f);
-static const auto v_leap  = CL_Pointf(0.0f, 6.0f);
-static const auto v_pier  = CL_Pointf(0.0f, 2.0f);
+static const auto v_climb = CL_Pointf(0.0f,  4.0f); 
+static const auto v_walk  = CL_Pointf(4.0f,  0.0f);
+static const auto v_jump  = CL_Pointf(0.0f, 12.0f);
+static const auto v_leap  = CL_Pointf(0.0f,  8.0f);
+static const auto v_pier  = CL_Pointf(0.0f,  3.0f);
 
 static const auto a_zero  = CL_Pointf();
-static const auto a_jump  = CL_Pointf(6.0f, 0.0f);
-static const auto a_free  = CL_Pointf(0.0f, 12.0f);
+static const auto a_jump  = CL_Pointf(6.0f,  0.0f);
+static const auto a_free  = CL_Pointf(0.0f, 20.0f);
 
 }
 
@@ -77,6 +77,7 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	case spr_Jump:   { update_Jump   (ctx, posFlags); break; }
 	case spr_Shield: { update_Shield (ctx, posFlags); break; }
 	case spr_Pierce: { update_Pierce (ctx, posFlags); break; }
+	case spr_Slash:  { update_Slash  (ctx, posFlags); break; }
 	}
 
 	// resolve movement:
@@ -129,6 +130,7 @@ void Player::upload(const LevelCtx &ctx)
 	m_sprites[spr_Jump]   = CL_Sprite(ctx.gc, "arteus_jump",   &ctx.assets);
 	m_sprites[spr_Shield] = CL_Sprite(ctx.gc, "arteus_shield", &ctx.assets);
 	m_sprites[spr_Pierce] = CL_Sprite(ctx.gc, "arteus_pierce", &ctx.assets);
+	m_sprites[spr_Slash]  = CL_Sprite(ctx.gc, "arteus_slash",  &ctx.assets);
 }
 
 // tilemap check helpers:
@@ -170,6 +172,14 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 	if (!posFlags)
 	{ return enterState(spr_Jump, m_vel, a_free); }
 
+	// left-key:
+	if (ctx.keys.get_keycode(CL_KEY_A))
+	{ return enterState(spr_Walk, -v_walk, a_zero); }
+
+	// right-key:
+	if (ctx.keys.get_keycode(CL_KEY_D))
+	{ return enterState(spr_Walk, v_walk, a_zero); }
+
 	// up-key:
 	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
@@ -192,14 +202,6 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 		if (posFlags & pf_OnStairs)
 		{ return enterState(spr_Climb, v_climb, a_zero); }
 	}
-
-	// left-key:
-	if (ctx.keys.get_keycode(CL_KEY_A))
-	{ return enterState(spr_Walk, -v_walk, a_zero); }
-
-	// right-key:
-	if (ctx.keys.get_keycode(CL_KEY_D))
-	{ return enterState(spr_Walk, v_walk, a_zero); }
 
 	// mouse-right:
 	if (ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
@@ -248,6 +250,10 @@ void Player::update_Jump(const LevelCtx &ctx, int posFlags)
 	// SBA-effects:
 	if (posFlags & pf_OnGround)
 	{ return enterState(spr_Stand, v_zero, a_zero); }
+
+	// mouse-left:
+	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
+	{ return enterState(spr_Slash, m_vel, m_acc * 2.0f); }
 
 	// left-key:
 	if (ctx.keys.get_keycode(CL_KEY_A))
@@ -301,7 +307,16 @@ void Player::update_Pierce(const LevelCtx &ctx, int posFlags)
 	{ return enterState(spr_Stand, v_zero, a_zero); }	
 	
 	if (getSprite().is_finished())
-	{ return enterState(spr_Stand, m_vel, a_free); }
+	{ return enterState(spr_Jump, m_vel, a_free); }
+}
+
+void Player::update_Slash(const LevelCtx &ctx, int posFlags)
+{
+	if (posFlags & pf_OnGround)
+	{ return enterState(spr_Stand, v_zero, a_zero); }	
+	
+	if (getSprite().is_finished())
+	{ return enterState(spr_Jump, m_vel, a_free); }
 }
 
 // action handling:
