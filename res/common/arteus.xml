@@ -34,6 +34,6 @@
 		<image file="arteus_walk_00.png" />
 		<image file="arteus_pierce_00.png" />
 		<image file="arteus_pierce_01.png" />
- 		<animation loop="no" on_finish="last_frame" speed="100"/>
+ 		<animation loop="no" on_finish="last_frame" speed="140"/>
 	</sprite>
 </resources>

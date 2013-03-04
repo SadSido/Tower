@@ -46,6 +46,7 @@ static const auto v_climb = CL_Pointf(0.0f, 4.0f);
 static const auto v_walk  = CL_Pointf(4.0f, 0.0f);
 static const auto v_jump  = CL_Pointf(0.0f, 9.0f);
 static const auto v_leap  = CL_Pointf(0.0f, 6.0f);
+static const auto v_pier  = CL_Pointf(0.0f, 2.0f);
 
 static const auto a_zero  = CL_Pointf();
 static const auto a_jump  = CL_Pointf(6.0f, 0.0f);
@@ -213,7 +214,7 @@ void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 
 	// mouse-left:
 	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
-	{ return enterState(spr_Pierce, v_zero, a_zero); }
+	{ return enterState(spr_Pierce, m_vel * 2.0f - v_pier, a_free); }
 
 	// mouse-right:
 	if (ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
@@ -296,8 +297,11 @@ void Player::update_Shield(const LevelCtx &ctx, int posFlags)
 
 void Player::update_Pierce(const LevelCtx &ctx, int posFlags)
 {
+	if (posFlags & pf_OnGround)
+	{ return enterState(spr_Stand, v_zero, a_zero); }	
+	
 	if (getSprite().is_finished())
-	{ return enterState(spr_Stand, v_zero, a_zero); }
+	{ return enterState(spr_Stand, m_vel, a_free); }
 }
 
 // action handling:
