@@ -41,6 +41,7 @@ private:
 		spr_Shield,
 		spr_Pierce,
 		spr_Slash,
+		spr_Strike,
 		spr_Count
 	};
 	
@@ -72,6 +73,7 @@ private:
 	void update_Shield (const LevelCtx &ctx, int posFlags);
 	void update_Pierce (const LevelCtx &ctx, int posFlags);
 	void update_Slash  (const LevelCtx &ctx, int posFlags);
+	void update_Strike (const LevelCtx &ctx, int posFlags);
 };
 
 //************************************************************************************************************************

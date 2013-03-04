@@ -43,4 +43,11 @@
 		<image file="arteus_slash_02.png" />
  		<animation loop="no" on_finish="last_frame" speed="100"/>
 	</sprite>
+	<sprite name="arteus_strike">
+		<image file="arteus_walk_00.png" />
+		<image file="arteus_strike_00.png" />
+		<image file="arteus_strike_01.png" />
+		<image file="arteus_strike_02.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="70"/>
+	</sprite>
 </resources>

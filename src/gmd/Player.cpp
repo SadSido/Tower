@@ -78,6 +78,7 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	case spr_Shield: { update_Shield (ctx, posFlags); break; }
 	case spr_Pierce: { update_Pierce (ctx, posFlags); break; }
 	case spr_Slash:  { update_Slash  (ctx, posFlags); break; }
+	case spr_Strike: { update_Strike (ctx, posFlags); break; }
 	}
 
 	// resolve movement:
@@ -131,6 +132,7 @@ void Player::upload(const LevelCtx &ctx)
 	m_sprites[spr_Shield] = CL_Sprite(ctx.gc, "arteus_shield", &ctx.assets);
 	m_sprites[spr_Pierce] = CL_Sprite(ctx.gc, "arteus_pierce", &ctx.assets);
 	m_sprites[spr_Slash]  = CL_Sprite(ctx.gc, "arteus_slash",  &ctx.assets);
+	m_sprites[spr_Strike] = CL_Sprite(ctx.gc, "arteus_strike", &ctx.assets);
 }
 
 // tilemap check helpers:
@@ -202,6 +204,10 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 		if (posFlags & pf_OnStairs)
 		{ return enterState(spr_Climb, v_climb, a_zero); }
 	}
+
+	// mouse-left:
+	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
+	{ return enterState(spr_Strike, v_zero, a_zero); }
 
 	// mouse-right:
 	if (ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
@@ -317,6 +323,12 @@ void Player::update_Slash(const LevelCtx &ctx, int posFlags)
 	
 	if (getSprite().is_finished())
 	{ return enterState(spr_Jump, m_vel, a_free); }
+}
+
+void Player::update_Strike(const LevelCtx &ctx, int posFlags)
+{
+	if (getSprite().is_finished())
+	{ return enterState(spr_Stand, v_zero, a_zero); }
 }
 
 // action handling:
