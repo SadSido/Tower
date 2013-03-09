@@ -20,9 +20,10 @@ class Entity
 public:
 	typedef std::shared_ptr<Entity> Ref;
 
-	// c-tor and d-tor:
+	// c-tor, d-tor and cloning:
 
 	explicit Entity(CL_String type, CL_String name);
+	virtual  Entity::Ref clone();
 	virtual ~Entity();
 
 	// public interface:

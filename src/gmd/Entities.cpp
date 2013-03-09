@@ -16,6 +16,9 @@ Entity::Entity(CL_String type, CL_String name)
 Entity::~Entity()
 {}
 
+Entity::Ref Entity::clone()
+{ return Entity::Ref(); }
+
 // entity lifecycle (not so virtual now):
 
 bool Entity::doUpdate (const LevelCtx &ctx, float secs)
