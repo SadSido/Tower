@@ -8,7 +8,7 @@
 //************************************************************************************************************************
 	
 SpawnEntity::SpawnEntity(CL_String name, const CL_DomNodeList &props)
-: Entity("SpawnEntity", name)
+: Entity("SpawnEntity", name), m_spawning(false)
 {
 	CL_String spawnee;
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
@@ -18,34 +18,68 @@ SpawnEntity::SpawnEntity(CL_String name, const CL_DomNodeList &props)
 
 		if (prop.get_attribute("name") == "Spawnee") 
 		{ spawnee = prop.get_attribute("value"); }
+
+		if (prop.get_attribute("name") == "Interval") 
+		{ m_interval = prop.get_attribute_float("value"); }
+
+		if (prop.get_attribute("name") == "Limit") 
+		{ m_limit = prop.get_attribute_int("value"); }
 	}
 
-	// must create a spawnee here:
+	// create spawnee pattern:
 	m_spawnee = createEntity(spawnee, name, props);
+
+	// create list of entities:
+	m_entities = Entities::Ref(new Entities());
 }
+
+// entity lifecycle:
 
 bool SpawnEntity::update(const LevelCtx &ctx, float secs)
 {
-	/*
-	const bool isInside = m_rect.is_inside(ctx.player.getRect());
-	const bool assigned = ctx.player.checkAction(this);
+	// update the sub-entities:
+	for (auto it = m_entities->begin(); it != m_entities->end(); /**/)
+	{
+		auto cur = it ++;
+		bool res = (*cur)->doUpdate(ctx, secs);
 
-	if (!assigned && isInside)
-	{ ctx.player.setAction(this); }
+		// drop the entity, which returned false:
+		if (!res) { m_entities->erase(cur); }
+	}
 
-	else if (assigned && !isInside)
-	{ ctx.player.setAction(NULL); }
+	// handle spawning of new ones:
+	if (m_entities->size() < m_limit)
+	{
+		if (m_spawning)
+		{
+			// countdown to spawning:
+			m_tospawn = max(0.0f, m_tospawn - secs);
+			
+			// spawn new entity:
+			if (!m_tospawn)
+			{
+				m_spawning = false;
+				m_entities->push_back(m_spawnee->clone());
+			}
+		}
+		else
+		{
+			// start spawning interval:
+			m_spawning = true;
+			m_tospawn  = m_interval;
+		}
+	}
 
-	*/
-
-	// perform the rest of the update:
-	// ...
+	// always true:
 	return true;
 }
 
 bool SpawnEntity::render(const LevelCtx &ctx)
 {
-	// CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,255));
+	// render the sub-entities:
+	for (auto it = m_entities->begin(); it != m_entities->end(); ++ it)
+	{ (*it)->doRender(ctx); }
+
 	return true;
 }
 

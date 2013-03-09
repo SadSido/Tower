@@ -22,7 +22,13 @@ private:
 	virtual bool render(const LevelCtx &ctx);
 
 private:
-	Entity::Ref m_spawnee;
+	Entity::Ref   m_spawnee;
+	Entities::Ref m_entities;
+
+	float m_tospawn;
+	float m_interval;
+	int   m_limit;
+	bool  m_spawning;
 };
 
 //************************************************************************************************************************
