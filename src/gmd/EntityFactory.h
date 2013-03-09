@@ -9,7 +9,8 @@
 
 //************************************************************************************************************************
 
-Entity::Ref createEntity(CL_DomElement node, float tilesz);
+Entity::Ref createEntity (CL_DomElement node, float tilesz);
+Entity::Ref createEntity (CL_String type, CL_String name, const CL_DomNodeList &plist);
 
 //************************************************************************************************************************
 

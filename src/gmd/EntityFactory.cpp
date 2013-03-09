@@ -8,6 +8,8 @@
 #include "../ent/AreaEntity.h"
 #include "../ent/SpawnEntity.h"
 
+#include <assert.h>
+
 //************************************************************************************************************************
 
 Entity::Ref createEntity(CL_DomElement node, float tilesz)
@@ -18,18 +20,9 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 	CL_DomElement  props = node.get_first_child().to_element();
 	CL_DomNodeList plist = props.get_elements_by_tag_name("property");
 
-	Entity::Ref result;
-	
 	// generate entity by type:
 
-	if (type == "DialogEntity")
-	{ result = Entity::Ref(new DialogEntity(name, plist)); }
-
-	if (type == "AreaEntity")
-	{ result = Entity::Ref(new AreaEntity(name, plist)); }
-
-	if (type == "SpawnEntity")
-	{ result = Entity::Ref(new SpawnEntity(name, plist)); }
+	Entity::Ref result = createEntity(type, name, plist);
 
 	// set common attributes:
 
@@ -42,5 +35,21 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 	return result;
 }
 
+//************************************************************************************************************************
+
+Entity::Ref createEntity(CL_String type, CL_String name, const CL_DomNodeList &plist)
+{
+	if (type == "DialogEntity")
+	{ return Entity::Ref(new DialogEntity(name, plist)); }
+
+	if (type == "AreaEntity")
+	{ return Entity::Ref(new AreaEntity(name, plist)); }
+
+	if (type == "SpawnEntity")
+	{ return Entity::Ref(new SpawnEntity(name, plist)); }
+
+	assert(false);
+	return Entity::Ref();
+}
 
 //************************************************************************************************************************
