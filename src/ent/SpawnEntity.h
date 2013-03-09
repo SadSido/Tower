@@ -22,7 +22,7 @@ private:
 	virtual bool render(const LevelCtx &ctx);
 
 private:
-	Entity::Ref m_pattern;
+	Entity::Ref m_spawnee;
 };
 
 //************************************************************************************************************************

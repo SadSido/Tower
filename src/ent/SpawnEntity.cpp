@@ -10,19 +10,18 @@
 SpawnEntity::SpawnEntity(CL_String name, const CL_DomNodeList &props)
 : Entity("SpawnEntity", name)
 {
-	/*
+	CL_String spawnee;
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
 		// process current property:
 		CL_DomElement prop = props.item(prNo).to_element();
 
-		if (prop.get_attribute("name") == "Area") 
-		{ m_area = prop.get_attribute("value"); }
-	
-		if (prop.get_attribute("name") == "Entry") 
-		{ m_entry = prop.get_attribute("value"); }
+		if (prop.get_attribute("name") == "Spawnee") 
+		{ spawnee = prop.get_attribute("value"); }
 	}
-	*/
+
+	// must create a spawnee here:
+	m_spawnee = createEntity(spawnee, name, props);
 }
 
 bool SpawnEntity::update(const LevelCtx &ctx, float secs)
@@ -46,7 +45,7 @@ bool SpawnEntity::update(const LevelCtx &ctx, float secs)
 
 bool SpawnEntity::render(const LevelCtx &ctx)
 {
-	CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,255));
+	// CL_Draw::box(ctx.gc, ctx.tilemap->toScreen(m_rect), CL_Colorf(255,255,255));
 	return true;
 }
 
