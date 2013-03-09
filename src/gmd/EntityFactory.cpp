@@ -6,6 +6,7 @@
 
 #include "../ent/DialogEntity.h"
 #include "../ent/AreaEntity.h"
+#include "../ent/SpawnEntity.h"
 
 //************************************************************************************************************************
 
@@ -26,6 +27,9 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 
 	if (type == "AreaEntity")
 	{ result = Entity::Ref(new AreaEntity(name, plist)); }
+
+	if (type == "SpawnEntity")
+	{ result = Entity::Ref(new SpawnEntity(name, plist)); }
 
 	// set common attributes:
 

@@ -65,6 +65,9 @@
     <ClCompile Include="src\ent\AreaEntity.cpp">
       <Filter>ent</Filter>
     </ClCompile>
+    <ClCompile Include="src\ent\SpawnEntity.cpp">
+      <Filter>ent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -148,6 +151,9 @@
       <Filter>sys</Filter>
     </ClInclude>
     <ClInclude Include="src\ent\AreaEntity.h">
+      <Filter>ent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\SpawnEntity.h">
       <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>

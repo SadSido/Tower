@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="src\ent\AreaEntity.cpp" />
     <ClCompile Include="src\ent\DialogEntity.cpp" />
+    <ClCompile Include="src\ent\SpawnEntity.cpp" />
     <ClCompile Include="src\gmd\Areas.cpp" />
     <ClCompile Include="src\gmd\AreaScene.cpp" />
     <ClCompile Include="src\gmd\Dialogs.cpp" />
@@ -108,6 +109,7 @@
   <ItemGroup>
     <ClInclude Include="src\ent\AreaEntity.h" />
     <ClInclude Include="src\ent\DialogEntity.h" />
+    <ClInclude Include="src\ent\SpawnEntity.h" />
     <ClInclude Include="src\gmd\Areas.h" />
     <ClInclude Include="src\gmd\AreaScene.h" />
     <ClInclude Include="src\gmd\Dialogs.h" />
