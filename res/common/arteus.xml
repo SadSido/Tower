@@ -10,7 +10,7 @@
 		<image file="arteus_walk_01.png" />
 		<image file="arteus_walk_02.png" />
 		<image file="arteus_walk_03.png" />
- 		<animation loop="yes" speed="100"/>
+ 		<animation loop="yes" speed="80"/>
 	</sprite>
 	<sprite name="arteus_climb">
 		<image file="arteus_walk_00.png" />
@@ -44,10 +44,10 @@
  		<animation loop="no" on_finish="last_frame" speed="100"/>
 	</sprite>
 	<sprite name="arteus_strike">
-		<image file="arteus_walk_00.png" />
 		<image file="arteus_strike_00.png" />
 		<image file="arteus_strike_01.png" />
 		<image file="arteus_strike_02.png" />
  		<animation loop="no" on_finish="last_frame" speed="70"/>
+		<translation x="0" y="-30"/>
 	</sprite>
 </resources>
