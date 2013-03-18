@@ -57,7 +57,8 @@ bool RainEffect::render(const LevelCtx &ctx)
 {
 	for (auto it = m_drops.begin(); it != m_drops.end(); ++ it)
 	{
-		CL_Draw::circle(ctx.gc, it->pos, 3.0f, CL_Colorf::gray10);
+		const float alpha = 1.0f - abs(2.0f * it->life / m_lifetime - 1.0f); 
+		CL_Draw::circle(ctx.gc, it->pos, 3.0f, CL_Colorf(0.5f, 0.5f, 0.5f, alpha));
 	}
 
 	return true;
