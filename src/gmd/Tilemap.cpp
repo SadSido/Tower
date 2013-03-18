@@ -3,6 +3,7 @@
 
 #include "Tilemap.h"
 #include "LevelScene.h"
+#include <assert.h>
 
 //************************************************************************************************************************
 
@@ -113,7 +114,7 @@ int foreLayer(const TileDesc &desc)
 // generalized version of layer rendering:
 
 template <FnLayer layer>
-void renderLayer(Tilemap &map, LevelCtx ctx, CL_Pointf offset, CL_Sizef wndSize, float tileSize)
+void renderLayer(Tilemap &map, const LevelCtx &ctx, CL_Pointf offset, CL_Sizef wndSize, float tileSize)
 {
 	const int tilesInX = (int)(wndSize.width  / tileSize) + 3;
 	const int tilesInY = (int)(wndSize.height / tileSize) + 3;
@@ -167,7 +168,7 @@ TileDesc Tilemap::getTile(CL_Pointf pt) const
 	return getTile((int)pt.x, (int)pt.y);
 }
 
-TileProxy Tilemap::getProxy(int id, LevelCtx &ctx)
+TileProxy Tilemap::getProxy(int id, const LevelCtx &ctx)
 {
 	TileProxy &proxy = m_proxies[id];
 
@@ -227,6 +228,11 @@ void Tilemap::pushProxy(CL_String name, int count)
 	}
 }
 
+void Tilemap::pushImage(CL_String name)
+{
+	m_bgName = name;
+}
+
 // movement constraints:
 
 TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta, TileChecker checker) const
@@ -250,13 +256,30 @@ TileTest Tilemap::checkMove(CL_Rectf rect, CL_Pointf delta, TileChecker checker)
 
 // rendering:
 
-void Tilemap::renderBackground(LevelCtx ctx)
+void Tilemap::renderImage(const LevelCtx &ctx)
 {
+	if (!m_bgName.empty())
+	{
+		if (m_bgSprite.is_null()) 
+		{ m_bgSprite = CL_Sprite(ctx.gc, m_bgName, &ctx.assets); }
+		
+		assert(!m_bgSprite.is_null());
+		m_bgSprite.draw(ctx.gc, CL_Rectf(ctx.gc.get_size())); 
+	}
+}
+
+void Tilemap::renderBackground(const LevelCtx &ctx)
+{
+	// maybe static image:
+	renderImage(ctx);
+
+	// render background tiles:
 	renderLayer<backLayer>(*this, ctx, m_offset, m_window, m_size);
 }
 
-void Tilemap::renderForeground(LevelCtx ctx)
+void Tilemap::renderForeground(const LevelCtx &ctx)
 {
+	// render foreground tiles:
 	renderLayer<foreLayer>(*this, ctx, m_offset, m_window, m_size);
 }
 

@@ -5,4 +5,7 @@
       <grid size="64,64" array="10,10" />
     </image>
   </sprite>
+  <sprite name="clouds">
+	<image file="clouds.png"/>
+  </sprite>
 </resources>

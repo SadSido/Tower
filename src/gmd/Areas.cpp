@@ -39,7 +39,25 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 
 	Tilemap::Ref result = Tilemap::Ref(new Tilemap(width, height, tilesz));
 
-	// first, we process tilesets to create proxies:
+	// first we process properties:
+
+	auto proplist = root.get_elements_by_tag_name("properties");
+	if (proplist.get_length())
+	{
+		auto element = proplist.item(0).to_element();
+		auto propers = element.get_elements_by_tag_name("property");
+
+		for (int no = 0; no < propers.get_length(); ++ no)
+		{
+			CL_DomElement proper = propers.item(no).to_element();
+			const CL_String name = proper.get_attribute("name");
+		
+			if ("image" == name)
+			{ result->pushImage(proper.get_attribute("value")); }
+		}
+	}
+
+	// then, we process tilesets to create proxies:
 
 	auto tilesets = root.get_elements_by_tag_name("tileset");
 	for (int no = 0; no < tilesets.get_length(); ++ no)

@@ -81,7 +81,7 @@ public:
 
 	TileDesc  getTile  (int x, int y) const;
 	TileDesc  getTile  (CL_Pointf pt) const;
-	TileProxy getProxy (int id, LevelCtx &ctx);
+	TileProxy getProxy (int id, const LevelCtx &ctx);
 
 	// Checks the rect, trying to move by "delta" offset within
 	// the tilemap. Returns the actual available offset: 
@@ -103,10 +103,12 @@ public:
 
 	void pushDesc  (TileDesc desc);
 	void pushProxy (CL_String name, int count);
+	void pushImage (CL_String name);
 
 	// rendering:
-	void renderForeground(LevelCtx ctx);
-	void renderBackground(LevelCtx ctx);
+	void renderImage(const LevelCtx &ctx);
+	void renderForeground(const LevelCtx &ctx);
+	void renderBackground(const LevelCtx &ctx);
 
 private:
 	const float m_size;
@@ -116,6 +118,9 @@ private:
 	CL_Sizef  m_window;
 	CL_Pointf m_offset;
 	CL_Sizef  m_offmin;
+	
+	CL_String m_bgName;
+	CL_Sprite m_bgSprite;
 
 	std::vector<TileDesc>  m_tiles;
 	std::vector<TileProxy> m_proxies;
