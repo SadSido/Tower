@@ -7,6 +7,7 @@
 #include "../ent/DialogEntity.h"
 #include "../ent/AreaEntity.h"
 #include "../ent/SpawnEntity.h"
+#include "../ent/RainEffect.h"
 
 #include <assert.h>
 
@@ -47,6 +48,9 @@ Entity::Ref createEntity(CL_String type, CL_String name, const CL_DomNodeList &p
 
 	if (type == "SpawnEntity")
 	{ return Entity::Ref(new SpawnEntity(name, plist)); }
+
+	if (type == "RainEffect")
+	{ return Entity::Ref(new RainEffect(name, plist)); }
 
 	assert(false);
 	return Entity::Ref();

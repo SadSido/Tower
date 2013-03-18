@@ -93,6 +93,12 @@
     <property name="Entry" value="from_main"/>
    </properties>
   </object>
+  <object name="rain" type="RainEffect" x="1280" y="128" width="64" height="64">
+   <properties>
+    <property name="interval" value="0.06"/>
+    <property name="lifetime" value="0.80"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="entries" width="40" height="15">
   <object name="main" x="2368" y="768"/>
