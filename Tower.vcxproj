@@ -102,7 +102,6 @@
     <ClCompile Include="src\sys\GameManager.cpp" />
     <ClCompile Include="src\sys\GameScene.cpp" />
     <ClCompile Include="src\sys\Renderer.cpp" />
-    <ClCompile Include="src\util\Base64.cpp" />
     <ClCompile Include="src\util\BasePath.cpp" />
     <ClCompile Include="src\util\Parsing.cpp" />
     <ClCompile Include="src\util\XmlUtils.cpp" />
@@ -128,7 +127,6 @@
     <ClInclude Include="src\sys\GameManager.h" />
     <ClInclude Include="src\sys\GameScene.h" />
     <ClInclude Include="src\sys\Renderer.h" />
-    <ClInclude Include="src\util\Base64.h" />
     <ClInclude Include="src\util\BasePath.h" />
     <ClInclude Include="src\util\Parsing.h" />
     <ClInclude Include="src\util\XmlUtils.h" />
