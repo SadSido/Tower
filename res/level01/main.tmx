@@ -86,18 +86,18 @@
 </data>
  </layer>
  <objectgroup name="entities" width="40" height="15">
-  <object name="castle_guard" type="DialogEntity" x="640" y="768" width="128" height="128">
+  <object name="castle_guard" type="dialog_entity" x="640" y="768" width="128" height="128">
    <properties>
     <property name="dialog" value="castle_guard"/>
    </properties>
   </object>
-  <object name="Entrance" type="AreaEntity" x="448" y="768" width="128" height="128">
+  <object name="entrance" type="area_entity" x="448" y="768" width="128" height="128">
    <properties>
-    <property name="Area" value="entrance_hall"/>
-    <property name="Entry" value="from_main"/>
+    <property name="area" value="entrance_hall"/>
+    <property name="entry" value="from_main"/>
    </properties>
   </object>
-  <object name="rain" type="RainEffect" x="1280" y="128" width="64" height="64">
+  <object name="rain" type="rain_effect" x="1280" y="128" width="64" height="64">
    <properties>
     <property name="drop_len" value="10,50"/>
     <property name="drop_vel" value="60,300"/>

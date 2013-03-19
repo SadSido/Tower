@@ -83,28 +83,28 @@
 </data>
  </layer>
  <objectgroup name="entities" width="20" height="15">
-  <object type="AreaEntity" x="576" y="768" width="128" height="128">
+  <object type="area_entity" x="576" y="768" width="128" height="128">
    <properties>
-    <property name="Area" value="main"/>
-    <property name="Entry" value="from_entrance_hall"/>
+    <property name="area" value="main"/>
+    <property name="entry" value="from_entrance_hall"/>
    </properties>
   </object>
-  <object type="AreaEntity" x="64" y="768" width="128" height="128">
+  <object type="area_entity" x="64" y="768" width="128" height="128">
    <properties>
-    <property name="Area" value="throne_room"/>
-    <property name="Entry" value="from_entrance_hall"/>
+    <property name="area" value="throne_room"/>
+    <property name="entry" value="from_entrance_hall"/>
    </properties>
   </object>
-  <object type="AreaEntity" x="1088" y="320" width="128" height="128">
+  <object type="area_entity" x="1088" y="320" width="128" height="128">
    <properties>
-    <property name="Area" value="fencing_hall"/>
-    <property name="Entry" value="from_entrance_hall"/>
+    <property name="area" value="fencing_hall"/>
+    <property name="entry" value="from_entrance_hall"/>
    </properties>
   </object>
-  <object type="AreaEntity" x="64" y="320" width="128" height="128">
+  <object type="area_entity" x="64" y="320" width="128" height="128">
    <properties>
-    <property name="Area" value="watch_tower"/>
-    <property name="Entry" value="from_entrance_hall"/>
+    <property name="area" value="watch_tower"/>
+    <property name="entry" value="from_entrance_hall"/>
    </properties>
   </object>
  </objectgroup>

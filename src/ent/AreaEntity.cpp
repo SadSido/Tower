@@ -15,10 +15,10 @@ AreaEntity::AreaEntity(const CL_DomNodeList &props)
 		// process current property:
 		CL_DomElement prop = props.item(prNo).to_element();
 
-		if (prop.get_attribute("name") == "Area") 
+		if (prop.get_attribute("name") == "area") 
 		{ m_area = prop.get_attribute("value"); }
 	
-		if (prop.get_attribute("name") == "Entry") 
+		if (prop.get_attribute("name") == "entry") 
 		{ m_entry = prop.get_attribute("value"); }
 	}
 }

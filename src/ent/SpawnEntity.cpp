@@ -16,13 +16,13 @@ SpawnEntity::SpawnEntity(const CL_DomNodeList &props)
 		// process current property:
 		CL_DomElement prop = props.item(prNo).to_element();
 
-		if (prop.get_attribute("name") == "Spawnee") 
+		if (prop.get_attribute("name") == "spawnee") 
 		{ spawnee = prop.get_attribute("value"); }
 
-		if (prop.get_attribute("name") == "Interval") 
+		if (prop.get_attribute("name") == "interval") 
 		{ m_interval = prop.get_attribute_float("value"); }
 
-		if (prop.get_attribute("name") == "Limit") 
+		if (prop.get_attribute("name") == "limit") 
 		{ m_limit = prop.get_attribute_int("value"); }
 	}
 

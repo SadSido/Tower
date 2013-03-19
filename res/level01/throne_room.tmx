@@ -83,10 +83,10 @@
 </data>
  </layer>
  <objectgroup name="entities" width="20" height="15">
-  <object type="AreaEntity" x="1088" y="768" width="128" height="128">
+  <object type="area_entity" x="1088" y="768" width="128" height="128">
    <properties>
-    <property name="Area" value="entrance_hall"/>
-    <property name="Entry" value="from_throne_room"/>
+    <property name="area" value="entrance_hall"/>
+    <property name="entry" value="from_throne_room"/>
    </properties>
   </object>
  </objectgroup>

@@ -40,16 +40,16 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 
 Entity::Ref createEntity(CL_String type, const CL_DomNodeList &plist)
 {
-	if (type == "DialogEntity")
+	if (type == "dialog_entity")
 	{ return Entity::Ref(new DialogEntity(plist)); }
 
-	if (type == "AreaEntity")
+	if (type == "area_entity")
 	{ return Entity::Ref(new AreaEntity(plist)); }
 
-	if (type == "SpawnEntity")
+	if (type == "spawn_entity")
 	{ return Entity::Ref(new SpawnEntity(plist)); }
 
-	if (type == "RainEffect")
+	if (type == "rain_effect")
 	{ return Entity::Ref(new RainEffect(plist)); }
 
 	assert(false);
