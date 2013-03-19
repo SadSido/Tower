@@ -8,8 +8,8 @@
 
 // c-tor and d-tor:
 
-Entity::Entity(CL_String type, CL_String name)
-: m_type(type), m_name(name), m_spriteNo(0), m_uploaded(false)
+Entity::Entity()
+: m_spriteNo(0), m_uploaded(false)
 {
 }
 

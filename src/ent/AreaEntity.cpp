@@ -8,8 +8,7 @@
 
 //************************************************************************************************************************
 	
-AreaEntity::AreaEntity(CL_String name, const CL_DomNodeList &props)
-: Entity("AreaEntity", name)
+AreaEntity::AreaEntity(const CL_DomNodeList &props)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -22,7 +21,6 @@ AreaEntity::AreaEntity(CL_String name, const CL_DomNodeList &props)
 		if (prop.get_attribute("name") == "Entry") 
 		{ m_entry = prop.get_attribute("value"); }
 	}
-
 }
 
 bool AreaEntity::update(const LevelCtx &ctx, float secs)
@@ -36,8 +34,6 @@ bool AreaEntity::update(const LevelCtx &ctx, float secs)
 	else if (assigned && !isInside)
 	{ ctx.player.setAction(NULL); }
 
-	// perform the rest of the update:
-	// ...
 	return true;
 }
 

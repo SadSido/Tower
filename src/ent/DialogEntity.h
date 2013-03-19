@@ -16,9 +16,10 @@ class DialogEntity : public Entity
 {
 public:
 	// common constructor for the entities:
-	explicit DialogEntity(CL_String name, const CL_DomNodeList &props);
+	explicit DialogEntity(const CL_DomNodeList &props);
 
 private:
+	CL_String m_dlgName;
 	DialogSet::Ref m_dlgSet;
 
 	// virtual entity interface:

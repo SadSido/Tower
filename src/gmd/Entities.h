@@ -22,7 +22,7 @@ public:
 
 	// c-tor, d-tor and cloning:
 
-	explicit Entity(CL_String type, CL_String name);
+	explicit Entity();
 	virtual  Entity::Ref clone();
 	virtual ~Entity();
 
@@ -42,12 +42,6 @@ public:
 
 	CL_Pointf getAcc() const
 	{ return m_acc; }
-
-	CL_String getName() const
-	{ return m_name; }
-
-	CL_String getType() const
-	{ return m_type; }
 
 	// member assign:
 
@@ -85,9 +79,6 @@ protected:
 	CL_Rectf  m_rect;
 	CL_Pointf m_vel;
 	CL_Pointf m_acc;
-
-	const CL_String m_name;
-	const CL_String m_type;
 
 	bool m_uploaded;
 	int  m_spriteNo;

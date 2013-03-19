@@ -8,15 +8,22 @@
 
 //************************************************************************************************************************
 	
-DialogEntity::DialogEntity(CL_String name, const CL_DomNodeList &props)
-: Entity("DialogEntity", name)
+DialogEntity::DialogEntity(const CL_DomNodeList &props)
 {
+	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
+	{
+		// process current property:
+		CL_DomElement prop = props.item(prNo).to_element();
+
+		if (prop.get_attribute("name") == "dialog") 
+		{ m_dlgName = prop.get_attribute("value"); }
+	}
 }
 
 bool DialogEntity::update(const LevelCtx &ctx, float secs)
 {
 	// checks whether we have a dialog available:
-	if (!m_dlgSet) { m_dlgSet = ctx.dialogs[m_name]; }
+	if (!m_dlgSet) { m_dlgSet = ctx.dialogs[m_dlgName]; }
 
 	auto dialog = m_dlgSet->getDialog(ctx.globals);
 	
@@ -29,8 +36,6 @@ bool DialogEntity::update(const LevelCtx &ctx, float secs)
 	else if (assigned && (!dialog || !isInside))
 	{ ctx.player.setAction(NULL); }
 
-	// perform the rest of the update:
-	// ...
 	return true;
 }
 

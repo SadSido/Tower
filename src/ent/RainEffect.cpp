@@ -9,8 +9,8 @@
 
 //************************************************************************************************************************
 	
-RainEffect::RainEffect(CL_String name, const CL_DomNodeList &props)
-: Entity("RainEffect", name), m_interval(0.0f), m_lifetime(0.0f), m_tospawn(0.0f)
+RainEffect::RainEffect(const CL_DomNodeList &props)
+: m_interval(0.0f), m_lifetime(0.0f), m_tospawn(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{

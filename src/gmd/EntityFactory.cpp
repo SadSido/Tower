@@ -23,7 +23,7 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 
 	// generate entity by type:
 
-	Entity::Ref result = createEntity(type, name, plist);
+	Entity::Ref result = createEntity(type, plist);
 
 	// set common attributes:
 
@@ -38,19 +38,19 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 
 //************************************************************************************************************************
 
-Entity::Ref createEntity(CL_String type, CL_String name, const CL_DomNodeList &plist)
+Entity::Ref createEntity(CL_String type, const CL_DomNodeList &plist)
 {
 	if (type == "DialogEntity")
-	{ return Entity::Ref(new DialogEntity(name, plist)); }
+	{ return Entity::Ref(new DialogEntity(plist)); }
 
 	if (type == "AreaEntity")
-	{ return Entity::Ref(new AreaEntity(name, plist)); }
+	{ return Entity::Ref(new AreaEntity(plist)); }
 
 	if (type == "SpawnEntity")
-	{ return Entity::Ref(new SpawnEntity(name, plist)); }
+	{ return Entity::Ref(new SpawnEntity(plist)); }
 
 	if (type == "RainEffect")
-	{ return Entity::Ref(new RainEffect(name, plist)); }
+	{ return Entity::Ref(new RainEffect(plist)); }
 
 	assert(false);
 	return Entity::Ref();

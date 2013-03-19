@@ -15,7 +15,7 @@ class AreaEntity : public Entity
 {
 public:
 	// common constructor for the entities:
-	explicit AreaEntity(CL_String name, const CL_DomNodeList &props);
+	explicit AreaEntity(const CL_DomNodeList &props);
 
 private:
 	CL_String m_area;

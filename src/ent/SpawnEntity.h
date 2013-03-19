@@ -14,7 +14,7 @@ class SpawnEntity : public Entity
 {
 public:
 	// common constructor for the entities:
-	explicit SpawnEntity(CL_String name, const CL_DomNodeList &props);
+	explicit SpawnEntity(const CL_DomNodeList &props);
 
 private:
 	// virtual entity interface:

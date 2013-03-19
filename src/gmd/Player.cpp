@@ -57,7 +57,7 @@ static const auto a_free  = CL_Pointf(0.0f, 20.0f);
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: Entity("player", "player"), m_action(NULL), m_facing(1.0f)
+: m_action(NULL), m_facing(1.0f)
 {
 	setPos(pos);
 	setSize(size);

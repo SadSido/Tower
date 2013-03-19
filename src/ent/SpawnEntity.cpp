@@ -7,8 +7,8 @@
 
 //************************************************************************************************************************
 	
-SpawnEntity::SpawnEntity(CL_String name, const CL_DomNodeList &props)
-: Entity("SpawnEntity", name), m_spawning(false)
+SpawnEntity::SpawnEntity(const CL_DomNodeList &props)
+: m_spawning(false)
 {
 	CL_String spawnee;
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
@@ -27,7 +27,7 @@ SpawnEntity::SpawnEntity(CL_String name, const CL_DomNodeList &props)
 	}
 
 	// create spawnee pattern:
-	m_spawnee = createEntity(spawnee, name, props);
+	m_spawnee = createEntity(spawnee, props);
 
 	// create list of entities:
 	m_entities = Entities::Ref(new Entities());

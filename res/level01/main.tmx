@@ -86,7 +86,11 @@
 </data>
  </layer>
  <objectgroup name="entities" width="40" height="15">
-  <object name="CastleGuard" type="DialogEntity" x="640" y="768" width="128" height="128"/>
+  <object name="castle_guard" type="DialogEntity" x="640" y="768" width="128" height="128">
+   <properties>
+    <property name="dialog" value="castle_guard"/>
+   </properties>
+  </object>
   <object name="Entrance" type="AreaEntity" x="448" y="768" width="128" height="128">
    <properties>
     <property name="Area" value="entrance_hall"/>
