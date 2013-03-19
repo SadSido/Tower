@@ -4,6 +4,7 @@
 #include "RainEffect.h"
 #include "../sys/GameManager.h"
 #include "../gmd/AreaScene.h"
+#include "../util/XmlUtils.h"
 #include <assert.h>
 
 //************************************************************************************************************************
@@ -21,6 +22,12 @@ RainEffect::RainEffect(CL_String name, const CL_DomNodeList &props)
 
 		if (prop.get_attribute("name") == "lifetime")
 		{ m_lifetime = prop.get_attribute_float("value"); }
+
+		if (prop.get_attribute("name") == "drop_len")
+		{ m_droplen = readPoint(prop, "value"); }
+
+		if (prop.get_attribute("name") == "drop_vel")
+		{ m_dropvel = readPoint(prop, "value"); }
 	}
 }
 
@@ -44,9 +51,9 @@ bool RainEffect::update(const LevelCtx &ctx, float secs)
 		m_tospawn = m_interval;
 
 		int newx = rand() % ctx.gc.get_size().width;
-		int newy = rand() % ctx.gc.get_size().height;
+		int newy = rand() % ctx.gc.get_size().height / 2;
 
-		Raindrop drop = { CL_Pointf(newx, newy), CL_Pointf(0,200), m_lifetime };
+		Raindrop drop = { CL_Pointf(newx, newy), m_dropvel, m_lifetime };
 		m_drops.push_back(drop);
 	}
 
@@ -58,7 +65,7 @@ bool RainEffect::render(const LevelCtx &ctx)
 	for (auto it = m_drops.begin(); it != m_drops.end(); ++ it)
 	{
 		const float alpha = 1.0f - abs(2.0f * it->life / m_lifetime - 1.0f); 
-		CL_Draw::circle(ctx.gc, it->pos, 3.0f, CL_Colorf(0.5f, 0.5f, 0.5f, alpha));
+		CL_Draw::line(ctx.gc, it->pos, it->pos + m_droplen, CL_Colorf(0.5f, 0.5f, 0.5f, alpha));
 	}
 
 	return true;

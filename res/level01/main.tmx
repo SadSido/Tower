@@ -95,7 +95,9 @@
   </object>
   <object name="rain" type="RainEffect" x="1280" y="128" width="64" height="64">
    <properties>
-    <property name="interval" value="0.08"/>
+    <property name="drop_len" value="10,50"/>
+    <property name="drop_vel" value="60,300"/>
+    <property name="interval" value="0.05"/>
     <property name="lifetime" value="1.20"/>
    </properties>
   </object>

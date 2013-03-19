@@ -34,6 +34,9 @@ private:
 	float m_tospawn;
 	float m_lifetime;
 	
+	CL_Pointf m_droplen;
+	CL_Pointf m_dropvel;
+	
 	std::list<Raindrop> m_drops;
 };
 
