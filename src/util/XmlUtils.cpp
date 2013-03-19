@@ -22,7 +22,7 @@ RESULT readAttr(CL_DomElement node, const CL_String &one, const CL_String &two)
 CL_Sizef readSize(CL_DomElement node)
 { return readAttr<CL_Sizef>(node, "width", "height"); }
 
-CL_Pointf readPos(CL_DomElement node)
+CL_Pointf readPoint(CL_DomElement node)
 { return readAttr<CL_Pointf>(node, "x", "y"); }
 
 CL_Pointf readPoint(CL_DomElement node, CL_String attrName)

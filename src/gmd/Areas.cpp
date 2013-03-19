@@ -165,7 +165,7 @@ Area::EntryMap::Ref Area::loadEntryMap(CL_DomElement &root)
 			CL_DomElement object = objects.item(obNo).to_element();
 
 			const CL_String name = object.get_attribute("name");
-			const CL_Pointf exit = readPos(object) / tilesz;
+			const CL_Pointf exit = readPoint(object) / tilesz;
 
 			result->operator[](name) = exit;
 		}

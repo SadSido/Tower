@@ -28,7 +28,7 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 	// set common attributes:
 
 	const CL_Sizef size = readSize(node) / tilesz;
-	const CL_Pointf pos = readPos(node) / tilesz;
+	const CL_Pointf pos = readPoint(node) / tilesz;
 
 	result->setPos(pos);
 	result->setSize(size);
