@@ -8,8 +8,9 @@
 
 //************************************************************************************************************************
 
-CL_Sizef  readSize (CL_DomElement node);
-CL_Pointf readPos  (CL_DomElement node);
+CL_Sizef  readSize  (CL_DomElement node);
+CL_Pointf readPos   (CL_DomElement node);
+CL_Pointf readPoint (CL_DomElement node, CL_String attrName);
 
 //************************************************************************************************************************
 
