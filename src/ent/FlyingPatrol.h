@@ -17,10 +17,10 @@ struct LevelCtx;
 class FlyingPatrol : public Entity
 {
 public:
-	explicit FlyingPatrol(CL_Pointf pos, CL_Sizef size);
+	explicit FlyingPatrol(const CL_DomNodeList &plist);
 	virtual  Entity::Ref clone();
 
-private:
+protected:
 	#pragma region enums
 
 	enum Sprites
@@ -34,12 +34,6 @@ private:
 	#pragma endregion
 
 private:
-	// missile entity:
-	Entity::Ref m_missile;
-
-	// sprites & rendering:
-	float m_facing;
-
 	// virtual entity interface:
 	virtual bool update (const LevelCtx &ctx, float secs);
 	virtual bool render (const LevelCtx &ctx);
@@ -49,6 +43,18 @@ private:
 	void update_Emerge (const LevelCtx &ctx);
 	void update_Move   (const LevelCtx &ctx);
 	void update_Vanish (const LevelCtx &ctx);
+
+private:
+	bool m_alive;
+	CL_Pointf m_basePos;
+	CL_Pointf m_nextPos;
+
+	float m_maxvel;
+	float m_distance;
+
+	// minor helpers:
+	void setNextPos();
+	bool reachedPos();
 };
 
 //************************************************************************************************************************
