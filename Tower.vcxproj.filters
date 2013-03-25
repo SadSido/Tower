@@ -68,6 +68,9 @@
     <ClCompile Include="src\ent\RainEffect.cpp">
       <Filter>ent</Filter>
     </ClCompile>
+    <ClCompile Include="src\ent\FlyingPatrol.cpp">
+      <Filter>ent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -154,6 +157,9 @@
       <Filter>ent</Filter>
     </ClInclude>
     <ClInclude Include="src\ent\RainEffect.h">
+      <Filter>ent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\FlyingPatrol.h">
       <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>
