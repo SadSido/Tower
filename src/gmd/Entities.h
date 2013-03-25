@@ -38,6 +38,9 @@ public:
 	CL_Rectf getRect() const
 	{ return m_rect; }
 
+	CL_Pointf getCenter() const
+	{ return m_rect.get_center(); }
+
 	CL_Pointf getVel() const
 	{ return m_vel; }
 
