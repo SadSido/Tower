@@ -19,6 +19,7 @@ class Entity
 {
 public:
 	typedef std::shared_ptr<Entity> Ref;
+	typedef std::vector<CL_Sprite> SpriteVec;
 
 	// c-tor, d-tor and cloning:
 
@@ -43,6 +44,9 @@ public:
 	CL_Pointf getAcc() const
 	{ return m_acc; }
 
+	float getFacing() const
+	{ return m_facing ? +1.0f : -1.0f; }
+
 	// member assign:
 
 	void setPos(CL_Pointf pos)
@@ -56,6 +60,9 @@ public:
 
 	void setAcc(CL_Pointf acc)
 	{ m_acc = acc; }
+
+	void setFacing()
+	{ m_facing = (m_vel.x) ? (m_vel.x > 0.0f) : m_facing; }
 
 protected:
 
@@ -74,16 +81,19 @@ protected:
 	// sprites data:
 
 	CL_Sprite & getSprite();
+	SpriteVec & getSprites();
 
 protected:
+
 	CL_Rectf  m_rect;
 	CL_Pointf m_vel;
 	CL_Pointf m_acc;
 
+	bool m_facing;
 	bool m_uploaded;
 	int  m_spriteNo;
 
-	std::vector<CL_Sprite> m_sprites;
+	SpriteVec m_sprites;
 };
 
 //************************************************************************************************************************

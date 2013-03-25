@@ -54,9 +54,6 @@ private:
 	// tilemap helpers:
 	int getPosFlags(const LevelCtx &ctx);
 
-	// sprites & rendering:
-	float m_facing;
-
 	// virtual entity interface:
 	virtual bool update (const LevelCtx &ctx, float secs);
 	virtual bool render (const LevelCtx &ctx);

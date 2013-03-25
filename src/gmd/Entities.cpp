@@ -9,7 +9,7 @@
 // c-tor and d-tor:
 
 Entity::Entity()
-: m_spriteNo(0), m_uploaded(false)
+: m_spriteNo(0), m_uploaded(false), m_facing(false)
 {
 }
 
@@ -63,6 +63,11 @@ CL_Sprite & Entity::getSprite()
 {
 	assert(m_spriteNo < m_sprites.size());
 	return m_sprites[m_spriteNo];
+}
+
+Entity::SpriteVec & Entity::getSprites()
+{
+	return m_sprites;
 }
 
 //************************************************************************************************************************

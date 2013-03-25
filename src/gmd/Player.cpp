@@ -57,7 +57,7 @@ static const auto a_free  = CL_Pointf(0.0f, 20.0f);
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: m_action(NULL), m_facing(1.0f)
+: m_action(NULL)
 {
 	setPos(pos);
 	setSize(size);
@@ -83,6 +83,7 @@ bool Player::update(const LevelCtx &ctx, float secs)
 
 	// resolve movement:
 	m_vel += m_acc * secs;
+	setFacing();
 
 	TileChecker check = (getSpriteNo() == spr_Climb) ? isBlocking : anyBlocking;;
 	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, check);
@@ -91,7 +92,6 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	if (moveTest.type == th_Vertical)   { m_vel.y = 0.0f; }
 
 	m_rect.translate(moveTest.delta);
-	m_facing = (m_vel.x) ? (m_vel.x > 0.0f) ? +1.0f : -1.0f : m_facing;
 
 	// select and update sprite:
 	getSprite().update();
@@ -113,9 +113,10 @@ bool Player::render(const LevelCtx &ctx)
 	}
 
 
-	auto anchor = (m_facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
+	auto facing = getFacing();
+	auto anchor = (facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
 
-	sprite.set_scale(m_facing, 1.0f);
+	sprite.set_scale(facing, 1.0f);
 	sprite.draw(ctx.gc, anchor.x, anchor.y);
 
 	return true;
@@ -123,16 +124,17 @@ bool Player::render(const LevelCtx &ctx)
 
 void Player::upload(const LevelCtx &ctx)
 {
-	m_sprites.resize(spr_Count);
+	SpriteVec & sprites = getSprites();
+	sprites.resize(spr_Count);
 
-	m_sprites[spr_Stand]  = CL_Sprite(ctx.gc, "arteus_stand",  &ctx.assets);
-	m_sprites[spr_Walk]   = CL_Sprite(ctx.gc, "arteus_walk",   &ctx.assets);
-	m_sprites[spr_Climb]  = CL_Sprite(ctx.gc, "arteus_climb",  &ctx.assets);
-	m_sprites[spr_Jump]   = CL_Sprite(ctx.gc, "arteus_jump",   &ctx.assets);
-	m_sprites[spr_Shield] = CL_Sprite(ctx.gc, "arteus_shield", &ctx.assets);
-	m_sprites[spr_Pierce] = CL_Sprite(ctx.gc, "arteus_pierce", &ctx.assets);
-	m_sprites[spr_Slash]  = CL_Sprite(ctx.gc, "arteus_slash",  &ctx.assets);
-	m_sprites[spr_Strike] = CL_Sprite(ctx.gc, "arteus_strike", &ctx.assets);
+	sprites[spr_Stand]  = CL_Sprite(ctx.gc, "arteus_stand",  &ctx.assets);
+	sprites[spr_Walk]   = CL_Sprite(ctx.gc, "arteus_walk",   &ctx.assets);
+	sprites[spr_Climb]  = CL_Sprite(ctx.gc, "arteus_climb",  &ctx.assets);
+	sprites[spr_Jump]   = CL_Sprite(ctx.gc, "arteus_jump",   &ctx.assets);
+	sprites[spr_Shield] = CL_Sprite(ctx.gc, "arteus_shield", &ctx.assets);
+	sprites[spr_Pierce] = CL_Sprite(ctx.gc, "arteus_pierce", &ctx.assets);
+	sprites[spr_Slash]  = CL_Sprite(ctx.gc, "arteus_slash",  &ctx.assets);
+	sprites[spr_Strike] = CL_Sprite(ctx.gc, "arteus_strike", &ctx.assets);
 }
 
 // tilemap check helpers:
