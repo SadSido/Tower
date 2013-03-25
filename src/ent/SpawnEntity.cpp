@@ -59,7 +59,7 @@ bool SpawnEntity::update(const LevelCtx &ctx, float secs)
 			if (!m_tospawn)
 			{
 				m_spawning = false;
-				m_entities->push_back(m_spawnee->clone());
+				m_entities->push_back(spawn());
 			}
 		}
 		else
@@ -81,6 +81,19 @@ bool SpawnEntity::render(const LevelCtx &ctx)
 	{ (*it)->doRender(ctx); }
 
 	return true;
+}
+
+// spawning new guys:
+
+Entity::Ref SpawnEntity::spawn()
+{
+	auto result = m_spawnee->clone();
+	assert(result);
+
+	result->setPos(m_rect.get_top_left());
+	result->setSize(m_rect.get_size());
+
+	return result;
 }
 
 //************************************************************************************************************************

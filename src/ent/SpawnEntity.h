@@ -21,6 +21,9 @@ private:
 	virtual bool update(const LevelCtx &ctx, float secs);
 	virtual bool render(const LevelCtx &ctx);
 
+	// spawning the clones:
+	Entity::Ref spawn();
+
 private:
 	Entity::Ref   m_spawnee;
 	Entities::Ref m_entities;
