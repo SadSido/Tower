@@ -7,10 +7,26 @@
 
 //************************************************************************************************************************
 
-FlyingPatrol::FlyingPatrol(const CL_DomNodeList &plist)
-: m_alive(true)
+FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
+: m_alive(true), m_speed(0.0f), m_distance(0.0f), m_waittime(0.0f), m_towait(0.0f)
 {
+	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
+	{
+		// process current property:
+		CL_DomElement prop = props.item(prNo).to_element();
+
+		if (prop.get_attribute("name") == "distance") 
+		{ m_distance = prop.get_attribute_float("value"); }
 	
+		if (prop.get_attribute("name") == "speed") 
+		{ m_speed = prop.get_attribute_float("value"); }
+
+		if (prop.get_attribute("name") == "wait_time") 
+		{ m_waittime = prop.get_attribute_float("value"); }
+
+		if (prop.get_attribute("name") == "prefix") 
+		{ m_prefix = prop.get_attribute("value"); }
+	}
 }
 
 Entity::Ref FlyingPatrol::clone()
@@ -25,6 +41,7 @@ bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
 	{
 	case spr_Emerge: { update_Emerge (ctx); break; }
 	case spr_Move:   { update_Move   (ctx); break; }
+	case spr_Wait:   { update_Wait   (ctx, secs); break;  } 
 	case spr_Vanish: { update_Vanish (ctx); break; }
 	}
 
@@ -54,10 +71,28 @@ bool FlyingPatrol::render(const LevelCtx &ctx)
 	return true;
 }
 
+void FlyingPatrol::upload(const LevelCtx &ctx)
+{
+	SpriteVec & sprites = getSprites();
+	sprites.resize(spr_Count);
+
+	sprites[spr_Emerge] = CL_Sprite(ctx.gc, m_prefix + "_emerge", &ctx.assets);
+	sprites[spr_Wait]   = CL_Sprite(ctx.gc, m_prefix + "_wait",   &ctx.assets);
+	sprites[spr_Move]   = CL_Sprite(ctx.gc, m_prefix + "_move",   &ctx.assets);
+	sprites[spr_Vanish] = CL_Sprite(ctx.gc, m_prefix + "_vanish", &ctx.assets);
+
+	// also, remember initial pos as a base one:
+	m_basePos = getCenter();
+}
+
 // state-based updates:
 
-void FlyingPatrol::enterState(Sprites spr)
+void FlyingPatrol::enterState(Sprites spr, CL_Pointf vel)
 {
+	// set movement params:
+	m_vel = vel;
+
+	// set new sprite:
 	if (spr != getSpriteNo())
 	{
 		setSpriteNo(spr);
@@ -68,13 +103,22 @@ void FlyingPatrol::enterState(Sprites spr)
 void FlyingPatrol::update_Emerge(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
-	{ setNextPos(); enterState(spr_Move); }
+	{ setNextPos(); enterState(spr_Move, m_vel); }
 }
 
 void FlyingPatrol::update_Move(const LevelCtx &ctx)
 {
 	if (reachedPos())
-	{ setNextPos(); }
+	{ m_towait = m_waittime; enterState(spr_Wait, CL_Pointf()); }
+}
+
+void FlyingPatrol::update_Wait(const LevelCtx &ctx, float secs)
+{
+	// decrement cooldown:
+	m_towait = max(0.0f, m_towait - secs);
+	
+	if (m_towait == 0.0f)
+	{ setNextPos(); enterState(spr_Move, m_vel); }
 }
 
 void FlyingPatrol::update_Vanish(const LevelCtx &ctx)
@@ -91,7 +135,7 @@ void FlyingPatrol::setNextPos()
 	const CL_Pointf delta  = direct * m_distance;
 
 	m_nextPos = m_basePos + delta;
-	m_vel = (getCenter() - m_nextPos).normalize() * m_maxvel;
+	m_vel = (getCenter() - m_nextPos).normalize() * m_speed;
 }
 
 bool FlyingPatrol::reachedPos()
