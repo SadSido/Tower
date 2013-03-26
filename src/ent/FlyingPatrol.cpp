@@ -31,7 +31,7 @@ FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
 
 Entity::Ref FlyingPatrol::clone()
 {
-	return Entity::Ref();
+	return Entity::Ref(new FlyingPatrol(*this));
 }
 
 bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
