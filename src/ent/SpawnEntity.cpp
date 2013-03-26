@@ -19,10 +19,10 @@ SpawnEntity::SpawnEntity(const CL_DomNodeList &props)
 		if (prop.get_attribute("name") == "spawnee") 
 		{ spawnee = prop.get_attribute("value"); }
 
-		if (prop.get_attribute("name") == "interval") 
+		if (prop.get_attribute("name") == "spawn_interval") 
 		{ m_interval = prop.get_attribute_float("value"); }
 
-		if (prop.get_attribute("name") == "limit") 
+		if (prop.get_attribute("name") == "spawn_limit") 
 		{ m_limit = prop.get_attribute_int("value"); }
 	}
 

@@ -105,6 +105,17 @@
     <property name="lifetime" value="1.20"/>
    </properties>
   </object>
+  <object name="testee" type="spawn_entity" x="1792" y="448" width="64" height="64">
+   <properties>
+    <property name="distance" value="5.0"/>
+    <property name="prefix" value="familiar"/>
+    <property name="spawn_interval" value="3.0"/>
+    <property name="spawn_limit" value="5"/>
+    <property name="spawnee" value="flying_patrol"/>
+    <property name="speed" value="3.0"/>
+    <property name="wait_time" value="1.0"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="entries" width="40" height="15">
   <object name="main" x="2368" y="768"/>

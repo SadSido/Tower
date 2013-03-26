@@ -131,17 +131,17 @@ void FlyingPatrol::update_Vanish(const LevelCtx &ctx)
 
 void FlyingPatrol::setNextPos()
 {
-	const CL_Pointf direct = CL_Pointf(rand(), rand()).normalize();
+	const CL_Pointf direct = CL_Pointf(rand() % 100 - 50, rand() % 100 - 50).normalize();
 	const CL_Pointf delta  = direct * m_distance;
 
 	m_nextPos = m_basePos + delta;
-	m_vel = (getCenter() - m_nextPos).normalize() * m_speed;
+	m_vel = (m_nextPos - getCenter()).normalize() * m_speed;
 }
 
 bool FlyingPatrol::reachedPos()
 {
 	const CL_Pointf toTarget = getCenter() - m_nextPos;
-	return (abs(toTarget.x) + abs(toTarget.y)) < 1.0f;
+	return (abs(toTarget.x) + abs(toTarget.y)) < 2.0f;
 }
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<resources>
+	<sprite name="familiar_emerge">
+		<image file="familiar_emerge_00.png" />
+		<image file="familiar_emerge_01.png" />
+		<image file="familiar_move_00.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="40"/>
+	</sprite>
+	<sprite name="familiar_vanish">
+		<image file="familiar_move_00.png" />
+		<image file="familiar_emerge_01.png" />
+		<image file="familiar_emerge_00.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="40"/>
+	</sprite>
+	<sprite name="familiar_wait">
+		<image file="familiar_move_00.png" />
+		<image file="familiar_move_01.png" />
+		<image file="familiar_move_02.png" />
+ 		<animation loop="yes" speed="100"/>
+	</sprite>
+	<sprite name="familiar_move">
+		<image file="familiar_move_00.png" />
+		<image file="familiar_move_01.png" />
+		<image file="familiar_move_02.png" />
+ 		<animation loop="yes" speed="100"/>
+	</sprite>
+</resources>
