@@ -2,7 +2,6 @@
 // ORIGIN: main class for running the game
 
 #include "GameManager.h"
-#include "../gmd/IntroScene.h"
 #include "../gmd/LevelScene.h"
 
 #include <ClanLib/core.h>

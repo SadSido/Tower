@@ -94,7 +94,6 @@
     <ClCompile Include="src\gmd\Entities.cpp" />
     <ClCompile Include="src\gmd\EntityFactory.cpp" />
     <ClCompile Include="src\gmd\Globals.cpp" />
-    <ClCompile Include="src\gmd\IntroScene.cpp" />
     <ClCompile Include="src\gmd\LevelScene.cpp" />
     <ClCompile Include="src\gmd\Player.cpp" />
     <ClCompile Include="src\gmd\Tilemap.cpp" />
@@ -120,7 +119,6 @@
     <ClInclude Include="src\gmd\Entities.h" />
     <ClInclude Include="src\gmd\EntityFactory.h" />
     <ClInclude Include="src\gmd\Globals.h" />
-    <ClInclude Include="src\gmd\IntroScene.h" />
     <ClInclude Include="src\gmd\LevelScene.h" />
     <ClInclude Include="src\gmd\Notify.h" />
     <ClInclude Include="src\gmd\Player.h" />

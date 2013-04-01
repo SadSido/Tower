@@ -8,9 +8,6 @@
     <ClCompile Include="src\sys\GameScene.cpp">
       <Filter>sys</Filter>
     </ClCompile>
-    <ClCompile Include="src\gmd\IntroScene.cpp">
-      <Filter>gmd</Filter>
-    </ClCompile>
     <ClCompile Include="src\sys\Configuration.cpp">
       <Filter>sys</Filter>
     </ClCompile>
@@ -95,9 +92,6 @@
     </ClInclude>
     <ClInclude Include="src\sys\GameScene.h">
       <Filter>sys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gmd\IntroScene.h">
-      <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\sys\Configuration.h">
       <Filter>sys</Filter>
