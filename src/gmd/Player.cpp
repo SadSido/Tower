@@ -52,6 +52,46 @@ static const auto a_zero  = CL_Pointf();
 static const auto a_jump  = CL_Pointf(6.0f,  0.0f);
 static const auto a_free  = CL_Pointf(0.0f, 20.0f);
 
+// enumerations and states:
+
+enum PosFlags
+{
+	pf_OnGround  = 1 << 0,
+	pf_OnStairs  = 1 << 1,
+	pf_TopStairs = 1 << 2,
+};
+
+enum States
+{
+	state_Stand,
+	state_Walk,
+	state_Climb,
+	state_Jump,
+	state_Shield,
+	state_Pierce,
+	state_Slash,
+	state_Strike,
+	state_Count
+};
+
+static CL_String getStateName(int state)
+{
+	switch (state)
+	{
+	case state_Stand:	return "_stand";
+	case state_Walk:	return "_walk";
+	case state_Climb:	return "_climb";
+	case state_Jump:	return "_jump";
+	case state_Shield:	return "_shield";
+	case state_Pierce:	return "_pierce";
+	case state_Slash:	return "_slash";
+	case state_Strike:	return "_strike";
+	}
+
+	assert(false);
+	return CL_String();
+}
+
 }
 
 //************************************************************************************************************************
@@ -71,21 +111,21 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	// dispatch state-based update:
 	switch (getSpriteNo())
 	{
-	case spr_Stand:  { update_Stand  (ctx, posFlags); break; }
-	case spr_Walk:   { update_Walk   (ctx, posFlags); break; }
-	case spr_Climb:  { update_Climb  (ctx, posFlags); break; }
-	case spr_Jump:   { update_Jump   (ctx, posFlags); break; }
-	case spr_Shield: { update_Shield (ctx, posFlags); break; }
-	case spr_Pierce: { update_Pierce (ctx, posFlags); break; }
-	case spr_Slash:  { update_Slash  (ctx, posFlags); break; }
-	case spr_Strike: { update_Strike (ctx, posFlags); break; }
+	case state_Stand:  { update_Stand  (ctx, posFlags); break; }
+	case state_Walk:   { update_Walk   (ctx, posFlags); break; }
+	case state_Climb:  { update_Climb  (ctx, posFlags); break; }
+	case state_Jump:   { update_Jump   (ctx, posFlags); break; }
+	case state_Shield: { update_Shield (ctx, posFlags); break; }
+	case state_Pierce: { update_Pierce (ctx, posFlags); break; }
+	case state_Slash:  { update_Slash  (ctx, posFlags); break; }
+	case state_Strike: { update_Strike (ctx, posFlags); break; }
 	}
 
 	// resolve movement:
 	m_vel += m_acc * secs;
 	setFacing();
 
-	TileChecker check = (getSpriteNo() == spr_Climb) ? isBlocking : anyBlocking;;
+	TileChecker check = (getSpriteNo() == state_Climb) ? isBlocking : anyBlocking;;
 	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, check);
 
 	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
@@ -93,9 +133,8 @@ bool Player::update(const LevelCtx &ctx, float secs)
 
 	m_rect.translate(moveTest.delta);
 
-	// select and update sprite:
+	// update sprite:
 	getSprite().update();
-
 	return true;
 }
 
@@ -124,17 +163,14 @@ bool Player::render(const LevelCtx &ctx)
 
 void Player::upload(const LevelCtx &ctx)
 {
-	SpriteVec & sprites = getSprites();
-	sprites.resize(spr_Count);
+	static CL_String s_prefix = "arteus";
 
-	sprites[spr_Stand]  = CL_Sprite(ctx.gc, "arteus_stand",  &ctx.assets);
-	sprites[spr_Walk]   = CL_Sprite(ctx.gc, "arteus_walk",   &ctx.assets);
-	sprites[spr_Climb]  = CL_Sprite(ctx.gc, "arteus_climb",  &ctx.assets);
-	sprites[spr_Jump]   = CL_Sprite(ctx.gc, "arteus_jump",   &ctx.assets);
-	sprites[spr_Shield] = CL_Sprite(ctx.gc, "arteus_shield", &ctx.assets);
-	sprites[spr_Pierce] = CL_Sprite(ctx.gc, "arteus_pierce", &ctx.assets);
-	sprites[spr_Slash]  = CL_Sprite(ctx.gc, "arteus_slash",  &ctx.assets);
-	sprites[spr_Strike] = CL_Sprite(ctx.gc, "arteus_strike", &ctx.assets);
+	SpriteVec & sprites = getSprites();
+	sprites.resize(state_Count);
+
+	// load sprites:
+	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
+	{ sprites[stateNo] = CL_Sprite(ctx.gc, s_prefix + getStateName(stateNo), &ctx.assets); }
 }
 
 // tilemap check helpers:
@@ -158,14 +194,16 @@ void Player::enterAction(const LevelCtx &ctx)
 	m_action = NULL;
 }
 
-void Player::enterState(Sprites spr, CL_Pointf vel, CL_Pointf acc)
+void Player::enterState(int state, CL_Pointf vel, CL_Pointf acc)
 {
+	assert(state < state_Count);
+
 	m_vel = vel;
 	m_acc = acc;
 
-	if (spr != getSpriteNo())
+	if (state != getSpriteNo())
 	{
-		setSpriteNo(spr);
+		setSpriteNo(state);
 		getSprite().restart();
 	}
 }
@@ -174,15 +212,15 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 {
 	// SBA-effects:
 	if (!posFlags)
-	{ return enterState(spr_Jump, m_vel, a_free); }
+	{ return enterState(state_Jump, m_vel, a_free); }
 
 	// left-key:
 	if (ctx.keys.get_keycode(CL_KEY_A))
-	{ return enterState(spr_Walk, -v_walk, a_zero); }
+	{ return enterState(state_Walk, -v_walk, a_zero); }
 
 	// right-key:
 	if (ctx.keys.get_keycode(CL_KEY_D))
-	{ return enterState(spr_Walk, v_walk, a_zero); }
+	{ return enterState(state_Walk, v_walk, a_zero); }
 
 	// up-key:
 	if (ctx.keys.get_keycode(CL_KEY_W))
@@ -191,44 +229,44 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 		{ return enterAction(ctx); }
 		
 		else if (posFlags & pf_OnStairs)
-		{ return enterState(spr_Climb, -v_climb, a_zero); }
+		{ return enterState(state_Climb, -v_climb, a_zero); }
 		
 		else
-		{ return enterState(spr_Jump, -v_jump, a_free); }
+		{ return enterState(state_Jump, -v_jump, a_free); }
 	}
 
 	// down-key:
 	if (ctx.keys.get_keycode(CL_KEY_S))
 	{
 		if (posFlags & pf_TopStairs)
-		{ return enterState(spr_Climb, v_climb, a_zero); }
+		{ return enterState(state_Climb, v_climb, a_zero); }
 
 		if (posFlags & pf_OnStairs)
-		{ return enterState(spr_Climb, v_climb, a_zero); }
+		{ return enterState(state_Climb, v_climb, a_zero); }
 	}
 
 	// mouse-left:
 	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
-	{ return enterState(spr_Strike, v_zero, a_zero); }
+	{ return enterState(state_Strike, v_zero, a_zero); }
 
 	// mouse-right:
 	if (ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
-	{ return enterState(spr_Shield, v_zero, a_zero); }
+	{ return enterState(state_Shield, v_zero, a_zero); }
 }
 
 void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 {
 	// SBA-effects:
 	if (!posFlags)
-	{ return enterState(spr_Jump, m_vel, a_free); }
+	{ return enterState(state_Jump, m_vel, a_free); }
 
 	// mouse-left:
 	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
-	{ return enterState(spr_Pierce, m_vel * 2.0f - v_pier, a_free); }
+	{ return enterState(state_Pierce, m_vel * 2.0f - v_pier, a_free); }
 
 	// mouse-right:
 	if (ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
-	{ return enterState(spr_Shield, v_zero, a_zero); }
+	{ return enterState(state_Shield, v_zero, a_zero); }
 
 	// up key:
 	if (ctx.keys.get_keycode(CL_KEY_W))
@@ -237,100 +275,100 @@ void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 		{ return enterAction(ctx); }
 
 		else if (!(posFlags & pf_OnStairs))
-		{ return enterState(spr_Jump, CL_Pointf(m_vel.x, -v_leap.y), a_free); }
+		{ return enterState(state_Jump, CL_Pointf(m_vel.x, -v_leap.y), a_free); }
 	}
 	
 	// left key:
 	if (ctx.keys.get_keycode(CL_KEY_A))
-	{ return enterState(spr_Walk, -v_walk, a_zero); }
+	{ return enterState(state_Walk, -v_walk, a_zero); }
 
 	// right-key:
 	else if (ctx.keys.get_keycode(CL_KEY_D))
-	{ return enterState(spr_Walk, v_walk, a_zero); }
+	{ return enterState(state_Walk, v_walk, a_zero); }
 	
 	// no direction:
 	else
-	{ return enterState(spr_Stand, v_zero, a_zero); }
+	{ return enterState(state_Stand, v_zero, a_zero); }
 }
 
 void Player::update_Jump(const LevelCtx &ctx, int posFlags)
 {
 	// SBA-effects:
 	if (posFlags & pf_OnGround)
-	{ return enterState(spr_Stand, v_zero, a_zero); }
+	{ return enterState(state_Stand, v_zero, a_zero); }
 
 	// mouse-left:
 	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
-	{ return enterState(spr_Slash, m_vel, m_acc * 2.0f); }
+	{ return enterState(state_Slash, m_vel, m_acc * 2.0f); }
 
 	// left-key:
 	if (ctx.keys.get_keycode(CL_KEY_A))
-	{ return enterState(spr_Jump, m_vel, CL_Pointf(-a_jump.x, a_free.y)); }
+	{ return enterState(state_Jump, m_vel, CL_Pointf(-a_jump.x, a_free.y)); }
 
 	// right-key:
 	else if (ctx.keys.get_keycode(CL_KEY_D))
-	{ return enterState(spr_Jump, m_vel, CL_Pointf(a_jump.x, a_free.y)); }
+	{ return enterState(state_Jump, m_vel, CL_Pointf(a_jump.x, a_free.y)); }
 
 	// no direction:
 	else 
-	{ return enterState(spr_Jump, m_vel, a_free); }
+	{ return enterState(state_Jump, m_vel, a_free); }
 }
 
 void Player::update_Climb(const LevelCtx &ctx, int posFlags)
 {
 	// SBA-effects:
 	if (!posFlags)
-	{ return enterState(spr_Jump, m_vel, a_free); }
+	{ return enterState(state_Jump, m_vel, a_free); }
 
 	if ((posFlags & pf_OnGround) && (posFlags & pf_OnStairs))
-	{ return enterState(spr_Stand, v_zero, a_zero); }
+	{ return enterState(state_Stand, v_zero, a_zero); }
 
 	// up-key:
 	if (ctx.keys.get_keycode(CL_KEY_W))
 	{
 		if (posFlags & pf_OnStairs)
-		{ return enterState(spr_Climb, -v_climb, a_zero); }
+		{ return enterState(state_Climb, -v_climb, a_zero); }
 	}
 
 	// down-key:
 	else if (ctx.keys.get_keycode(CL_KEY_S))
 	{
 		if (posFlags & pf_OnStairs)
-		{ return enterState(spr_Climb, v_climb, a_zero); }
+		{ return enterState(state_Climb, v_climb, a_zero); }
 	}
 
 	else
-	{ return enterState(spr_Stand, v_zero, a_zero); }
+	{ return enterState(state_Stand, v_zero, a_zero); }
 }  
 
 void Player::update_Shield(const LevelCtx &ctx, int posFlags)
 {
 	if (!ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
-	{ return enterState(spr_Stand, v_zero, a_zero); }
+	{ return enterState(state_Stand, v_zero, a_zero); }
 }
 
 void Player::update_Pierce(const LevelCtx &ctx, int posFlags)
 {
 	if (posFlags & pf_OnGround)
-	{ return enterState(spr_Stand, v_zero, a_zero); }	
+	{ return enterState(state_Stand, v_zero, a_zero); }	
 	
 	if (getSprite().is_finished())
-	{ return enterState(spr_Jump, m_vel, a_free); }
+	{ return enterState(state_Jump, m_vel, a_free); }
 }
 
 void Player::update_Slash(const LevelCtx &ctx, int posFlags)
 {
 	if (posFlags & pf_OnGround)
-	{ return enterState(spr_Stand, v_zero, a_zero); }	
+	{ return enterState(state_Stand, v_zero, a_zero); }	
 	
 	if (getSprite().is_finished())
-	{ return enterState(spr_Jump, m_vel, a_free); }
+	{ return enterState(state_Jump, m_vel, a_free); }
 }
 
 void Player::update_Strike(const LevelCtx &ctx, int posFlags)
 {
 	if (getSprite().is_finished())
-	{ return enterState(spr_Stand, v_zero, a_zero); }
+	{ return enterState(state_Stand, v_zero, a_zero); }
 }
 
 // action handling:

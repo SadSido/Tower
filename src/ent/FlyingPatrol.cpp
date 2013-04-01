@@ -101,6 +101,7 @@ void FlyingPatrol::upload(const LevelCtx &ctx)
 	SpriteVec & sprites = getSprites();
 	sprites.resize(state_Count);
 
+	// load sprites:
 	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
 	{ sprites[stateNo] = CL_Sprite(ctx.gc, m_prefix + getStateName(stateNo), &ctx.assets); }
 

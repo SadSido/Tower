@@ -24,30 +24,6 @@ public:
 	bool checkAction(Entity * action);
 
 private:
-	#pragma region enums
-
-	enum PosFlags
-	{
-		pf_OnGround  = 1 << 0,
-		pf_OnStairs  = 1 << 1,
-		pf_TopStairs = 1 << 2,
-	};
-	enum Sprites
-	{
-		spr_Stand,
-		spr_Walk,
-		spr_Climb,
-		spr_Jump,
-		spr_Shield,
-		spr_Pierce,
-		spr_Slash,
-		spr_Strike,
-		spr_Count
-	};
-	
-	#pragma endregion
-
-private:
 	// current action if any:
 	Entity * m_action;
 
@@ -61,7 +37,7 @@ private:
 
 	// per-state updates:
 	void enterAction   (const LevelCtx &ctx);
-	void enterState    (Sprites num, CL_Pointf vel, CL_Pointf acc);
+	void enterState    (int state, CL_Pointf vel, CL_Pointf acc);
 
 	void update_Stand  (const LevelCtx &ctx, int posFlags);
 	void update_Walk   (const LevelCtx &ctx, int posFlags);
