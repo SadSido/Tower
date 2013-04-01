@@ -50,18 +50,19 @@ void Entity::upload(const LevelCtx &ctx)
 
 void Entity::setSpriteNo(int no)
 {
-	assert(no < m_sprites.size());
+	assert(no < getSpriteCount());
 	m_spriteNo = no;
 }
 
-int Entity::getSpriteNo()
-{
-	return m_spriteNo;
-}
+int Entity::getSpriteNo() const
+{ return m_spriteNo; }
+
+int Entity::getSpriteCount() const
+{ return (int)m_sprites.size(); }
 
 CL_Sprite & Entity::getSprite()
 {
-	assert(m_spriteNo < m_sprites.size());
+	assert(m_spriteNo < getSpriteCount());
 	return m_sprites[m_spriteNo];
 }
 

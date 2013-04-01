@@ -48,7 +48,7 @@ bool SpawnEntity::update(const LevelCtx &ctx, float secs)
 	}
 
 	// handle spawning of new ones:
-	if (m_entities->size() < m_limit)
+	if ((int)m_entities->size() < m_limit)
 	{
 		if (m_spawning)
 		{

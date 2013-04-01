@@ -50,10 +50,10 @@ bool RainEffect::update(const LevelCtx &ctx, float secs)
 	{
 		m_tospawn = m_interval;
 
-		int newx = rand() % ctx.gc.get_size().width;
-		int newy = rand() % ctx.gc.get_size().height / 2;
+		const int newx = rand() % ctx.gc.get_size().width;
+		const int newy = rand() % ctx.gc.get_size().height / 2;
 
-		Raindrop drop = { CL_Pointf(newx, newy), m_dropvel, m_lifetime };
+		Raindrop drop = { CL_Pointf((float)newx, (float)newy), m_dropvel, m_lifetime };
 		m_drops.push_back(drop);
 	}
 

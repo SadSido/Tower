@@ -78,8 +78,9 @@ protected:
 
 	// sprites nums:
 
+	int  getSpriteNo() const;
+	int  getSpriteCount() const;
 	void setSpriteNo(int no);
-	int  getSpriteNo();
 
 	// sprites data:
 
