@@ -20,20 +20,6 @@ public:
 	explicit FlyingPatrol(const CL_DomNodeList &plist);
 	virtual  Entity::Ref clone();
 
-protected:
-	#pragma region enums
-
-	enum Sprites
-	{
-		spr_Emerge,
-		spr_Move,
-		spr_Wait,
-		spr_Vanish,
-		spr_Count,
-	};
-	
-	#pragma endregion
-
 private:
 	// virtual entity interface:
 	virtual bool update (const LevelCtx &ctx, float secs);
@@ -41,7 +27,7 @@ private:
 	virtual void upload (const LevelCtx &ctx);
 
 	// per-state updates:
-	void enterState    (Sprites num, CL_Pointf vel);
+	void enterState    (int state, CL_Pointf vel);
 	void update_Emerge (const LevelCtx &ctx);
 	void update_Move   (const LevelCtx &ctx);
 	void update_Wait   (const LevelCtx &ctx, float secs);

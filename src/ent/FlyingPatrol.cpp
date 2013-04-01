@@ -7,6 +7,31 @@
 
 //************************************************************************************************************************
 
+enum States
+{
+	state_Emerge,
+	state_Move,
+	state_Wait,
+	state_Vanish,
+	state_Count,
+};
+
+static CL_String getStateName(int state)
+{
+	switch (state)
+	{
+	case state_Emerge:  return "_emerge";
+	case state_Move:	return "_move";
+	case state_Wait:	return "_wait";
+	case state_Vanish:	return "_vanish";
+	}
+
+	assert(false);
+	return CL_String();
+};
+
+//************************************************************************************************************************
+
 FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
 : m_alive(true), m_speed(0.0f), m_distance(0.0f), m_waittime(0.0f), m_towait(0.0f)
 {
@@ -39,10 +64,10 @@ bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
 	// dispatch state-based update:
 	switch (getSpriteNo())
 	{
-	case spr_Emerge: { update_Emerge (ctx); break; }
-	case spr_Move:   { update_Move   (ctx); break; }
-	case spr_Wait:   { update_Wait   (ctx, secs); break;  } 
-	case spr_Vanish: { update_Vanish (ctx); break; }
+	case state_Emerge: { update_Emerge (ctx); break; }
+	case state_Move:   { update_Move   (ctx); break; }
+	case state_Wait:   { update_Wait   (ctx, secs); break;  } 
+	case state_Vanish: { update_Vanish (ctx); break; }
 	}
 
 	// resolve movement:
@@ -74,12 +99,10 @@ bool FlyingPatrol::render(const LevelCtx &ctx)
 void FlyingPatrol::upload(const LevelCtx &ctx)
 {
 	SpriteVec & sprites = getSprites();
-	sprites.resize(spr_Count);
+	sprites.resize(state_Count);
 
-	sprites[spr_Emerge] = CL_Sprite(ctx.gc, m_prefix + "_emerge", &ctx.assets);
-	sprites[spr_Wait]   = CL_Sprite(ctx.gc, m_prefix + "_wait",   &ctx.assets);
-	sprites[spr_Move]   = CL_Sprite(ctx.gc, m_prefix + "_move",   &ctx.assets);
-	sprites[spr_Vanish] = CL_Sprite(ctx.gc, m_prefix + "_vanish", &ctx.assets);
+	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
+	{ sprites[stateNo] = CL_Sprite(ctx.gc, m_prefix + getStateName(stateNo), &ctx.assets); }
 
 	// also, remember initial pos as a base one:
 	m_basePos = getCenter();
@@ -87,15 +110,18 @@ void FlyingPatrol::upload(const LevelCtx &ctx)
 
 // state-based updates:
 
-void FlyingPatrol::enterState(Sprites spr, CL_Pointf vel)
+void FlyingPatrol::enterState(int state, CL_Pointf vel)
 {
+	// ensure valid state:
+	assert(state < state_Count);
+
 	// set movement params:
 	m_vel = vel;
 
 	// set new sprite:
-	if (spr != getSpriteNo())
+	if (state != getSpriteNo())
 	{
-		setSpriteNo(spr);
+		setSpriteNo(state);
 		getSprite().restart();
 	}
 }
@@ -103,13 +129,13 @@ void FlyingPatrol::enterState(Sprites spr, CL_Pointf vel)
 void FlyingPatrol::update_Emerge(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
-	{ setNextPos(); enterState(spr_Move, m_vel); }
+	{ setNextPos(); enterState(state_Move, m_vel); }
 }
 
 void FlyingPatrol::update_Move(const LevelCtx &ctx)
 {
 	if (reachedPos())
-	{ m_towait = m_waittime; enterState(spr_Wait, CL_Pointf()); }
+	{ m_towait = m_waittime; enterState(state_Wait, CL_Pointf()); }
 }
 
 void FlyingPatrol::update_Wait(const LevelCtx &ctx, float secs)
@@ -118,7 +144,7 @@ void FlyingPatrol::update_Wait(const LevelCtx &ctx, float secs)
 	m_towait = max(0.0f, m_towait - secs);
 	
 	if (m_towait == 0.0f)
-	{ setNextPos(); enterState(spr_Move, m_vel); }
+	{ setNextPos(); enterState(state_Move, m_vel); }
 }
 
 void FlyingPatrol::update_Vanish(const LevelCtx &ctx)
@@ -131,7 +157,8 @@ void FlyingPatrol::update_Vanish(const LevelCtx &ctx)
 
 void FlyingPatrol::setNextPos()
 {
-	const CL_Pointf direct = CL_Pointf(rand() % 100 - 50, rand() % 100 - 50).normalize();
+	const int newx = rand() % 100 - 50, newy = rand() % 100 - 50;
+	const CL_Pointf direct = CL_Pointf(float(newx), float(newy)).normalize();
 	const CL_Pointf delta  = direct * m_distance;
 
 	m_nextPos = m_basePos + delta;
