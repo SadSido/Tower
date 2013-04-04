@@ -11,6 +11,7 @@
 CL_Sizef  readSize  (CL_DomElement node);
 CL_Pointf readPoint (CL_DomElement node);
 CL_Pointf readPoint (CL_DomElement node, CL_String attrName);
+CL_Rectf  readRect  (CL_DomElement node);
 
 //************************************************************************************************************************
 

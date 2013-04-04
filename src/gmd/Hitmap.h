@@ -13,8 +13,7 @@
 class Hitmap
 {
 public:
-	explicit Hitmap();
-
+	explicit Hitmap(const CL_String &id, CL_ResourceManager * resources);
 	CL_Rectf getRect(int index) const;
 
 private:
