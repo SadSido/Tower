@@ -62,7 +62,7 @@ Entity::Ref FlyingPatrol::clone()
 bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
 {
 	// dispatch state-based update:
-	switch (getSpriteNo())
+	switch (getStateNo())
 	{
 	case state_Emerge: { update_Emerge (ctx); break; }
 	case state_Move:   { update_Move   (ctx); break; }
@@ -120,9 +120,9 @@ void FlyingPatrol::enterState(int state, CL_Pointf vel)
 	m_vel = vel;
 
 	// set new sprite:
-	if (state != getSpriteNo())
+	if (state != getStateNo())
 	{
-		setSpriteNo(state);
+		setStateNo(state);
 		getSprite().restart();
 	}
 }

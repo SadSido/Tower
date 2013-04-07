@@ -9,9 +9,8 @@
 // c-tor and d-tor:
 
 Entity::Entity()
-: m_spriteNo(0), m_uploaded(false), m_facing(false)
-{
-}
+: m_stateNo(0), m_uploaded(false), m_facing(false)
+{}
 
 Entity::~Entity()
 {}
@@ -34,9 +33,7 @@ bool Entity::doRender (const LevelCtx &ctx)
 }
 
 void Entity::doNotify(const LevelCtx &ctx, Notify code)
-{
-	notify(ctx, code);
-}
+{ notify(ctx, code); }
 
 // base entity does not react on notifications and loads nothing:
 
@@ -46,29 +43,32 @@ void Entity::notify(const LevelCtx &ctx, Notify code)
 void Entity::upload(const LevelCtx &ctx)
 {}
 
-// handling the set of sprites:
+// state numbers:
 
-void Entity::setSpriteNo(int no)
-{
-	assert(no < getSpriteCount());
-	m_spriteNo = no;
-}
+void Entity::setStateNo(int no)
+{ m_stateNo = no; }
 
-int Entity::getSpriteNo() const
-{ return m_spriteNo; }
+int Entity::getStateNo() const
+{ return m_stateNo; }
 
-int Entity::getSpriteCount() const
-{ return (int)m_sprites.size(); }
+// handling the set of sprites & hitmaps:
 
 CL_Sprite & Entity::getSprite()
 {
-	assert(m_spriteNo < getSpriteCount());
-	return m_sprites[m_spriteNo];
+	assert(m_stateNo < (int)m_sprites.size());
+	return m_sprites[m_stateNo];
 }
 
 Entity::SpriteVec & Entity::getSprites()
+{ return m_sprites; }
+
+Hitmap & Entity::getHitmap()
 {
-	return m_sprites;
+	assert(m_stateNo < (int)m_hitmaps.size());
+	return m_hitmaps[m_stateNo];
 }
+
+Entity::HitmapVec & Entity::getHitmaps()
+{ return m_hitmaps; }
 
 //************************************************************************************************************************

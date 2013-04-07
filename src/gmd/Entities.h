@@ -5,6 +5,7 @@
 #define _Entities_h_
 
 #include "../sys/Notify.h"
+#include "Hitmap.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 #include <list>
@@ -20,6 +21,7 @@ class Entity
 public:
 	typedef std::shared_ptr<Entity> Ref;
 	typedef std::vector<CL_Sprite> SpriteVec;
+	typedef std::vector<Hitmap> HitmapVec;
 
 	// c-tor, d-tor and cloning:
 
@@ -76,16 +78,17 @@ protected:
 	virtual void notify (const LevelCtx &ctx, Notify code);
 	virtual void upload (const LevelCtx &ctx);
 
-	// sprites nums:
+	// state nums:
 
-	int  getSpriteNo() const;
-	int  getSpriteCount() const;
-	void setSpriteNo(int no);
+	int  getStateNo() const;
+	void setStateNo(int no);
 
-	// sprites data:
+	// sprites & hitmaps:
 
 	CL_Sprite & getSprite();
 	SpriteVec & getSprites();
+	Hitmap    & getHitmap();
+	HitmapVec & getHitmaps();
 
 protected:
 
@@ -95,9 +98,10 @@ protected:
 
 	bool m_facing;
 	bool m_uploaded;
-	int  m_spriteNo;
+	int  m_stateNo;
 
 	SpriteVec m_sprites;
+	HitmapVec m_hitmaps;
 };
 
 //************************************************************************************************************************

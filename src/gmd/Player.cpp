@@ -109,7 +109,7 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	int posFlags = getPosFlags(ctx);
 
 	// dispatch state-based update:
-	switch (getSpriteNo())
+	switch (getStateNo())
 	{
 	case state_Stand:  { update_Stand  (ctx, posFlags); break; }
 	case state_Walk:   { update_Walk   (ctx, posFlags); break; }
@@ -125,7 +125,7 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	m_vel += m_acc * secs;
 	setFacing();
 
-	TileChecker check = (getSpriteNo() == state_Climb) ? isBlocking : anyBlocking;;
+	TileChecker check = (getStateNo() == state_Climb) ? isBlocking : anyBlocking;;
 	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, check);
 
 	if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
@@ -201,9 +201,9 @@ void Player::enterState(int state, CL_Pointf vel, CL_Pointf acc)
 	m_vel = vel;
 	m_acc = acc;
 
-	if (state != getSpriteNo())
+	if (state != getStateNo())
 	{
-		setSpriteNo(state);
+		setStateNo(state);
 		getSprite().restart();
 	}
 }
