@@ -50,4 +50,10 @@
  		<animation loop="no" on_finish="last_frame" speed="70"/>
 		<translation x="0" y="-30"/>
 	</sprite>
+	<!-- hitmaps -->
+	<hitmap name="arteus_strike_map">
+		<rect t="-1.0" l="1.0" w="1.0" h="1.0"/>
+		<rect t="-0.5" l="1.0" w="1.0" h="1.0"/>
+		<rect t="-0.0" l="1.0" w="1.0" h="1.0"/>
+	</hitmap>
 </resources>

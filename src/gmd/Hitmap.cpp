@@ -7,6 +7,9 @@
 
 //************************************************************************************************************************
 
+Hitmap::Hitmap()
+{}
+
 Hitmap::Hitmap(const CL_String &id, CL_ResourceManager * resources)
 {
 	CL_Resource resource = resources->get_resource(id);

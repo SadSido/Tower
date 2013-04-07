@@ -13,7 +13,10 @@
 class Hitmap
 {
 public:
+	explicit Hitmap();
 	explicit Hitmap(const CL_String &id, CL_ResourceManager * resources);
+
+	// get the rect by the index of the frame:
 	CL_Rectf getRect(int index) const;
 
 private:

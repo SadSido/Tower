@@ -23,6 +23,10 @@ public:
 	void setAction(Entity * action);
 	bool checkAction(Entity * action);
 
+	// interaction rects:
+	CL_Rectf getSwordRect();
+	CL_Rectf getShieldRect();
+
 private:
 	// current action if any:
 	Entity * m_action;
@@ -47,6 +51,9 @@ private:
 	void update_Pierce (const LevelCtx &ctx, int posFlags);
 	void update_Slash  (const LevelCtx &ctx, int posFlags);
 	void update_Strike (const LevelCtx &ctx, int posFlags);
+
+	// rectangle helpers:
+	CL_Rectf getHitmapRect();
 };
 
 //************************************************************************************************************************

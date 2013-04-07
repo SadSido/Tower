@@ -158,19 +158,41 @@ bool Player::render(const LevelCtx &ctx)
 	sprite.set_scale(facing, 1.0f);
 	sprite.draw(ctx.gc, anchor.x, anchor.y);
 
+	// test the sword rect:
+
+	auto swordRect = ctx.tilemap->toScreen(getSwordRect());
+	CL_Draw::box(ctx.gc, swordRect, CL_Colorf(255,0,0));
+	
+
 	return true;
 }
 
 void Player::upload(const LevelCtx &ctx)
 {
 	static CL_String s_prefix = "arteus";
+	static CL_String s_suffix = "_map";
 
 	SpriteVec & sprites = getSprites();
 	sprites.resize(state_Count);
 
+	HitmapVec & hitmaps = getHitmaps();
+	hitmaps.resize(state_Count);
+
 	// load sprites:
 	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
-	{ sprites[stateNo] = CL_Sprite(ctx.gc, s_prefix + getStateName(stateNo), &ctx.assets); }
+	{ 
+		auto name = s_prefix + getStateName(stateNo);
+		sprites[stateNo] = CL_Sprite(ctx.gc, name, &ctx.assets); 
+	}
+
+	// load hitmaps:
+	const int statesWithMap [] = { state_Strike };
+
+	for (int stateNo = 0; stateNo < 1; ++ stateNo)
+	{ 
+		auto name = s_prefix + getStateName(statesWithMap[stateNo]) + s_suffix;
+		hitmaps[statesWithMap[stateNo]] = Hitmap(name, &ctx.assets); 
+	}
 }
 
 // tilemap check helpers:
@@ -378,5 +400,38 @@ void Player::setAction(Entity * action)
 
 bool Player::checkAction(Entity * action)
 { return (m_action == action); }
+
+// interaction rects:
+
+CL_Rectf Player::getSwordRect()
+{
+	switch (getStateNo())
+	{
+	case state_Strike:	return getHitmapRect();
+	case state_Pierce:	return getHitmapRect();
+	case state_Slash:	return getHitmapRect();		 
+	}
+	return CL_Rectf();
+}
+
+CL_Rectf Player::getShieldRect()
+{
+	switch (getStateNo())
+	{
+	case state_Shield: return getHitmapRect(); 
+	}
+	return CL_Rectf();
+}
+
+CL_Rectf Player::getHitmapRect()
+{
+	const CL_Rectf hitrect = getHitmap().getRect(getSprite().get_current_frame());
+
+	const float topX = (getFacing() > 0.0f) ? m_rect.left + hitrect.left : m_rect.right - hitrect.right;
+	const float topY = m_rect.top  + hitrect.top;
+
+	return CL_Rectf(CL_Pointf(topX, topY), hitrect.get_size());
+}
+
 
 //************************************************************************************************************************
