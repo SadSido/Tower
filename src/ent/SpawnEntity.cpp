@@ -16,7 +16,7 @@ SpawnEntity::SpawnEntity(const CL_DomNodeList &props)
 		// process current property:
 		CL_DomElement prop = props.item(prNo).to_element();
 
-		if (prop.get_attribute("name") == "spawnee") 
+		if (prop.get_attribute("name") == "spawn_entity") 
 		{ spawnee = prop.get_attribute("value"); }
 
 		if (prop.get_attribute("name") == "spawn_interval") 
