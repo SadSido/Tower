@@ -30,6 +30,12 @@ static CL_String getStateName(int state)
 	return CL_String();
 };
 
+static CL_Color getRecoverColor(float recover)
+{
+	int alpha = (recover < 0.15f) ? 255 * recover / 0.15f : 255 * (0.3f - recover) / 0.15f;
+	return CL_Colorf(255, 0, 0, alpha);
+}
+
 //************************************************************************************************************************
 
 FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
@@ -109,7 +115,7 @@ bool FlyingPatrol::render(const LevelCtx &ctx)
 
 	if (m_recover)
 	{
-		sprite.set_color(CL_Color::red);
+		sprite.set_color(getRecoverColor(m_recover));
 		sprite.draw(ctx.gc, anchor.x, anchor.y);
 	}
 
