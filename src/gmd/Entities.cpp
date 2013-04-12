@@ -53,7 +53,10 @@ void Entity::upload(const LevelCtx &ctx)
 void Entity::damage(const LevelCtx &ctx, float ammount)
 {
 	if (m_recover == 0.0f)
-	{ m_recover = s_recoverTime; m_health -= ammount; }
+	{ 
+		m_health  = max(m_health - ammount, 0.0f);
+		m_recover = (m_health) ? s_recoverTime : 0.0f;
+	}
 }
 
 // state numbers:

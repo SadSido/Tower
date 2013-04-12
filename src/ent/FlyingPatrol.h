@@ -33,6 +33,9 @@ private:
 	void update_Wait   (const LevelCtx &ctx, float secs);
 	void update_Vanish (const LevelCtx &ctx);
 
+	// handling damage stuff:
+	bool checkDamage (const LevelCtx &ctx);
+
 private:
 	bool m_alive;
 
@@ -44,6 +47,7 @@ private:
 	float m_distance;
 	float m_waittime;
 	float m_towait;
+	float m_damage;
 
 	// minor helpers:
 	void setNextPos();

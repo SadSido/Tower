@@ -33,7 +33,7 @@ static CL_String getStateName(int state)
 //************************************************************************************************************************
 
 FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
-: m_alive(true), m_speed(0.0f), m_distance(0.0f), m_waittime(0.0f), m_towait(0.0f)
+: m_alive(true), m_speed(0.0f), m_distance(0.0f), m_waittime(0.0f), m_towait(0.0f), m_damage(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -51,6 +51,12 @@ FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
 
 		if (prop.get_attribute("name") == "prefix") 
 		{ m_prefix = prop.get_attribute("value"); }
+
+		if (prop.get_attribute("name") == "damage") 
+		{ m_damage = prop.get_attribute_float("value"); }
+
+		if (prop.get_attribute("name") == "health") 
+		{ m_health = prop.get_attribute_float("value"); }
 	}
 }
 
@@ -61,6 +67,13 @@ Entity::Ref FlyingPatrol::clone()
 
 bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
 {
+	// handle damage recovering:
+	if (m_recover)
+	{ 
+		m_recover = max(m_recover - secs, 0.0f);
+		return true;
+	}
+
 	// dispatch state-based update:
 	switch (getStateNo())
 	{
@@ -91,7 +104,14 @@ bool FlyingPatrol::render(const LevelCtx &ctx)
 	auto anchor = (facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
 
 	sprite.set_scale(facing, 1.0f);
+	sprite.set_color(CL_Color::white);
 	sprite.draw(ctx.gc, anchor.x, anchor.y);
+
+	if (m_recover)
+	{
+		sprite.set_color(CL_Color::red);
+		sprite.draw(ctx.gc, anchor.x, anchor.y);
+	}
 
 	return true;
 }
@@ -135,12 +155,18 @@ void FlyingPatrol::update_Emerge(const LevelCtx &ctx)
 
 void FlyingPatrol::update_Move(const LevelCtx &ctx)
 {
+	if (!checkDamage(ctx))
+	{ enterState(state_Vanish, CL_Pointf()); }
+
 	if (reachedPos())
 	{ m_towait = m_waittime; enterState(state_Wait, CL_Pointf()); }
 }
 
 void FlyingPatrol::update_Wait(const LevelCtx &ctx, float secs)
 {
+	if (!checkDamage(ctx))
+	{ enterState(state_Vanish, CL_Pointf()); }
+
 	// decrement cooldown:
 	m_towait = max(0.0f, m_towait - secs);
 	
@@ -152,6 +178,16 @@ void FlyingPatrol::update_Vanish(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
 	{ m_alive = false; }
+}
+
+// damage handling:
+
+bool FlyingPatrol::checkDamage(const LevelCtx &ctx)
+{
+	if (ctx.player.getSwordRect().is_overlapped(m_rect))
+	{ doDamage(ctx, 1.0f); }
+
+	return (m_health > 0.0f);
 }
 
 // helpers:
