@@ -34,6 +34,7 @@ public:
 	bool doUpdate (const LevelCtx &ctx, float secs);
 	bool doRender (const LevelCtx &ctx);
 	void doNotify (const LevelCtx &ctx, Notify code);
+	void doDamage (const LevelCtx &ctx, float ammount);
 
 	// member querries:
 
@@ -77,6 +78,7 @@ protected:
 	virtual bool render (const LevelCtx &ctx) = 0;
 	virtual void notify (const LevelCtx &ctx, Notify code);
 	virtual void upload (const LevelCtx &ctx);
+	virtual void damage (const LevelCtx &ctx, float ammount);
 
 	// state nums:
 
@@ -99,6 +101,9 @@ protected:
 	bool m_facing;
 	bool m_uploaded;
 	int  m_stateNo;
+	
+	float m_health;
+	float m_recover;
 
 	SpriteVec m_sprites;
 	HitmapVec m_hitmaps;

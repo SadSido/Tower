@@ -6,10 +6,14 @@
 
 //************************************************************************************************************************
 
+static const float s_recoverTime = 0.3f;
+
+//************************************************************************************************************************
+
 // c-tor and d-tor:
 
 Entity::Entity()
-: m_stateNo(0), m_uploaded(false), m_facing(false)
+: m_stateNo(0), m_uploaded(false), m_facing(false), m_health(1.0f), m_recover(0.0f)
 {}
 
 Entity::~Entity()
@@ -35,6 +39,9 @@ bool Entity::doRender (const LevelCtx &ctx)
 void Entity::doNotify(const LevelCtx &ctx, Notify code)
 { notify(ctx, code); }
 
+void Entity::doDamage(const LevelCtx &ctx, float ammount)
+{ damage(ctx, ammount); }
+
 // base entity does not react on notifications and loads nothing:
 
 void Entity::notify(const LevelCtx &ctx, Notify code)
@@ -42,6 +49,12 @@ void Entity::notify(const LevelCtx &ctx, Notify code)
 
 void Entity::upload(const LevelCtx &ctx)
 {}
+
+void Entity::damage(const LevelCtx &ctx, float ammount)
+{
+	if (m_recover == 0.0f)
+	{ m_recover = s_recoverTime; m_health -= ammount; }
+}
 
 // state numbers:
 
