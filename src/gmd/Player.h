@@ -38,8 +38,11 @@ private:
 	virtual bool update (const LevelCtx &ctx, float secs);
 	virtual bool render (const LevelCtx &ctx);
 	virtual void upload (const LevelCtx &ctx);
+	virtual void damage (const LevelCtx &ctx, float ammount);
 
 	// per-state updates:
+	float m_pendingDmg;
+
 	void enterAction   (const LevelCtx &ctx);
 	void enterState    (int state, CL_Pointf vel, CL_Pointf acc);
 
@@ -51,6 +54,8 @@ private:
 	void update_Pierce (const LevelCtx &ctx, int posFlags);
 	void update_Slash  (const LevelCtx &ctx, int posFlags);
 	void update_Strike (const LevelCtx &ctx, int posFlags);
+	void update_Damage (const LevelCtx &ctx, int posFlags);
+	void update_Defeat (const LevelCtx &ctx, int posFlags);
 
 	// rectangle helpers:
 	CL_Rectf getHitmapRect();

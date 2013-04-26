@@ -50,6 +50,20 @@
  		<animation loop="no" on_finish="last_frame" speed="70"/>
 		<translation x="0" y="-30"/>
 	</sprite>
+	<sprite name="arteus_damage">
+		<image file="arteus_walk_00.png" />
+		<image file="arteus_shield_00.png" />
+		<image file="arteus_shield_01.png" />
+		<image file="arteus_shield_02.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="50"/>
+	</sprite>
+	<sprite name="arteus_defeat">
+		<image file="arteus_strike_00.png" />
+		<image file="arteus_strike_01.png" />
+		<image file="arteus_strike_02.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="70"/>
+		<translation x="0" y="-30"/>
+	</sprite>
 	<!-- hitmaps -->
 	<hitmap name="arteus_strike_map">
 		<rect t="-1.0" l="1.0" w="1.0" h="1.0"/>

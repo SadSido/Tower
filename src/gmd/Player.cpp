@@ -71,6 +71,8 @@ enum States
 	state_Pierce,
 	state_Slash,
 	state_Strike,
+	state_Damage,
+	state_Defeat,
 	state_Count
 };
 
@@ -86,6 +88,8 @@ static CL_String getStateName(int state)
 	case state_Pierce:	return "_pierce";
 	case state_Slash:	return "_slash";
 	case state_Strike:	return "_strike";
+	case state_Damage:	return "_damage";
+	case state_Defeat:  return "_defeat";
 	}
 
 	assert(false);
@@ -97,8 +101,10 @@ static CL_String getStateName(int state)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: m_action(NULL)
+: m_action(NULL), m_pendingDmg(0.0f)
 {
+	m_health = 3.0f;
+
 	setPos(pos);
 	setSize(size);
 }
@@ -119,6 +125,8 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	case state_Pierce: { update_Pierce (ctx, posFlags); break; }
 	case state_Slash:  { update_Slash  (ctx, posFlags); break; }
 	case state_Strike: { update_Strike (ctx, posFlags); break; }
+	case state_Damage: { update_Damage (ctx, posFlags); break; }
+	case state_Defeat: { update_Defeat (ctx, posFlags); break; }
 	}
 
 	// resolve movement:
@@ -151,11 +159,12 @@ bool Player::render(const LevelCtx &ctx)
 		CL_Draw::fill(ctx.gc, rcAction, CL_Colorf(255,0,0,100));
 	}
 
-
 	auto facing = getFacing();
 	auto anchor = (facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
+	auto color  = (m_recover > 0.0f) ? CL_Color(255, 255, 255, 100) : CL_Color::white;
 
 	sprite.set_scale(facing, 1.0f);
+	sprite.set_color(color);
 	sprite.draw(ctx.gc, anchor.x, anchor.y);
 
 	// test the sword rect:
@@ -163,7 +172,6 @@ bool Player::render(const LevelCtx &ctx)
 	auto swordRect = ctx.tilemap->toScreen(getSwordRect());
 	CL_Draw::box(ctx.gc, swordRect, CL_Colorf(255,0,0));
 	
-
 	return true;
 }
 
@@ -192,6 +200,18 @@ void Player::upload(const LevelCtx &ctx)
 	{ 
 		auto name = s_prefix + getStateName(statesWithMap[stateNo]) + s_suffix;
 		hitmaps[statesWithMap[stateNo]] = Hitmap(name, &ctx.assets); 
+	}
+}
+
+void Player::damage(const LevelCtx &ctx, float ammount)
+{
+	// player runs the damage animation, and only then checks
+	// and receives damage, therefore the damage is pending:
+
+	if (m_recover == 0.0f && m_pendingDmg == 0.0f)
+	{ 
+		m_pendingDmg = ammount;
+		enterState(state_Damage, CL_Pointf(), CL_Pointf());
 	}
 }
 
@@ -391,6 +411,26 @@ void Player::update_Strike(const LevelCtx &ctx, int posFlags)
 {
 	if (getSprite().is_finished())
 	{ return enterState(state_Stand, v_zero, a_zero); }
+}
+
+void Player::update_Damage(const LevelCtx &ctx, int posFlags)
+{
+	if (getSprite().is_finished())
+	{ 
+		m_health     = max(0.0f, m_health - m_pendingDmg);
+		m_recover    = (m_health) ? 1.0f : 0.0f;
+		m_pendingDmg = (m_health) ? 0.0f : 1.0f;
+
+		// check for defeat here:
+		int nextState = (m_health) ? state_Stand : state_Defeat;
+		return enterState(nextState, CL_Pointf(), CL_Pointf());
+	}
+}
+
+void Player::update_Defeat(const LevelCtx &ctx, int posFlags)
+{
+	if (getSprite().is_finished())
+	{ ctx.globals.add(Globals::defeat()); }
 }
 
 // action handling:

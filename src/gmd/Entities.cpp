@@ -26,13 +26,22 @@ Entity::Ref Entity::clone()
 
 bool Entity::doUpdate (const LevelCtx &ctx, float secs)
 {
+	// perform upload if necessary:
 	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
+
+	// autodecrement recover time:
+	if (m_recover) { m_recover  = max(m_recover - secs, 0.0f); }
+
+	// actual update:
 	return update(ctx, secs);
 }
 
 bool Entity::doRender (const LevelCtx &ctx)
 {
+	// perform upload if necessary:
 	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
+
+	// actual render:
 	return render(ctx);
 }
 

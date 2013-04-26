@@ -35,6 +35,7 @@ private:
 
 	// handling damage stuff:
 	bool checkDamage (const LevelCtx &ctx);
+	void checkPlayer (const LevelCtx &ctx);
 
 private:
 	bool m_alive;

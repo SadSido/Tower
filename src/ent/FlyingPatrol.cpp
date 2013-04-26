@@ -75,10 +75,7 @@ bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
 {
 	// handle damage recovering:
 	if (m_recover)
-	{ 
-		m_recover = max(m_recover - secs, 0.0f);
-		return true;
-	}
+	{ return true; }
 
 	// dispatch state-based update:
 	switch (getStateNo())
@@ -164,6 +161,9 @@ void FlyingPatrol::update_Move(const LevelCtx &ctx)
 	if (!checkDamage(ctx))
 	{ enterState(state_Vanish, CL_Pointf()); }
 
+	// try to hit player:
+	checkPlayer(ctx);
+
 	if (reachedPos())
 	{ m_towait = m_waittime; enterState(state_Wait, CL_Pointf()); }
 }
@@ -172,6 +172,9 @@ void FlyingPatrol::update_Wait(const LevelCtx &ctx, float secs)
 {
 	if (!checkDamage(ctx))
 	{ enterState(state_Vanish, CL_Pointf()); }
+
+	// try to hit player:
+	checkPlayer(ctx);
 
 	// decrement cooldown:
 	m_towait = max(0.0f, m_towait - secs);
@@ -194,6 +197,12 @@ bool FlyingPatrol::checkDamage(const LevelCtx &ctx)
 	{ doDamage(ctx, 1.0f); }
 
 	return (m_health > 0.0f);
+}
+
+void FlyingPatrol::checkPlayer(const LevelCtx &ctx)
+{
+	if (ctx.player.getRect().is_overlapped(m_rect))
+	{ ctx.player.doDamage(ctx, 1.0f); }
 }
 
 // helpers:
