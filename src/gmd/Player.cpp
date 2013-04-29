@@ -41,8 +41,8 @@ bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 
 // some initialization constants:
 
-static const float s_recoverTime = 0.5f;
-static const float s_startHealth = 3.0f;
+static const float s_recoverTime = 1.0f;
+static const float s_startHealth = 5.0f;
 
 // some predefined velocities and accelerations:
 
@@ -182,15 +182,15 @@ bool Player::render(const LevelCtx &ctx)
 
 bool Player::renderHUD(const LevelCtx &ctx)
 {
-	const float barWid = m_sprHealth.get_width();
+	const float barWid = (float)m_sprHealth.get_width();
 	const float barHgt = (float)m_sprHealth.get_height();
 	const float redWid = barWid * m_health / s_startHealth;
 
-	CL_Rectf redRect  = CL_Rectf(0,0, redWid, barHgt / 2.0f);
-	CL_Rectf grayRect = CL_Rectf(redWid, redRect.bottom, barWid, barHgt);
+	const CL_Rectf redRect  = CL_Rectf(0,0, redWid, barHgt / 2.0f);
+	const CL_Rectf grayRect = CL_Rectf(redWid, redRect.bottom, barWid, barHgt);
 
 	m_sprHealth.draw(ctx.gc, redRect, redRect);
-	m_sprHealth.draw(ctx.gc, grayRect, CL_Rectf(redRect.get_top_right(), grayRect.get_size()));
+	m_sprHealth.draw(ctx.gc, grayRect, CL_Rectf(redRect.get_top_right() - CL_Pointf(1.0f,0.0f), grayRect.get_size()));
 
 	return true;
 }
