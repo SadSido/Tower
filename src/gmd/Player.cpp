@@ -180,6 +180,21 @@ bool Player::render(const LevelCtx &ctx)
 	return true;
 }
 
+bool Player::renderHUD(const LevelCtx &ctx)
+{
+	const float barWid = m_sprHealth.get_width();
+	const float barHgt = (float)m_sprHealth.get_height();
+	const float redWid = barWid * m_health / s_startHealth;
+
+	CL_Rectf redRect  = CL_Rectf(0,0, redWid, barHgt / 2.0f);
+	CL_Rectf grayRect = CL_Rectf(redWid, redRect.bottom, barWid, barHgt);
+
+	m_sprHealth.draw(ctx.gc, redRect, redRect);
+	m_sprHealth.draw(ctx.gc, grayRect, CL_Rectf(redRect.get_top_right(), grayRect.get_size()));
+
+	return true;
+}
+
 void Player::upload(const LevelCtx &ctx)
 {
 	static CL_String s_prefix = "arteus";
@@ -206,6 +221,9 @@ void Player::upload(const LevelCtx &ctx)
 		auto name = s_prefix + getStateName(statesWithMap[stateNo]) + s_suffix;
 		hitmaps[statesWithMap[stateNo]] = Hitmap(name, &ctx.assets); 
 	}
+
+	// load extra sprites:
+	m_sprHealth = CL_Sprite(ctx.gc, "health_bar", &ctx.assets);
 }
 
 void Player::damage(const LevelCtx &ctx, float ammount)

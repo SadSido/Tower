@@ -81,6 +81,9 @@ void LevelScene::render()
 
 	// render map (2nd pass):
 	ctx.tilemap->renderForeground(ctx);
+
+	// render HUD:
+	m_player.renderHUD(ctx);
 }
 
 void LevelScene::notify(Notify code, void * data)

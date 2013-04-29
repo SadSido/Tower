@@ -1,8 +1,9 @@
 
 // resources:
 
-resource "level01/tiles.xml"
 resource "common/arteus.xml"
+resource "common/HUD.xml"
+resource "level01/tiles.xml"
 resource "level01/familiar.xml"
 
 area "level01/main.tmx" as "main"

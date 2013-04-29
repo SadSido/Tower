@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<resources>
+	<sprite name="health_bar">
+		<image file="health.png" />
+ 	</sprite>
+/resources>

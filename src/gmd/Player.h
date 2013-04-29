@@ -27,9 +27,19 @@ public:
 	CL_Rectf getSwordRect();
 	CL_Rectf getShieldRect();
 
+	// rendering player stats:
+	bool renderHUD(const LevelCtx &ctx);
+
 private:
 	// current action if any:
 	Entity * m_action;
+
+	// pending damage:
+	float m_pendingDmg;
+
+	// non-state sprites:
+	CL_Sprite m_sprHealth;
+	CL_Sprite m_sprMouse;
 
 	// tilemap helpers:
 	int getPosFlags(const LevelCtx &ctx);
@@ -41,8 +51,6 @@ private:
 	virtual void damage (const LevelCtx &ctx, float ammount);
 
 	// per-state updates:
-	float m_pendingDmg;
-
 	void enterAction   (const LevelCtx &ctx);
 	void enterState    (int state, CL_Pointf vel, CL_Pointf acc);
 
