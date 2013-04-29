@@ -39,6 +39,11 @@ bool standOnGround(const Tilemap::Ref map, CL_Rectf rect)
 bool standTopStairs(const Tilemap::Ref map, CL_Rectf rect)
 { return testTile<topStairs, bothPoints, true>(map, rect); }
 
+// some initialization constants:
+
+static const float s_recoverTime = 0.5f;
+static const float s_startHealth = 3.0f;
+
 // some predefined velocities and accelerations:
 
 static const auto v_zero  = CL_Pointf();
@@ -103,7 +108,7 @@ static CL_String getStateName(int state)
 Player::Player(CL_Pointf pos, CL_Sizef size)
 : m_action(NULL), m_pendingDmg(0.0f)
 {
-	m_health = 3.0f;
+	m_health = s_startHealth;
 
 	setPos(pos);
 	setSize(size);
@@ -418,7 +423,7 @@ void Player::update_Damage(const LevelCtx &ctx, int posFlags)
 	if (getSprite().is_finished())
 	{ 
 		m_health     = max(0.0f, m_health - m_pendingDmg);
-		m_recover    = (m_health) ? 1.0f : 0.0f;
+		m_recover    = (m_health) ? s_recoverTime : 0.0f;
 		m_pendingDmg = (m_health) ? 0.0f : 1.0f;
 
 		// check for defeat here:
