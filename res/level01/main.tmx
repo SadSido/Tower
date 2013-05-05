@@ -126,6 +126,7 @@
   </object>
   <object name="testee" type="spawn_entity" x="1856" y="640" width="64" height="64">
    <properties>
+    <property name="damage" value="1.0"/>
     <property name="distance" value="5.0"/>
     <property name="health" value="3.0"/>
     <property name="prefix" value="familiar"/>

@@ -201,8 +201,8 @@ bool FlyingPatrol::checkDamage(const LevelCtx &ctx)
 
 void FlyingPatrol::checkPlayer(const LevelCtx &ctx)
 {
-	if (ctx.player.getRect().is_overlapped(m_rect))
-	{ ctx.player.doDamage(ctx, 1.0f); }
+	if (m_damage && ctx.player.getRect().is_overlapped(m_rect))
+	{ ctx.player.doDamage(ctx, m_damage); }
 }
 
 // helpers:
