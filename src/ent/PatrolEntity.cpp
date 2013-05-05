@@ -1,7 +1,7 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
-// ORIGIN: base class for a flying passievely patrolling monster
+// ORIGIN: patrolling monsters or NPCs
 
-#include "FlyingPatrol.h"
+#include "PatrolEntity.h"
 #include "../gmd/LevelScene.h"
 #include <assert.h>
 

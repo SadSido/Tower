@@ -8,7 +8,7 @@
 #include "../ent/AreaEntity.h"
 #include "../ent/SpawnEntity.h"
 #include "../ent/RainEffect.h"
-#include "../ent/FlyingPatrol.h"
+#include "../ent/PatrolEntity.h"
 
 #include <assert.h>
 

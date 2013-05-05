@@ -84,7 +84,7 @@
   <ItemGroup>
     <ClCompile Include="src\ent\AreaEntity.cpp" />
     <ClCompile Include="src\ent\DialogEntity.cpp" />
-    <ClCompile Include="src\ent\FlyingPatrol.cpp" />
+    <ClCompile Include="src\ent\PatrolEntity.cpp" />
     <ClCompile Include="src\ent\RainEffect.cpp" />
     <ClCompile Include="src\ent\SpawnEntity.cpp" />
     <ClCompile Include="src\gmd\Areas.cpp" />
@@ -110,7 +110,7 @@
   <ItemGroup>
     <ClInclude Include="src\ent\AreaEntity.h" />
     <ClInclude Include="src\ent\DialogEntity.h" />
-    <ClInclude Include="src\ent\FlyingPatrol.h" />
+    <ClInclude Include="src\ent\PatrolEntity.h" />
     <ClInclude Include="src\ent\RainEffect.h" />
     <ClInclude Include="src\ent\SpawnEntity.h" />
     <ClInclude Include="src\gmd\Areas.h" />

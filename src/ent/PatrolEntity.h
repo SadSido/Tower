@@ -1,8 +1,8 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
-// ORIGIN: base class for a flying passievely patrolling monster
+// ORIGIN: patrolling monsters or NPCs
 
-#ifndef _FlyingPatrol_h_
-#define _FlyingPatrol_h_
+#ifndef _PatrolEntity_h_
+#define _PatrolEntity_h_
 
 #include "../gmd/Entities.h"
 #include <ClanLib/core.h>

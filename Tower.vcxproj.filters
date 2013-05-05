@@ -65,11 +65,11 @@
     <ClCompile Include="src\ent\RainEffect.cpp">
       <Filter>ent</Filter>
     </ClCompile>
-    <ClCompile Include="src\ent\FlyingPatrol.cpp">
-      <Filter>ent</Filter>
-    </ClCompile>
     <ClCompile Include="src\gmd\Hitmap.cpp">
       <Filter>gmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ent\PatrolEntity.cpp">
+      <Filter>ent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,11 +156,11 @@
     <ClInclude Include="src\ent\RainEffect.h">
       <Filter>ent</Filter>
     </ClInclude>
-    <ClInclude Include="src\ent\FlyingPatrol.h">
-      <Filter>ent</Filter>
-    </ClInclude>
     <ClInclude Include="src\gmd\Hitmap.h">
       <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\PatrolEntity.h">
+      <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
