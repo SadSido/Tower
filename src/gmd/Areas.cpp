@@ -80,11 +80,12 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 	// then, we fetch layer data:
 	const int tilecount = width * height;
 
-	std::vector<int> backData;
-	std::vector<int> foreData;
+	std::vector<int> backData(tilecount, 0);
+	std::vector<int> deckData(tilecount, 0);
+	std::vector<int> foreData(tilecount, 0);
 
-	std::vector<int> blockFlags;
-	std::vector<int> stairFlags;
+	std::vector<int> blockFlags(tilecount, 0);
+	std::vector<int> stairFlags(tilecount, 0);
 
 	auto layers = root.get_elements_by_tag_name("layer");
 	for (int no = 0; no < layers.get_length(); ++ no)
@@ -94,29 +95,33 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 		const CL_String data = layer.get_child_string("data");
 		
 		auto it = data.begin();
+		
 		if (name == "background")
-		{ backData.reserve(tilecount); parseCSV(it, backData); }
+		{ parseCSV(it, backData); }
+
+		else if (name == "decoration")
+		{ parseCSV(it, deckData); }
 
 		else if (name == "foreground")
-		{ foreData.reserve(tilecount); parseCSV(it, foreData); }
+		{ parseCSV(it, foreData); }
 
 		else if (name == "blockFlags")
-		{ blockFlags.reserve(tilecount); parseCSV(it, blockFlags); }
+		{ parseCSV(it, blockFlags); }
 
 		else if (name == "stairFlags")
-		{ stairFlags.reserve(tilecount); parseCSV(it, stairFlags); }
+		{ parseCSV(it, stairFlags); }
 	}
 
 	// finally, we assemble layer data into tile descriptors:
 
-	for (size_t no = 0; no < blockFlags.size(); ++ no)
+	for (int no = 0; no < tilecount; ++ no)
 	{
 		int flags = 0;
 
 		if (blockFlags[no]) flags |= tf_Blocking;
 		if (stairFlags[no]) flags |= tf_Stair;
 
-		TileDesc desc = { flags, backData[no], foreData[no] };
+		TileDesc desc = { flags, backData[no], deckData[no], foreData[no] };
 		result->pushDesc(desc);
 	}
 

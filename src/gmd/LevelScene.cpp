@@ -72,6 +72,9 @@ void LevelScene::render()
 	// render map (1st pass):
 	ctx.tilemap->renderBackground(ctx);
 
+	// render map (2nd pass):
+	ctx.tilemap->renderDecoration(ctx);
+
 	// render player:
 	m_player.doRender(ctx);
 
@@ -79,7 +82,7 @@ void LevelScene::render()
 	for (auto it = ctx.entities->begin(); it != ctx.entities->end(); ++ it)
 	{ (*it)->doRender(ctx); }
 
-	// render map (2nd pass):
+	// render map (3rd pass):
 	ctx.tilemap->renderForeground(ctx);
 
 	// render HUD:

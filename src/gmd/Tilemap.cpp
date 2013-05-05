@@ -108,6 +108,9 @@ typedef int (*FnLayer)(const TileDesc &desc);
 int backLayer(const TileDesc &desc)
 { return desc.backID; }
 
+int deckLayer(const TileDesc &desc)
+{ return desc.deckID; }
+
 int foreLayer(const TileDesc &desc)
 { return desc.foreID; }
 
@@ -155,7 +158,7 @@ Tilemap::Tilemap(int dimX, int dimY, int size)
 
 TileDesc Tilemap::getTile(int x, int y) const
 {
-	static const TileDesc defTile = { tf_Blocking, 0, 0 };
+	static const TileDesc defTile = { tf_Blocking, 0, 0, 0 };
 
 	if (x < 0 || x >= m_dimX) { return defTile; }
 	if (y < 0 || y >= m_dimY) { return defTile; }
@@ -275,6 +278,12 @@ void Tilemap::renderBackground(const LevelCtx &ctx)
 
 	// render background tiles:
 	renderLayer<backLayer>(*this, ctx, m_offset, m_window, m_size);
+}
+
+void Tilemap::renderDecoration(const LevelCtx &ctx)
+{
+	// render foreground tiles:
+	renderLayer<deckLayer>(*this, ctx, m_offset, m_window, m_size);
 }
 
 void Tilemap::renderForeground(const LevelCtx &ctx)

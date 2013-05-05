@@ -26,6 +26,7 @@ struct TileDesc
 {
 	int flags;
 	int backID;
+	int deckID;
 	int foreID;
 };
 
@@ -108,6 +109,7 @@ public:
 	// rendering:
 	void renderImage(const LevelCtx &ctx);
 	void renderForeground(const LevelCtx &ctx);
+	void renderDecoration(const LevelCtx &ctx);
 	void renderBackground(const LevelCtx &ctx);
 
 private:

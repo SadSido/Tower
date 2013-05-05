@@ -75,10 +75,15 @@ int parseInt(CL_String::const_iterator &it)
 
 void parseCSV(CL_String::const_iterator &it, std::vector<int> &res)
 {
+	size_t pos = 0;
 	while (*it)
 	{
 		skipUntil(it, digits);
-		if (*it) res.push_back(parseInt(it));
+		if (*it)
+		{
+			assert(pos < res.size());
+			res[pos ++] = parseInt(it);
+		}
 	}
 }
 
