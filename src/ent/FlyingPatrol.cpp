@@ -38,7 +38,7 @@ static CL_Color getRecoverColor(float recover)
 
 //************************************************************************************************************************
 
-FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
+BasePatrol::BasePatrol(const CL_DomNodeList &props)
 : m_alive(true), m_speed(0.0f), m_distance(0.0f), m_waittime(0.0f), m_towait(0.0f), m_damage(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
@@ -66,12 +66,7 @@ FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
 	}
 }
 
-Entity::Ref FlyingPatrol::clone()
-{
-	return Entity::Ref(new FlyingPatrol(*this));
-}
-
-bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
+bool BasePatrol::update(const LevelCtx &ctx, float secs)
 {
 	// handle damage recovering:
 	if (m_recover)
@@ -96,7 +91,7 @@ bool FlyingPatrol::update(const LevelCtx &ctx, float secs)
 	return m_alive;
 }
 
-bool FlyingPatrol::render(const LevelCtx &ctx)
+bool BasePatrol::render(const LevelCtx &ctx)
 {
 	CL_Sprite & sprite = getSprite();
 
@@ -119,7 +114,7 @@ bool FlyingPatrol::render(const LevelCtx &ctx)
 	return true;
 }
 
-void FlyingPatrol::upload(const LevelCtx &ctx)
+void BasePatrol::upload(const LevelCtx &ctx)
 {
 	SpriteVec & sprites = getSprites();
 	sprites.resize(state_Count);
@@ -134,7 +129,7 @@ void FlyingPatrol::upload(const LevelCtx &ctx)
 
 // state-based updates:
 
-void FlyingPatrol::enterState(int state, CL_Pointf vel)
+void BasePatrol::enterState(int state, CL_Pointf vel)
 {
 	// ensure valid state:
 	assert(state < state_Count);
@@ -150,13 +145,13 @@ void FlyingPatrol::enterState(int state, CL_Pointf vel)
 	}
 }
 
-void FlyingPatrol::update_Emerge(const LevelCtx &ctx)
+void BasePatrol::update_Emerge(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
 	{ setNextPos(); enterState(state_Move, m_vel); }
 }
 
-void FlyingPatrol::update_Move(const LevelCtx &ctx)
+void BasePatrol::update_Move(const LevelCtx &ctx)
 {
 	if (!checkDamage(ctx))
 	{ enterState(state_Vanish, CL_Pointf()); }
@@ -168,7 +163,7 @@ void FlyingPatrol::update_Move(const LevelCtx &ctx)
 	{ m_towait = m_waittime; enterState(state_Wait, CL_Pointf()); }
 }
 
-void FlyingPatrol::update_Wait(const LevelCtx &ctx, float secs)
+void BasePatrol::update_Wait(const LevelCtx &ctx, float secs)
 {
 	if (!checkDamage(ctx))
 	{ enterState(state_Vanish, CL_Pointf()); }
@@ -183,7 +178,7 @@ void FlyingPatrol::update_Wait(const LevelCtx &ctx, float secs)
 	{ setNextPos(); enterState(state_Move, m_vel); }
 }
 
-void FlyingPatrol::update_Vanish(const LevelCtx &ctx)
+void BasePatrol::update_Vanish(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
 	{ m_alive = false; }
@@ -191,7 +186,7 @@ void FlyingPatrol::update_Vanish(const LevelCtx &ctx)
 
 // damage handling:
 
-bool FlyingPatrol::checkDamage(const LevelCtx &ctx)
+bool BasePatrol::checkDamage(const LevelCtx &ctx)
 {
 	if (ctx.player.getSwordRect().is_overlapped(m_rect))
 	{ doDamage(ctx, 1.0f); }
@@ -199,13 +194,22 @@ bool FlyingPatrol::checkDamage(const LevelCtx &ctx)
 	return (m_health > 0.0f);
 }
 
-void FlyingPatrol::checkPlayer(const LevelCtx &ctx)
+void BasePatrol::checkPlayer(const LevelCtx &ctx)
 {
 	if (m_damage && ctx.player.getRect().is_overlapped(m_rect))
 	{ ctx.player.doDamage(ctx, m_damage); }
 }
 
-// helpers:
+//************************************************************************************************************************
+
+FlyingPatrol::FlyingPatrol(const CL_DomNodeList &props)
+: BasePatrol(props)
+{}
+
+FlyingPatrol::Ref FlyingPatrol::clone()
+{
+	return FlyingPatrol::Ref(new FlyingPatrol(*this));
+}
 
 void FlyingPatrol::setNextPos()
 {
@@ -223,5 +227,31 @@ bool FlyingPatrol::reachedPos()
 	return (abs(toTarget.x) + abs(toTarget.y)) < 2.0f;
 }
 
+//************************************************************************************************************************
+
+GroundPatrol::GroundPatrol(const CL_DomNodeList &props)
+: BasePatrol(props)
+{}
+
+GroundPatrol::Ref GroundPatrol::clone()
+{
+	return GroundPatrol::Ref(new GroundPatrol(*this));
+}
+
+void GroundPatrol::setNextPos()
+{
+	const float direction = (rand() % 200 - 100) / (float)100;
+	const CL_Pointf delta = CL_Pointf(direction * m_distance, 0);
+
+	m_nextPos = m_basePos + delta;
+	m_vel = CL_Pointf(m_speed, 0.0f) * ((direction > 0.0f) ? +1.0f : -1.0f);
+}
+
+bool GroundPatrol::reachedPos()
+{
+	const CL_Pointf toTarget = getCenter() - m_nextPos;
+	return (abs(toTarget.x) + abs(toTarget.y)) < 2.0f;
+}
 
 //************************************************************************************************************************
+

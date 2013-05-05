@@ -137,6 +137,19 @@
     <property name="wait_time" value="1.0"/>
    </properties>
   </object>
+  <object name="testee" type="spawn_entity" x="1152" y="832" width="64" height="64">
+   <properties>
+    <property name="damage" value="1.0"/>
+    <property name="distance" value="5.0"/>
+    <property name="health" value="1.0"/>
+    <property name="prefix" value="familiar"/>
+    <property name="spawn_entity" value="ground_patrol"/>
+    <property name="spawn_interval" value="1.0"/>
+    <property name="spawn_limit" value="10"/>
+    <property name="speed" value="3.0"/>
+    <property name="wait_time" value="1.0"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="entries" width="40" height="15">
   <object name="main" x="2368" y="768"/>

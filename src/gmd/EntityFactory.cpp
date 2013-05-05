@@ -56,6 +56,9 @@ Entity::Ref createEntity(CL_String type, const CL_DomNodeList &plist)
 	if (type == "flying_patrol")
 	{ return Entity::Ref(new FlyingPatrol(plist)); }
 
+	if (type == "ground_patrol")
+	{ return Entity::Ref(new GroundPatrol(plist)); }
+
 	assert(false);
 	return Entity::Ref();
 }

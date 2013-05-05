@@ -14,11 +14,10 @@ struct LevelCtx;
 
 //************************************************************************************************************************
 
-class FlyingPatrol : public Entity
+class BasePatrol : public Entity
 {
 public:
-	explicit FlyingPatrol(const CL_DomNodeList &plist);
-	virtual  Entity::Ref clone();
+	explicit BasePatrol(const CL_DomNodeList &plist);
 
 private:
 	// virtual entity interface:
@@ -37,7 +36,12 @@ private:
 	bool checkDamage (const LevelCtx &ctx);
 	void checkPlayer (const LevelCtx &ctx);
 
-private:
+protected:
+	// destination point selection:
+	virtual void setNextPos() = 0;
+	virtual bool reachedPos() = 0;
+
+protected:
 	bool m_alive;
 
 	CL_Pointf m_basePos;
@@ -49,10 +53,32 @@ private:
 	float m_waittime;
 	float m_towait;
 	float m_damage;
+};
 
-	// minor helpers:
-	void setNextPos();
-	bool reachedPos();
+//************************************************************************************************************************
+
+class FlyingPatrol : public BasePatrol
+{
+public:
+	explicit FlyingPatrol(const CL_DomNodeList &plist);
+	virtual FlyingPatrol::Ref clone();
+
+private:
+	// destination point selection:
+	virtual void setNextPos();
+	virtual bool reachedPos();
+};
+
+class GroundPatrol : public BasePatrol
+{
+public:
+	explicit GroundPatrol(const CL_DomNodeList &plist);
+	virtual GroundPatrol::Ref clone();
+
+private:
+	// destination point selection:
+	virtual void setNextPos();
+	virtual bool reachedPos();
 };
 
 //************************************************************************************************************************
