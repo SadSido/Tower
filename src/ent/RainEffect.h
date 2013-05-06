@@ -33,6 +33,7 @@ private:
 	float m_interval;
 	float m_tospawn;
 	float m_lifetime;
+	float m_lifeperiod;
 	
 	CL_Pointf m_droplen;
 	CL_Pointf m_dropvel;

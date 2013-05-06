@@ -10,7 +10,7 @@
 //************************************************************************************************************************
 	
 RainEffect::RainEffect(const CL_DomNodeList &props)
-: m_interval(0.0f), m_lifetime(0.0f), m_tospawn(0.0f)
+: m_interval(0.0f), m_lifetime(0.0f), m_lifeperiod(0.0f), m_tospawn(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -21,7 +21,10 @@ RainEffect::RainEffect(const CL_DomNodeList &props)
 		{ m_interval = prop.get_attribute_float("value"); }
 
 		if (prop.get_attribute("name") == "lifetime")
-		{ m_lifetime = prop.get_attribute_float("value"); }
+		{ 
+			m_lifetime = prop.get_attribute_float("value");
+			m_lifeperiod = 1.0f / m_lifetime;
+		}
 
 		if (prop.get_attribute("name") == "drop_len")
 		{ m_droplen = readPoint(prop, "value"); }
@@ -64,7 +67,7 @@ bool RainEffect::render(const LevelCtx &ctx)
 {
 	for (auto it = m_drops.begin(); it != m_drops.end(); ++ it)
 	{
-		const float alpha = 1.0f - abs(2.0f * it->life / m_lifetime - 1.0f); 
+		const float alpha = 1.0f - abs(2.0f * it->life * m_lifeperiod - 1.0f); 
 		CL_Draw::line(ctx.gc, it->pos, it->pos + m_droplen, CL_Colorf(0.5f, 0.5f, 0.5f, alpha));
 	}
 
