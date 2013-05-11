@@ -21,12 +21,36 @@ CL_Pointf getRandomPoint(const Range &direction, const Range &amplitude)
 	return CL_Pointf(cos(degToRad(dir)), -1.0f * sin(degToRad(dir))) * amp;
 }
 
+// some predefined particle solvers:
+
+static const CL_Pointf s_freeacc = CL_Pointf(0.0f, 20.0f);
+
+void linearSolver(Particle &part, float secs)
+{ 
+	part.pos += part.vel * secs; 
+}
+
+void freefallSolver(Particle &part, float secs)
+{
+	part.vel += s_freeacc * secs;
+	part.pos += part.vel  * secs;
+}
+
+ParticleSystem::SolverFn getNamedSolver(const CL_String &name)
+{
+	if (name == "linear")   { return linearSolver; }
+	if (name == "freefall") { return freefallSolver; }
+
+	assert(false);
+	return NULL;
+}
+
 }
 
 //************************************************************************************************************************
 
 ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
-: m_count(0), m_tospawn(0.0f)
+: m_count(0), m_tospawn(0.0f), m_solver(freefallSolver)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -50,6 +74,9 @@ ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
 
 		if (prop.get_attribute("name") == "count")
 		{ m_count = prop.get_attribute_int("value"); }
+
+		if (prop.get_attribute("name") == "track_type")
+		{ m_solver = getNamedSolver(prop.get_attribute("value")); }
 	}
 }
 
@@ -63,10 +90,9 @@ bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 	{
 		auto cur = it ++;
 		
-		cur->life -= secs;
-		cur->vel  += cur->acc * secs;
-		cur->pos  += cur->vel * secs;
+		(*m_solver)(*cur, secs);
 
+		cur->life -= secs;
 		if (cur->life <= 0.0f) { m_parts.erase(cur); }
 	}
 
@@ -82,7 +108,6 @@ bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 		part.freq = 1.0f / part.life;
 		part.pos  = m_rect.get_center();
 		part.vel  = getRandomPoint(m_direction, m_velocity);
-		part.acc  = CL_Pointf(0.0f, 20.0f);
 		
 		m_parts.push_back(part);
 

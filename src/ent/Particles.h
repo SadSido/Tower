@@ -16,7 +16,6 @@ struct Particle
 {
 	CL_Pointf pos;
 	CL_Pointf vel;
-	CL_Pointf acc;
 
 	float life;
 	float freq;
@@ -26,7 +25,11 @@ struct Particle
 
 class ParticleSystem : public Entity
 {
+
 public:
+	// function, determining the movement:
+	typedef void (*SolverFn)(Particle&, float);
+
 	// common constructor for the entities:
 	explicit ParticleSystem(const CL_DomNodeList &props);
 
@@ -48,6 +51,7 @@ private:
 	CL_String m_sprName;
 	CL_Sprite m_sprite;
 
+	SolverFn m_solver;
 	std::list<Particle> m_parts;
 };
 

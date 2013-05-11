@@ -131,6 +131,7 @@
     <property name="interval" value="0.1, 0.3"/>
     <property name="lifetime" value="2.0, 4.0"/>
     <property name="sprite" value="spark"/>
+    <property name="track_type" value="freefall"/>
     <property name="velocity" value="10, 20"/>
    </properties>
   </object>
