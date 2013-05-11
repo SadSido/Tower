@@ -126,12 +126,12 @@
   </object>
   <object name="particles" type="particle_system" x="1984" y="768" width="64" height="64">
    <properties>
-    <property name="direction" value="60,120"/>
-    <property name="interval" value="0.1,1.0"/>
+    <property name="count" value="100"/>
+    <property name="direction" value="70, 110"/>
+    <property name="interval" value="0.1, 0.3"/>
     <property name="lifetime" value="2.0, 4.0"/>
-    <property name="particle_limit" value="100"/>
     <property name="sprite" value="spark"/>
-    <property name="velocity" value="10,20"/>
+    <property name="velocity" value="10, 20"/>
    </properties>
   </object>
   <object name="testee" type="spawn_entity" x="1152" y="832" width="64" height="64">

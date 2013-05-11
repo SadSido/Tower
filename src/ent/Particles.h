@@ -38,9 +38,7 @@ private:
 
 private:
 	// properties:
-	int m_moveType;
-	int m_partLimit;
-
+	int   m_count;
 	Range m_interval;
 	Range m_lifetime;
 	Range m_direction;

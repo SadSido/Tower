@@ -6,9 +6,27 @@
 #include <assert.h>
 
 //************************************************************************************************************************
+
+namespace
+{
 	
+// select a random point from the range of directions and amplitudes:
+
+CL_Pointf getRandomPoint(const Range &direction, const Range &amplitude)
+{
+	const float dir = direction.random();
+	const float amp = amplitude.random();
+
+	// it is more comfortable to have 90 degrees as "upwards":
+	return CL_Pointf(cos(degToRad(dir)), -1.0f * sin(degToRad(dir))) * amp;
+}
+
+}
+
+//************************************************************************************************************************
+
 ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
-: m_moveType(0), m_partLimit(0), m_tospawn(0.0f)
+: m_count(0), m_tospawn(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -30,11 +48,8 @@ ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
 		if (prop.get_attribute("name") == "sprite")
 		{ m_sprName = prop.get_attribute("value"); }
 
-		if (prop.get_attribute("name") == "move_type")
-		{ m_moveType = prop.get_attribute_int("value"); }
-
-		if (prop.get_attribute("name") == "particle_limit")
-		{ m_partLimit = prop.get_attribute_int("value"); }
+		if (prop.get_attribute("name") == "count")
+		{ m_count = prop.get_attribute_int("value"); }
 	}
 }
 
@@ -59,31 +74,24 @@ bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 	m_tospawn = max(0.0f, m_tospawn - secs);
 	
 	// maybe spawn new particle:
-	if (m_tospawn == 0.0f && m_partLimit)
+	if (m_tospawn == 0.0f && m_count)
 	{
 		Particle part;
-
-		const float dir  = m_direction.random();
-		const float vel  = m_velocity.random();
-
-		const float velX = vel * cos(degToRad(dir));
-		const float velY = vel * sin(degToRad(dir));
 
 		part.life = m_lifetime.random();
 		part.freq = 1.0f / part.life;
 		part.pos  = m_rect.get_center();
-
-		part.vel  = CL_Pointf(velX, -velY);
+		part.vel  = getRandomPoint(m_direction, m_velocity);
 		part.acc  = CL_Pointf(0.0f, 20.0f);
 		
 		m_parts.push_back(part);
 
 		m_tospawn = m_interval.random();
-		m_partLimit = max(0, m_partLimit - 1);
+		m_count = max(0, m_count - 1);
 	}
 
 	// alive until we have particles:
-	return (m_partLimit || !m_parts.empty());
+	return (m_count || !m_parts.empty());
 }
 
 bool ParticleSystem::render(const LevelCtx &ctx)
