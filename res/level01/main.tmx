@@ -124,10 +124,10 @@
     <property name="lifetime" value="1.20"/>
    </properties>
   </object>
-  <object name="particles" type="particle_system" x="1856" y="640" width="64" height="64">
+  <object name="particles" type="particle_system" x="1856" y="256" width="64" height="64">
    <properties>
-    <property name="interval" value="0.05,0.2"/>
-    <property name="lifetime" value="0.3,1.0"/>
+    <property name="interval" value="0.1,1.0"/>
+    <property name="lifetime" value="0.3,3.0"/>
     <property name="particle_limit" value="100"/>
     <property name="sprite" value="spark"/>
    </properties>

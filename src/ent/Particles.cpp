@@ -34,6 +34,9 @@ ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
 
 bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 {
+	// update the sprite:
+	m_sprite.update();
+
 	// update the particles:
 	for (auto it = m_parts.begin(); it != m_parts.end(); /**/)
 	{
