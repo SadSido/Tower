@@ -19,20 +19,16 @@ RESULT readAttr(CL_DomElement node, const CL_String &one, const CL_String &two)
 
 //************************************************************************************************************************
 
+// readers from attrs:
+
 CL_Sizef readSize(CL_DomElement node)
 { return readAttr<CL_Sizef>(node, "width", "height"); }
 
 CL_Pointf readPoint(CL_DomElement node)
 { return readAttr<CL_Pointf>(node, "x", "y"); }
 
-CL_Pointf readPoint(CL_DomElement node, CL_String attrName)
-{
-	auto values = CL_StringHelp::split_text(node.get_attribute(attrName), ",");
-	assert(values.size() == 2);
-
-	CL_Pointf result = CL_Pointf(CL_StringHelp::text_to_float(values[0]), CL_StringHelp::text_to_float(values[1]));
-	return result;
-}
+Range readRange(CL_DomElement node)
+{ return readAttr<Range>(node, "f", "t"); }
 
 CL_Rectf readRect(CL_DomElement node)
 {
@@ -47,6 +43,23 @@ CL_Rectf readRect(CL_DomElement node)
 
 	assert(false);
 	return CL_Rectf();
+}
+
+// parsers from a single attr:
+
+CL_Pointf readPoint(CL_DomElement node, CL_String attrName)
+{
+	auto values = CL_StringHelp::split_text(node.get_attribute(attrName), ",");
+	assert(values.size() == 2);
+
+	CL_Pointf result = CL_Pointf(CL_StringHelp::text_to_float(values[0]), CL_StringHelp::text_to_float(values[1]));
+	return result;
+}
+
+Range readRange(CL_DomElement node, CL_String attrName)
+{
+	auto point = readPoint(node, attrName);
+	return Range(point.x, point.y);
 }
 
 //************************************************************************************************************************

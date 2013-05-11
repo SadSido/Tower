@@ -15,4 +15,27 @@ float alphaInterpolateParabolic (const float time, const float lifefreq);
 
 //************************************************************************************************************************
 
+// handy class to keep mischellaneous ranges:
+
+struct Range
+{
+	// constructors:
+	explicit Range();
+	explicit Range(float _len);
+	explicit Range(float _from, float _to);
+
+	// utilities:
+	bool isValid() const;
+	bool isEmpty() const;
+	
+	float middle() const;
+	float random() const;
+
+	// properties:
+	float from;
+	float to;
+};
+
+//************************************************************************************************************************
+
 #endif

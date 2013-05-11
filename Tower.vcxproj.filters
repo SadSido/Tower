@@ -74,6 +74,9 @@
     <ClCompile Include="src\util\MathUtils.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="src\ent\Particles.cpp">
+      <Filter>ent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -167,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="src\util\MathUtils.h">
       <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\Particles.h">
+      <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -124,17 +124,12 @@
     <property name="lifetime" value="1.20"/>
    </properties>
   </object>
-  <object name="testee" type="spawn_entity" x="1856" y="640" width="64" height="64">
+  <object name="particles" type="particle_system" x="1856" y="640" width="64" height="64">
    <properties>
-    <property name="damage" value="1.0"/>
-    <property name="distance" value="5.0"/>
-    <property name="health" value="3.0"/>
-    <property name="prefix" value="familiar"/>
-    <property name="spawn_entity" value="flying_patrol"/>
-    <property name="spawn_interval" value="1.0"/>
-    <property name="spawn_limit" value="10"/>
-    <property name="speed" value="3.0"/>
-    <property name="wait_time" value="1.0"/>
+    <property name="interval" value="0.05,0.2"/>
+    <property name="lifetime" value="0.3,1.0"/>
+    <property name="particle_limit" value="100"/>
+    <property name="sprite" value="spark"/>
    </properties>
   </object>
   <object name="testee" type="spawn_entity" x="1152" y="832" width="64" height="64">

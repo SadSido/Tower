@@ -25,4 +25,7 @@
 		<image file="familiar_move_02.png" />
  		<animation loop="yes" speed="100"/>
 	</sprite>
+	<sprite name="spark">
+		<image file="spark.png" />
+	</sprite>
 </resources>
