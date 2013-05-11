@@ -43,6 +43,8 @@ private:
 
 	Range m_interval;
 	Range m_lifetime;
+	Range m_direction;
+	Range m_velocity;
 	float m_tospawn;
 
 	CL_String m_sprName;

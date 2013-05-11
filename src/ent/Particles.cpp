@@ -21,6 +21,12 @@ ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
 		if (prop.get_attribute("name") == "lifetime")
 		{ m_lifetime = readRange(prop, "value"); }
 
+		if (prop.get_attribute("name") == "velocity")
+		{ m_velocity = readRange(prop, "value"); }
+
+		if (prop.get_attribute("name") == "direction")
+		{ m_direction = readRange(prop, "value"); }
+
 		if (prop.get_attribute("name") == "sprite")
 		{ m_sprName = prop.get_attribute("value"); }
 
@@ -57,10 +63,17 @@ bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 	{
 		Particle part;
 
+		const float dir  = m_direction.random();
+		const float vel  = m_velocity.random();
+
+		const float velX = vel * cos(degToRad(dir));
+		const float velY = vel * sin(degToRad(dir));
+
 		part.life = m_lifetime.random();
 		part.freq = 1.0f / part.life;
 		part.pos  = m_rect.get_center();
-		part.vel  = CL_Pointf((float(rand() % 16 - 8), float(rand() % 16 - 8)));
+
+		part.vel  = CL_Pointf(velX, -velY);
 		part.acc  = CL_Pointf(0.0f, 20.0f);
 		
 		m_parts.push_back(part);
