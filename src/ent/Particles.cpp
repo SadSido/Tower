@@ -23,8 +23,6 @@ CL_Pointf getRandomPoint(const Range &direction, const Range &amplitude)
 
 // some predefined particle solvers:
 
-static const CL_Pointf s_freeacc = CL_Pointf(0.0f, 20.0f);
-
 void linearSolver(Particle &part, float secs)
 { 
 	part.pos += part.vel * secs; 
@@ -32,14 +30,28 @@ void linearSolver(Particle &part, float secs)
 
 void freefallSolver(Particle &part, float secs)
 {
-	part.vel += s_freeacc * secs;
+	const CL_Pointf acc = CL_Pointf(0.0f, 20.0f);
+
+	part.vel += acc * secs;
 	part.pos += part.vel  * secs;
 }
+
+void helixSolver(Particle &part, float secs)
+{
+	const float factor = 6.0f;
+	const CL_Pointf acc = CL_Pointf(factor * sin(factor * part.life), 0.0f);
+
+	part.vel += acc * secs;
+	part.pos += part.vel  * secs;
+}
+
+// select a solver by name:
 
 ParticleSystem::SolverFn getNamedSolver(const CL_String &name)
 {
 	if (name == "linear")   { return linearSolver; }
 	if (name == "freefall") { return freefallSolver; }
+	if (name == "helix")    { return helixSolver; }
 
 	assert(false);
 	return NULL;
