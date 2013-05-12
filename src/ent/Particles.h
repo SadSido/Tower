@@ -39,9 +39,14 @@ private:
 	virtual bool render(const LevelCtx &ctx);
 	virtual void upload(const LevelCtx &ctx);
 
+	// minor helpers:
+	inline bool canSpawn() const
+	{ return m_infinite || m_partcount; }
+
 private:
 	// properties:
-	int   m_count;
+	bool  m_infinite;
+	int   m_partcount;
 	Range m_interval;
 	Range m_lifetime;
 	Range m_direction;

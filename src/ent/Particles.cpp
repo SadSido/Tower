@@ -62,7 +62,7 @@ ParticleSystem::SolverFn getNamedSolver(const CL_String &name)
 //************************************************************************************************************************
 
 ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
-: m_count(0), m_tospawn(0.0f), m_solver(freefallSolver)
+: m_partcount(0), m_infinite(false), m_tospawn(0.0f), m_solver(freefallSolver)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -85,7 +85,12 @@ ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
 		{ m_sprName = prop.get_attribute("value"); }
 
 		if (prop.get_attribute("name") == "count")
-		{ m_count = prop.get_attribute_int("value"); }
+		{ 
+			const CL_String value = prop.get_attribute("value");
+
+			m_infinite  = (value == "infinite");
+			m_partcount = (m_infinite) ? 0 : CL_StringHelp::text_to_int(value);
+		}
 
 		if (prop.get_attribute("name") == "track_type")
 		{ m_solver = getNamedSolver(prop.get_attribute("value")); }
@@ -112,7 +117,7 @@ bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 	m_tospawn = max(0.0f, m_tospawn - secs);
 	
 	// maybe spawn new particle:
-	if (m_tospawn == 0.0f && m_count)
+	if (m_tospawn == 0.0f && canSpawn())
 	{
 		Particle part;
 
@@ -124,11 +129,11 @@ bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 		m_parts.push_back(part);
 
 		m_tospawn = m_interval.random();
-		m_count = max(0, m_count - 1);
+		m_partcount = max(0, m_partcount - 1);
 	}
 
 	// alive until we have particles:
-	return (m_count || !m_parts.empty());
+	return (canSpawn() || !m_parts.empty());
 }
 
 bool ParticleSystem::render(const LevelCtx &ctx)
