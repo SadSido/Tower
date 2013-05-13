@@ -77,6 +77,9 @@
     <ClCompile Include="src\ent\Particles.cpp">
       <Filter>ent</Filter>
     </ClCompile>
+    <ClCompile Include="src\ent\SpriteEntity.cpp">
+      <Filter>ent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -172,6 +175,9 @@
       <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="src\ent\Particles.h">
+      <Filter>ent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\SpriteEntity.h">
       <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>

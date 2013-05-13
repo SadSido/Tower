@@ -88,6 +88,7 @@
     <ClCompile Include="src\ent\PatrolEntity.cpp" />
     <ClCompile Include="src\ent\RainEffect.cpp" />
     <ClCompile Include="src\ent\SpawnEntity.cpp" />
+    <ClCompile Include="src\ent\SpriteEntity.cpp" />
     <ClCompile Include="src\gmd\Areas.cpp" />
     <ClCompile Include="src\gmd\AreaScene.cpp" />
     <ClCompile Include="src\gmd\Dialogs.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="src\ent\PatrolEntity.h" />
     <ClInclude Include="src\ent\RainEffect.h" />
     <ClInclude Include="src\ent\SpawnEntity.h" />
+    <ClInclude Include="src\ent\SpriteEntity.h" />
     <ClInclude Include="src\gmd\Areas.h" />
     <ClInclude Include="src\gmd\AreaScene.h" />
     <ClInclude Include="src\gmd\Dialogs.h" />
