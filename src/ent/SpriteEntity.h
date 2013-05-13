@@ -24,9 +24,18 @@ private:
 	virtual void upload(const LevelCtx &ctx);
 
 private:
+	// globals check:
+	mutable long m_gen;
+
 	// properties:
-	CL_String m_sprName;
-	CL_Sprite m_sprite;
+	CL_String m_sprTrue;
+	CL_String m_sprFalse;
+	CL_String m_global;
+
+	// per-state updates:
+	void enterState   (int stateNo);
+	void update_True  (const LevelCtx &ctx);
+	void update_False (const LevelCtx &ctx);
 };
 
 //************************************************************************************************************************
