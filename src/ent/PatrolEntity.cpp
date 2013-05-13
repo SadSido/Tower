@@ -30,12 +30,6 @@ static CL_String getStateName(int state)
 	return CL_String();
 };
 
-static CL_Color getRecoverColor(float recover)
-{
-	int alpha = (recover < 0.15f) ? 255 * recover / 0.15f : 255 * (0.3f - recover) / 0.15f;
-	return CL_Colorf(255, 0, 0, alpha);
-}
-
 //************************************************************************************************************************
 
 BasePatrol::BasePatrol(const CL_DomNodeList &props)
@@ -68,10 +62,6 @@ BasePatrol::BasePatrol(const CL_DomNodeList &props)
 
 bool BasePatrol::update(const LevelCtx &ctx, float secs)
 {
-	// handle damage recovering:
-	if (m_recover)
-	{ return true; }
-
 	// dispatch state-based update:
 	switch (getStateNo())
 	{
@@ -82,9 +72,12 @@ bool BasePatrol::update(const LevelCtx &ctx, float secs)
 	}
 
 	// resolve movement:
-	m_vel += m_acc * secs;
-	m_rect.translate(m_vel * secs);
-	setFacing();
+	if (!isRecovering())
+	{
+		m_vel += m_acc * secs;
+		m_rect.translate(m_vel * secs);
+		setFacing();
+	}
 
 	// select and update sprite:
 	getSprite().update();
@@ -105,9 +98,9 @@ bool BasePatrol::render(const LevelCtx &ctx)
 	sprite.set_color(CL_Color::white);
 	sprite.draw(ctx.gc, anchor.x, anchor.y);
 
-	if (m_recover)
+	if (isRecovering())
 	{
-		sprite.set_color(getRecoverColor(m_recover));
+		sprite.set_color(getRecoverColor());
 		sprite.draw(ctx.gc, anchor.x, anchor.y);
 	}
 

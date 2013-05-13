@@ -2,11 +2,13 @@
 // ORIGIN: base class for every entity in the game
 
 #include "Entities.h"
+#include "../util/MathUtils.h"
 #include <assert.h>
 
 //************************************************************************************************************************
 
 static const float s_recoverTime = 0.3f;
+static const float s_recoverFreq = 1.0f / s_recoverTime;
 
 //************************************************************************************************************************
 
@@ -95,5 +97,13 @@ Hitmap & Entity::getHitmap()
 
 Entity::HitmapVec & Entity::getHitmaps()
 { return m_hitmaps; }
+
+// recovering:
+
+CL_Colorf Entity::getRecoverColor() const
+{
+	const float alpha = alphaInterpolateLinear(m_recover, s_recoverFreq);
+	return CL_Colorf(1.0f, 0.0f, 0.0f, alpha);
+}
 
 //************************************************************************************************************************

@@ -53,6 +53,9 @@ public:
 	float getFacing() const
 	{ return m_facing ? +1.0f : -1.0f; }
 
+	bool isRecovering() const
+	{ return m_recover > 0.0f; }
+
 	// member assign:
 
 	void setPos(CL_Pointf pos)
@@ -69,6 +72,10 @@ public:
 
 	void setFacing()
 	{ m_facing = (m_vel.x) ? (m_vel.x > 0.0f) : m_facing; }
+
+	// recovering utils:
+
+	CL_Colorf getRecoverColor() const;
 
 protected:
 
