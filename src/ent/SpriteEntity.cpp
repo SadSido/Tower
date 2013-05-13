@@ -23,6 +23,7 @@ enum States
 SpriteEntity::SpriteEntity(const CL_DomNodeList &props)
 : m_gen(0)
 {
+	CL_String sprite;
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
 		// process current property:
@@ -36,7 +37,15 @@ SpriteEntity::SpriteEntity(const CL_DomNodeList &props)
 
 		if (prop.get_attribute("name") == "sprite_false")
 		{ m_sprFalse = prop.get_attribute("value"); }
+
+		// this is a shortcut, checked later:
+		if (prop.get_attribute("name") == "sprite")
+		{ sprite = prop.get_attribute("value"); }
 	}
+
+	// use "sprite", not "sprite_true":
+	if (m_sprTrue.empty() && !sprite.empty())
+	{ assert(m_global.empty()); m_sprTrue = sprite; }
 }
 
 bool SpriteEntity::update(const LevelCtx &ctx, float secs)
