@@ -20,7 +20,7 @@ Entity::~Entity()
 {}
 
 Entity::Ref Entity::clone()
-{ return Entity::Ref(); }
+{ assert(false); return Entity::Ref(); }
 
 // entity lifecycle (not so virtual now):
 
