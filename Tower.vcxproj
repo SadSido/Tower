@@ -127,12 +127,12 @@
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\Hitmap.h" />
     <ClInclude Include="src\gmd\LevelScene.h" />
-    <ClInclude Include="src\gmd\Notify.h" />
     <ClInclude Include="src\gmd\Player.h" />
     <ClInclude Include="src\gmd\Tilemap.h" />
     <ClInclude Include="src\sys\Configuration.h" />
     <ClInclude Include="src\sys\GameManager.h" />
     <ClInclude Include="src\sys\GameScene.h" />
+    <ClInclude Include="src\sys\Notify.h" />
     <ClInclude Include="src\sys\Renderer.h" />
     <ClInclude Include="src\util\BasePath.h" />
     <ClInclude Include="src\util\MathUtils.h" />
