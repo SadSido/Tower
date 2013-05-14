@@ -29,8 +29,8 @@ SpriteEntity::SpriteEntity(const CL_DomNodeList &props)
 		// process current property:
 		CL_DomElement prop = props.item(prNo).to_element();
 
-		if (prop.get_attribute("name") == "global")
-		{ m_global = prop.get_attribute("value"); }
+		if (prop.get_attribute("name") == "condition")
+		{ m_condition = prop.get_attribute("value"); }
 
 		if (prop.get_attribute("name") == "sprite_true")
 		{ m_sprTrue = prop.get_attribute("value"); }
@@ -44,22 +44,18 @@ SpriteEntity::SpriteEntity(const CL_DomNodeList &props)
 	}
 
 	// use "sprite", not "sprite_true":
-	if (m_sprTrue.empty() && !sprite.empty())
-	{ assert(m_global.empty()); m_sprTrue = sprite; }
+	if (sprite.empty())
+	{ assert(m_condition.empty()); m_sprTrue = sprite; }
 }
 
 bool SpriteEntity::update(const LevelCtx &ctx, float secs)
 {
 	// check states:
-	switch (getStateNo())
-	{
-	case state_True:  { update_True  (ctx); break; }
-	case state_False: { update_False (ctx); break; }
-	}
+	checkState(ctx);
 
 	// update sprite if any:
-	auto sprite = getSprite();
-	if (!sprite.is_null()) { sprite.update(); }
+	if (!getSprite().is_null())
+	{ getSprite().update(); }
 
 	// never vanish:
 	return true;
@@ -94,35 +90,27 @@ void SpriteEntity::upload(const LevelCtx &ctx)
 
 void SpriteEntity::enterState(int stateNo)
 {
-	setStateNo(stateNo);
-
-	auto sprite = getSprite();
-	if (!sprite.is_null()) { sprite.restart(); }
-}
-
-void SpriteEntity::update_True(const LevelCtx &ctx)
-{
-	// no global set - no state change:
-	if (m_global.empty()) { return; }
-
-	// check, maybe the global has changed:
-	if (m_gen != ctx.globals.getGen() && !ctx.globals.check(m_global))
+	if (getStateNo() != stateNo)
 	{ 
-		m_gen = ctx.globals.getGen();
-		enterState(state_False); 
+		// apply new state:
+		setStateNo(stateNo);
+
+		// restart the sprite:
+		if (!getSprite().is_null())
+		{ getSprite().restart(); }
 	}
 }
 
-void SpriteEntity::update_False(const LevelCtx &ctx)
+void SpriteEntity::checkState(const LevelCtx &ctx)
 {
-	// unreachable without global:
-	assert(!m_global.empty());
+	// no global set - no state change:
+	if (m_condition.empty()) { return; }
 
 	// check, maybe the global has changed:
-	if (m_gen != ctx.globals.getGen() && ctx.globals.check(m_global))
+	if (m_gen != ctx.globals.getGen())
 	{ 
 		m_gen = ctx.globals.getGen();
-		enterState(state_True); 
+		enterState((ctx.globals.check(m_condition)) ? state_True : state_False);
 	}
 }
 

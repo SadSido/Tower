@@ -30,12 +30,11 @@ private:
 	// properties:
 	CL_String m_sprTrue;
 	CL_String m_sprFalse;
-	CL_String m_global;
+	CL_String m_condition;
 
 	// per-state updates:
-	void enterState   (int stateNo);
-	void update_True  (const LevelCtx &ctx);
-	void update_False (const LevelCtx &ctx);
+	void enterState (int stateNo);
+	void checkState (const LevelCtx &ctx);
 };
 
 //************************************************************************************************************************
