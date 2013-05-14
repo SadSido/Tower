@@ -237,13 +237,13 @@ void GroundPatrol::setNextPos()
 	const CL_Pointf delta = CL_Pointf(direction * m_distance, 0);
 
 	m_nextPos = m_basePos + delta;
-	m_vel = CL_Pointf(m_speed, 0.0f) * ((direction > 0.0f) ? +1.0f : -1.0f);
+	m_vel = CL_Pointf(m_speed, 0.0f) * ((getCenter().x < m_nextPos.x) ? +1.0f : -1.0f);
 }
 
 bool GroundPatrol::reachedPos()
 {
-	const CL_Pointf toTarget = getCenter() - m_nextPos;
-	return (abs(toTarget.x) + abs(toTarget.y)) < 2.0f;
+	const float toTarget = getCenter().x - m_nextPos.x;
+	return abs(toTarget) < 2.0f;
 }
 
 //************************************************************************************************************************
