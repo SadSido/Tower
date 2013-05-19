@@ -8,6 +8,7 @@
 #include "GameScene.h"
 #include "Configuration.h"
 #include "Renderer.h"
+#include "Sounder.h"
 
 //************************************************************************************************************************
 
@@ -38,6 +39,7 @@ private:
 	std::vector<GameScene::Ref> m_stack;
 	Configuration::Ref m_config;
 	Renderer::Ref m_renderer;
+	Sounder::Ref m_sounder;
 };
 
 //************************************************************************************************************************

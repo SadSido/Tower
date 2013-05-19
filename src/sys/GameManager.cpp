@@ -39,6 +39,7 @@ int GameManager::runMainLoop()
 	// initialize services:
 	m_config.reset(new Configuration());
 	m_renderer.reset(new Renderer());
+	m_sounder.reset(new Sounder());
 
 	// push initial scene:
 	pushScene(GameScene::Ref(new LevelScene(this, "level01.desc")));
