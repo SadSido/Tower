@@ -280,15 +280,15 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 	{ return enterState(state_Jump, m_vel, a_free); }
 
 	// left-key:
-	if (ctx.keys.get_keycode(CL_KEY_A))
+	if (ctx.keys.get_keycode(ctx.cfg->keyLeft()))
 	{ return enterState(state_Walk, -v_walk, a_zero); }
 
 	// right-key:
-	if (ctx.keys.get_keycode(CL_KEY_D))
+	if (ctx.keys.get_keycode(ctx.cfg->keyRight()))
 	{ return enterState(state_Walk, v_walk, a_zero); }
 
 	// up-key:
-	if (ctx.keys.get_keycode(CL_KEY_W))
+	if (ctx.keys.get_keycode(ctx.cfg->keyUp()))
 	{
 		if (m_action)
 		{ return enterAction(ctx); }
@@ -301,7 +301,7 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 	}
 
 	// down-key:
-	if (ctx.keys.get_keycode(CL_KEY_S))
+	if (ctx.keys.get_keycode(ctx.cfg->keyDown()))
 	{
 		if (posFlags & pf_TopStairs)
 		{ return enterState(state_Climb, v_climb, a_zero); }
@@ -311,11 +311,11 @@ void Player::update_Stand(const LevelCtx &ctx, int posFlags)
 	}
 
 	// mouse-left:
-	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
+	if (ctx.mouse.get_keycode(ctx.cfg->mouseLeft()))
 	{ return enterState(state_Strike, v_zero, a_zero); }
 
 	// mouse-right:
-	if (ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
+	if (ctx.mouse.get_keycode(ctx.cfg->mouseRight()))
 	{ return enterState(state_Shield, v_zero, a_zero); }
 }
 
@@ -326,15 +326,15 @@ void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 	{ return enterState(state_Jump, m_vel, a_free); }
 
 	// mouse-left:
-	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
+	if (ctx.mouse.get_keycode(ctx.cfg->mouseLeft()))
 	{ return enterState(state_Pierce, m_vel * 2.0f - v_pier, a_free); }
 
 	// mouse-right:
-	if (ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
+	if (ctx.mouse.get_keycode(ctx.cfg->mouseRight()))
 	{ return enterState(state_Shield, v_zero, a_zero); }
 
 	// up key:
-	if (ctx.keys.get_keycode(CL_KEY_W))
+	if (ctx.keys.get_keycode(ctx.cfg->keyUp()))
 	{
 		if (m_action)
 		{ return enterAction(ctx); }
@@ -344,11 +344,11 @@ void Player::update_Walk(const LevelCtx &ctx, int posFlags)
 	}
 	
 	// left key:
-	if (ctx.keys.get_keycode(CL_KEY_A))
+	if (ctx.keys.get_keycode(ctx.cfg->keyLeft()))
 	{ return enterState(state_Walk, -v_walk, a_zero); }
 
 	// right-key:
-	else if (ctx.keys.get_keycode(CL_KEY_D))
+	else if (ctx.keys.get_keycode(ctx.cfg->keyRight()))
 	{ return enterState(state_Walk, v_walk, a_zero); }
 	
 	// no direction:
@@ -363,15 +363,15 @@ void Player::update_Jump(const LevelCtx &ctx, int posFlags)
 	{ return enterState(state_Stand, v_zero, a_zero); }
 
 	// mouse-left:
-	if (ctx.mouse.get_keycode(CL_MOUSE_LEFT))
+	if (ctx.mouse.get_keycode(ctx.cfg->mouseLeft()))
 	{ return enterState(state_Slash, m_vel, m_acc * 2.0f); }
 
 	// left-key:
-	if (ctx.keys.get_keycode(CL_KEY_A))
+	if (ctx.keys.get_keycode(ctx.cfg->keyLeft()))
 	{ return enterState(state_Jump, m_vel, CL_Pointf(-a_jump.x, a_free.y)); }
 
 	// right-key:
-	else if (ctx.keys.get_keycode(CL_KEY_D))
+	else if (ctx.keys.get_keycode(ctx.cfg->keyRight()))
 	{ return enterState(state_Jump, m_vel, CL_Pointf(a_jump.x, a_free.y)); }
 
 	// no direction:
@@ -389,14 +389,14 @@ void Player::update_Climb(const LevelCtx &ctx, int posFlags)
 	{ return enterState(state_Stand, v_zero, a_zero); }
 
 	// up-key:
-	if (ctx.keys.get_keycode(CL_KEY_W))
+	if (ctx.keys.get_keycode(ctx.cfg->keyUp()))
 	{
 		if (posFlags & pf_OnStairs)
 		{ return enterState(state_Climb, -v_climb, a_zero); }
 	}
 
 	// down-key:
-	else if (ctx.keys.get_keycode(CL_KEY_S))
+	else if (ctx.keys.get_keycode(ctx.cfg->keyDown()))
 	{
 		if (posFlags & pf_OnStairs)
 		{ return enterState(state_Climb, v_climb, a_zero); }
@@ -408,7 +408,7 @@ void Player::update_Climb(const LevelCtx &ctx, int posFlags)
 
 void Player::update_Shield(const LevelCtx &ctx, int posFlags)
 {
-	if (!ctx.mouse.get_keycode(CL_MOUSE_RIGHT))
+	if (!ctx.mouse.get_keycode(ctx.cfg->mouseRight()))
 	{ return enterState(state_Stand, v_zero, a_zero); }
 }
 

@@ -51,7 +51,7 @@ void LevelScene::update(float secs)
 	ctx.tilemap->offset(m_player.getRect().get_center());
 
 	// check the globals:
-	if (ctx.keys.get_keycode(CL_KEY_ESCAPE))
+	if (ctx.keys.get_keycode(ctx.cfg->keyPause()))
 	{
 		m_manager->popScene();
 	}
@@ -121,11 +121,12 @@ void LevelScene::enterArea(CL_String name, CL_String entry)
 
 LevelCtx LevelScene::getContext()
 {
+	Configuration::Ref cf = m_manager->getConfig();
 	CL_GraphicContext &gc = m_manager->getRenderer()->getGC();
 	CL_InputDevice    &kb = m_manager->getRenderer()->getIC().get_keyboard();
 	CL_InputDevice    &ms = m_manager->getRenderer()->getIC().get_mouse();
 
-	LevelCtx ctx = { m_manager, gc, kb, ms, m_entities, m_tilemap, m_dialogs, m_globals, m_player, m_assets };
+	LevelCtx ctx = { m_manager, cf, gc, kb, ms, m_entities, m_tilemap, m_dialogs, m_globals, m_player, m_assets };
 	return ctx;
 }
 

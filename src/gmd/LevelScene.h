@@ -5,6 +5,7 @@
 #define _LevelScene_h_
 
 #include "../sys/GameScene.h"
+#include "../sys/Configuration.h"
 #include "Areas.h"
 #include "Tilemap.h"
 #include "Globals.h"
@@ -22,6 +23,7 @@ typedef CL_ResourceManager Assets;
 struct LevelCtx
 {
 	GameManager * manager;
+	Configuration::Ref cfg;
 
 	CL_GraphicContext &gc;
 	CL_InputDevice &keys;
