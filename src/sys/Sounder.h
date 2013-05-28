@@ -17,6 +17,7 @@ public:
 	explicit Sounder();
 
 private:
+	CL_SetupSound  m_setupSound;
 	CL_SoundOutput m_output;
 };
 

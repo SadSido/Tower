@@ -198,13 +198,17 @@ bool Player::renderHUD(const LevelCtx &ctx)
 void Player::upload(const LevelCtx &ctx)
 {
 	static CL_String s_prefix = "arteus";
-	static CL_String s_suffix = "_map";
+	static CL_String s_mapsuffix = "_map";
+	static CL_String s_sndsuffix = "_snd";
 
 	SpriteVec & sprites = getSprites();
 	sprites.resize(state_Count);
 
 	HitmapVec & hitmaps = getHitmaps();
 	hitmaps.resize(state_Count);
+
+	SoundVec & sounds = getSounds();
+	sounds.resize(state_Count);
 
 	// load sprites:
 	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
@@ -215,11 +219,21 @@ void Player::upload(const LevelCtx &ctx)
 
 	// load hitmaps:
 	const int statesWithMap [] = { state_Strike };
-
 	for (int stateNo = 0; stateNo < 1; ++ stateNo)
 	{ 
-		auto name = s_prefix + getStateName(statesWithMap[stateNo]) + s_suffix;
+		auto name = s_prefix + getStateName(statesWithMap[stateNo]) + s_mapsuffix;
 		hitmaps[statesWithMap[stateNo]] = Hitmap(name, &ctx.assets); 
+	}
+
+	// load sounds:
+	const int statesWithSound [] = { state_Damage };
+	for (int stateNo = 0; stateNo < 1; ++ stateNo)
+	{ 
+		auto name = s_prefix + getStateName(statesWithSound[stateNo]) + s_sndsuffix;
+		CL_SoundBuffer & buff = sounds[statesWithSound[stateNo]];
+
+		buff = CL_SoundBuffer(name, &ctx.assets);
+		buff.prepare();
 	}
 
 	// load extra sprites:
@@ -269,7 +283,12 @@ void Player::enterState(int state, CL_Pointf vel, CL_Pointf acc)
 	if (state != getStateNo())
 	{
 		setStateNo(state);
-		getSprite().restart();
+
+		auto sprite = getSprite();
+		if (!sprite.is_null()) { sprite.restart(); }
+
+		auto sound = getSound();
+		if (!sound.is_null()) { sound.play(); }
 	}
 }
 

@@ -78,7 +78,7 @@ void Entity::setStateNo(int no)
 int Entity::getStateNo() const
 { return m_stateNo; }
 
-// handling the set of sprites & hitmaps:
+// handling the set of sprites & hitmaps & sounds:
 
 CL_Sprite & Entity::getSprite()
 {
@@ -97,6 +97,12 @@ Hitmap & Entity::getHitmap()
 
 Entity::HitmapVec & Entity::getHitmaps()
 { return m_hitmaps; }
+
+CL_SoundBuffer & Entity::getSound()
+{
+	assert(m_stateNo < (int)m_sounds.size());
+	return m_sounds[m_stateNo];
+}
 
 Entity::SoundVec & Entity::getSounds()
 { return m_sounds; }

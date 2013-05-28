@@ -10,7 +10,7 @@ static const int mixing_freq = 44100;
 //************************************************************************************************************************
 
 Sounder::Sounder()
-: m_output(mixing_freq)
+: m_setupSound(), m_output(mixing_freq)
 {
 }
 

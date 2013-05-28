@@ -70,4 +70,6 @@
 		<rect t="-0.5" l="1.0" w="1.0" h="1.0"/>
 		<rect t="-0.0" l="1.0" w="1.0" h="1.0"/>
 	</hitmap>
+	<!-- sounds -->
+	<sample name="arteus_damage_snd" file="dmg.wav"/>
 </resources>

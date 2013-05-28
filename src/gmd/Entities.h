@@ -101,6 +101,7 @@ protected:
 	Hitmap    & getHitmap();
 	HitmapVec & getHitmaps();
 	SoundVec  & getSounds();
+	CL_SoundBuffer & getSound();
 
 protected:
 
