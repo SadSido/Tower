@@ -8,6 +8,7 @@
 #include "Hitmap.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
+#include <ClanLib/sound.h>
 #include <list>
 
 //************************************************************************************************************************
@@ -22,6 +23,7 @@ public:
 	typedef std::shared_ptr<Entity> Ref;
 	typedef std::vector<CL_Sprite> SpriteVec;
 	typedef std::vector<Hitmap> HitmapVec;
+	typedef std::vector<CL_SoundBuffer> SoundVec;
 
 	// c-tor, d-tor and cloning:
 
@@ -92,12 +94,13 @@ protected:
 	int  getStateNo() const;
 	void setStateNo(int no);
 
-	// sprites & hitmaps:
+	// sprites & hitmaps & sounds:
 
 	CL_Sprite & getSprite();
 	SpriteVec & getSprites();
 	Hitmap    & getHitmap();
 	HitmapVec & getHitmaps();
+	SoundVec  & getSounds();
 
 protected:
 
@@ -114,6 +117,7 @@ protected:
 
 	SpriteVec m_sprites;
 	HitmapVec m_hitmaps;
+	SoundVec  m_sounds;
 };
 
 //************************************************************************************************************************

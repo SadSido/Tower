@@ -98,6 +98,9 @@ Hitmap & Entity::getHitmap()
 Entity::HitmapVec & Entity::getHitmaps()
 { return m_hitmaps; }
 
+Entity::SoundVec & Entity::getSounds()
+{ return m_sounds; }
+
 // recovering:
 
 CL_Colorf Entity::getRecoverColor() const
