@@ -6,7 +6,7 @@
 
 #include <memory>
 #include <ClanLib/core.h>
-#include <ClanLib/display.h>
+#include <ClanLib/sound.h>
 
 //************************************************************************************************************************
 
@@ -15,6 +15,9 @@ class Sounder
 public:
 	typedef std::shared_ptr<Sounder> Ref;
 	explicit Sounder();
+
+private:
+	CL_SoundOutput m_output;
 };
 
 //************************************************************************************************************************
