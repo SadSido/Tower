@@ -9,60 +9,68 @@
 		<image file="arteus_walk_00.png" />
 		<image file="arteus_walk_01.png" />
 		<image file="arteus_walk_02.png" />
-		<image file="arteus_walk_03.png" />
  		<animation loop="yes" speed="80"/>
 	</sprite>
 	<sprite name="arteus_climb">
 		<image file="arteus_walk_00.png" />
 		<image file="arteus_walk_01.png" />
 		<image file="arteus_walk_02.png" />
-		<image file="arteus_walk_03.png" />
  		<animation loop="yes" speed="100"/>
 	</sprite>
 	<sprite name="arteus_jump">
 		<image file="arteus_jump_00.png" />
  		<animation loop="yes" speed="100"/>
+		<translation x="-32" y="0"/>
 	</sprite>
 	<sprite name="arteus_shield">
 		<image file="arteus_walk_00.png" />
-		<image file="arteus_shield_00.png" />
 		<image file="arteus_shield_01.png" />
 		<image file="arteus_shield_02.png" />
  		<animation loop="no" on_finish="last_frame" speed="50"/>
 	</sprite>
 	<sprite name="arteus_pierce">
-		<image file="arteus_walk_00.png" />
-		<image file="arteus_pierce_00.png" />
 		<image file="arteus_pierce_01.png" />
- 		<animation loop="no" on_finish="last_frame" speed="140"/>
-	</sprite>
-	<sprite name="arteus_slash">
-		<image file="arteus_walk_00.png" />
-		<image file="arteus_slash_00.png" />
-		<image file="arteus_slash_01.png" />
-		<image file="arteus_slash_02.png" />
+		<image file="arteus_pierce_02.png" />
+		<image file="arteus_pierce_03.png" />
  		<animation loop="no" on_finish="last_frame" speed="100"/>
 	</sprite>
+	<sprite name="arteus_slash">
+		<image file="arteus_slash_01.png" />
+		<image file="arteus_slash_02.png" />
+		<image file="arteus_slash_03.png" />
+		<image file="arteus_slash_04.png" />
+		<image file="arteus_slash_05.png" />
+		<image file="arteus_slash_06.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="60"/>
+		<translation x="-32" y="-52"/>
+	</sprite>
 	<sprite name="arteus_strike">
-		<image file="arteus_strike_00.png" />
 		<image file="arteus_strike_01.png" />
 		<image file="arteus_strike_02.png" />
- 		<animation loop="no" on_finish="last_frame" speed="70"/>
-		<translation x="0" y="-30"/>
+		<image file="arteus_strike_03.png" />
+		<image file="arteus_strike_04.png" />
+		<image file="arteus_strike_05.png" />
+		<image file="arteus_strike_06.png" />
+		<image file="arteus_strike_07.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="50"/>
+		<translation x="-35" y="-54"/>
 	</sprite>
 	<sprite name="arteus_damage">
-		<image file="arteus_walk_00.png" />
-		<image file="arteus_shield_00.png" />
-		<image file="arteus_shield_01.png" />
-		<image file="arteus_shield_02.png" />
+		<image file="arteus_damage_01.png" />
+		<image file="arteus_damage_02.png" />
+		<image file="arteus_damage_03.png" />
  		<animation loop="no" on_finish="last_frame" speed="50"/>
+		<translation x="0" y="-12"/>
 	</sprite>
 	<sprite name="arteus_defeat">
-		<image file="arteus_strike_00.png" />
-		<image file="arteus_strike_01.png" />
-		<image file="arteus_strike_02.png" />
+		<image file="arteus_defeat_01.png" />
+		<image file="arteus_defeat_02.png" />
+		<image file="arteus_defeat_03.png" />
+		<image file="arteus_defeat_04.png" />
+		<image file="arteus_defeat_05.png" />
+		<image file="arteus_defeat_06.png" />
  		<animation loop="no" on_finish="last_frame" speed="70"/>
-		<translation x="0" y="-30"/>
+		<translation x="0" y="-12"/>
 	</sprite>
 	<!-- hitmaps -->
 	<hitmap name="arteus_strike_map">
@@ -71,5 +79,7 @@
 		<rect t="-0.0" l="1.0" w="1.0" h="1.0"/>
 	</hitmap>
 	<!-- sounds -->
-	<sample name="arteus_damage_snd" file="dmg.wav"/>
+	<sample name="arteus_pierce_snd" file="arteus_jump.wav"/>
+	<sample name="arteus_strike_snd" file="arteus_jump.wav"/>
+	<sample name="arteus_slash_snd" file="arteus_jump.wav"/>
 </resources>

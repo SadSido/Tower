@@ -226,8 +226,8 @@ void Player::upload(const LevelCtx &ctx)
 	}
 
 	// load sounds:
-	const int statesWithSound [] = { state_Damage };
-	for (int stateNo = 0; stateNo < 1; ++ stateNo)
+	const int statesWithSound [] = { state_Strike, state_Pierce, state_Slash };
+	for (int stateNo = 0; stateNo < 3; ++ stateNo)
 	{ 
 		auto name = s_prefix + getStateName(statesWithSound[stateNo]) + s_sndsuffix;
 		CL_SoundBuffer & buff = sounds[statesWithSound[stateNo]];

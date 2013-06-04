@@ -151,7 +151,7 @@
   </object>
  </objectgroup>
  <objectgroup name="entries" width="40" height="15">
-  <object name="main" x="2368" y="768"/>
+  <object name="main" x="2304" y="640"/>
   <object name="from_entrance_hall" x="448" y="768"/>
  </objectgroup>
 </map>
