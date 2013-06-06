@@ -22,6 +22,12 @@ void GameManager::pushScene(GameScene::Ref scene)
 	m_stack.push_back(scene);
 }
 
+void GameManager::repScene(GameScene::Ref scene)
+{
+	m_stack.pop_back();
+	m_stack.push_back(scene);
+}
+
 void GameManager::popScene()
 {
 	m_stack.pop_back();

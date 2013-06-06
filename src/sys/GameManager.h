@@ -21,8 +21,9 @@ public:
 	int runMainLoop();
 
 	// scene management:
-	void pushScene(GameScene::Ref scene);
-	void popScene();
+	void pushScene (GameScene::Ref scene);
+	void repScene  (GameScene::Ref scene);
+	void popScene  ();
 
 	// services and managers:
 	GameScene::Ref getTopScene() const
