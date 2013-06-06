@@ -20,6 +20,15 @@ public:
 	virtual void render();
 
 private:
+	// input event handlers:
+	void onKeyDown(const CL_InputEvent &key, const CL_InputState &state);
+
+private:
+	CL_SlotContainer m_slots;
+	CL_Font_System m_font;
+	
+	// selected item:
+	int m_selected;
 };
 
 //************************************************************************************************************************

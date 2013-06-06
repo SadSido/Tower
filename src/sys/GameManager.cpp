@@ -2,7 +2,7 @@
 // ORIGIN: main class for running the game
 
 #include "GameManager.h"
-#include "../gmd/LevelScene.h"
+#include "../gmd/LevelSelectScene.h"
 
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
@@ -42,7 +42,8 @@ int GameManager::runMainLoop()
 	m_sounder.reset(new Sounder());
 
 	// push initial scene:
-	pushScene(LevelScene::createLevel(this, 0));
+	GameScene::Ref startScene = GameScene::Ref(new LevelSelectScene(this));
+	pushScene(startScene);
 
 	unsigned int lastTick  = CL_System::get_time();
 
