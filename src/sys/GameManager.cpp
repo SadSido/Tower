@@ -42,7 +42,7 @@ int GameManager::runMainLoop()
 	m_sounder.reset(new Sounder());
 
 	// push initial scene:
-	pushScene(GameScene::Ref(new LevelScene(this, "level01.desc")));
+	pushScene(LevelScene::createLevel(this, 0));
 
 	unsigned int lastTick  = CL_System::get_time();
 

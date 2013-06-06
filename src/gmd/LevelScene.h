@@ -51,7 +51,9 @@ struct NotifyAreaData
 class LevelScene : public GameScene
 {
 public:
-	explicit LevelScene(GameManager * manager, CL_String descFile);
+	// factory for creating levels:
+	static int countLevels();
+	static GameScene::Ref createLevel(GameManager * manager, int levelNo);
 
 	// scene lifecycle:	
 	virtual void update(float secs);
@@ -70,6 +72,9 @@ private:
 	Player  m_player;
 	Areas   m_areas;
 	Assets  m_assets;
+
+	// constructor:
+	explicit LevelScene(GameManager * manager, CL_String descFile);
 
 	// generating context:
 	LevelCtx getContext();

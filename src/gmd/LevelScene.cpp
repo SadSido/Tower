@@ -7,7 +7,23 @@
 #include "../sys/Renderer.h"
 #include "../util/Parsing.h"
 #include "../util/BasePath.h"
+#include "../util/Generic.h"
 #include <assert.h>
+
+//************************************************************************************************************************
+
+static CL_String s_descnames [] = {"level01.desc"};
+
+//************************************************************************************************************************
+
+int LevelScene::countLevels()
+{ return COUNTOF(s_descnames); }
+
+GameScene::Ref LevelScene::createLevel(GameManager * manager, int levelNo)
+{
+	assert(levelNo < countLevels());
+	return LevelScene::Ref(new LevelScene(manager, s_descnames[levelNo]));
+}
 
 //************************************************************************************************************************
 
