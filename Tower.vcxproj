@@ -98,6 +98,7 @@
     <ClCompile Include="src\gmd\Globals.cpp" />
     <ClCompile Include="src\gmd\Hitmap.cpp" />
     <ClCompile Include="src\gmd\LevelScene.cpp" />
+    <ClCompile Include="src\gmd\LevelSelectScene.cpp" />
     <ClCompile Include="src\gmd\Player.cpp" />
     <ClCompile Include="src\gmd\Tilemap.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\Hitmap.h" />
     <ClInclude Include="src\gmd\LevelScene.h" />
+    <ClInclude Include="src\gmd\LevelSelectScene.h" />
     <ClInclude Include="src\gmd\Player.h" />
     <ClInclude Include="src\gmd\Tilemap.h" />
     <ClInclude Include="src\sys\Configuration.h" />

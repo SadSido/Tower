@@ -83,6 +83,9 @@
     <ClCompile Include="src\sys\Sounder.cpp">
       <Filter>sys</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\LevelSelectScene.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="src\sys\Sounder.h">
       <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\LevelSelectScene.h">
+      <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
