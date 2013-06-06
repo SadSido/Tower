@@ -9,8 +9,6 @@
 
 //************************************************************************************************************************
 
-//************************************************************************************************************************
-
 // c-tor and d-tor:
 
 LevelSelectScene::LevelSelectScene(GameManager * manager)
@@ -59,7 +57,7 @@ void LevelSelectScene::onKeyDown(const CL_InputEvent &key, const CL_InputState &
 	{ m_manager->popScene(); }
 
 	if (key.id == cfg->mouseLeft())
-	{ m_manager->pushScene(LevelScene::createLevel(m_manager, m_selected)); }
+	{ m_manager->repScene(LevelScene::createLevel(m_manager, m_selected)); }
 
 	if (key.id == cfg->keyUp())
 	{ m_selected = max(m_selected - 1, 0); }

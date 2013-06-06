@@ -13,6 +13,7 @@
 class LevelSelectScene : public GameScene
 {
 public:
+	// c-tors and d-tors:
 	explicit LevelSelectScene(GameManager * manager);
 
 	// scene lifecycle:

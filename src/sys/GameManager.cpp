@@ -48,12 +48,10 @@ int GameManager::runMainLoop()
 	m_sounder.reset(new Sounder());
 
 	// push initial scene:
-	GameScene::Ref startScene = GameScene::Ref(new LevelSelectScene(this));
-	pushScene(startScene);
-
-	unsigned int lastTick  = CL_System::get_time();
+	pushScene(GameScene::Ref(new LevelSelectScene(this)));
 
 	// main game loop:
+	unsigned int lastTick = CL_System::get_time();
 	while (m_stack.size())
 	{
 		GameScene::Ref topScene = getTopScene();
