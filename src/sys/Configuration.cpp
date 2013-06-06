@@ -15,7 +15,7 @@ int Configuration::keyUp() const
 { return CL_KEY_W; }
 
 int Configuration::keyDown() const
-{ return CL_KEY_D; }
+{ return CL_KEY_S; }
 
 int Configuration::keyLeft() const
 { return CL_KEY_A; }
