@@ -192,6 +192,9 @@
     <ClInclude Include="src\gmd\LevelSelectScene.h">
       <Filter>gmd</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\Generic.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\level01.desc">

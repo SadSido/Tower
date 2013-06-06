@@ -139,6 +139,7 @@
     <ClInclude Include="src\sys\Renderer.h" />
     <ClInclude Include="src\sys\Sounder.h" />
     <ClInclude Include="src\util\BasePath.h" />
+    <ClInclude Include="src\util\Generic.h" />
     <ClInclude Include="src\util\MathUtils.h" />
     <ClInclude Include="src\util\Parsing.h" />
     <ClInclude Include="src\util\XmlUtils.h" />
