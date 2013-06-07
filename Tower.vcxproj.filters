@@ -89,6 +89,9 @@
     <ClCompile Include="src\gmd\LevelFailedScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\LevelDoneScene.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -199,6 +202,9 @@
       <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\LevelFailedScene.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\LevelDoneScene.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>

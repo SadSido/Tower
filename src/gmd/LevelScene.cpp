@@ -3,6 +3,7 @@
 
 #include "LevelScene.h"
 #include "LevelFailedScene.h"
+#include "LevelDoneScene.h"
 #include "Player.h"
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
@@ -74,7 +75,7 @@ void LevelScene::update(float secs)
 	}
 	if (m_globals.check(Globals::victory()))
 	{
-		m_manager->popScene();
+		m_manager->repScene(GameScene::Ref(new LevelDoneScene(m_manager, m_levelNo)));
 	}
 	if (m_globals.check(Globals::defeat()))
 	{

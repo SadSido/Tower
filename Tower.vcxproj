@@ -97,6 +97,7 @@
     <ClCompile Include="src\gmd\EntityFactory.cpp" />
     <ClCompile Include="src\gmd\Globals.cpp" />
     <ClCompile Include="src\gmd\Hitmap.cpp" />
+    <ClCompile Include="src\gmd\LevelDoneScene.cpp" />
     <ClCompile Include="src\gmd\LevelFailedScene.cpp" />
     <ClCompile Include="src\gmd\LevelScene.cpp" />
     <ClCompile Include="src\gmd\LevelSelectScene.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="src\gmd\EntityFactory.h" />
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\Hitmap.h" />
+    <ClInclude Include="src\gmd\LevelDoneScene.h" />
     <ClInclude Include="src\gmd\LevelFailedScene.h" />
     <ClInclude Include="src\gmd\LevelScene.h" />
     <ClInclude Include="src\gmd\LevelSelectScene.h" />
