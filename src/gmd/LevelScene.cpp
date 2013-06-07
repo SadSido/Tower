@@ -2,6 +2,7 @@
 // ORIGIN: base scene for every game level
 
 #include "LevelScene.h"
+#include "LevelFailedScene.h"
 #include "Player.h"
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
@@ -77,7 +78,7 @@ void LevelScene::update(float secs)
 	}
 	if (m_globals.check(Globals::defeat()))
 	{
-		m_manager->popScene();
+		m_manager->repScene(GameScene::Ref(new LevelFailedScene(m_manager, m_levelNo)));
 	}
 }
 
