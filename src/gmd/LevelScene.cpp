@@ -22,13 +22,13 @@ int LevelScene::countLevels()
 GameScene::Ref LevelScene::createLevel(GameManager * manager, int levelNo)
 {
 	assert(levelNo < countLevels());
-	return LevelScene::Ref(new LevelScene(manager, s_descnames[levelNo]));
+	return LevelScene::Ref(new LevelScene(manager, levelNo, s_descnames[levelNo]));
 }
 
 //************************************************************************************************************************
 
-LevelScene::LevelScene(GameManager * manager, CL_String descFile)
-: GameScene(manager), m_player(CL_Pointf(), CL_Sizef(1.0f, 2.8f))
+LevelScene::LevelScene(GameManager * manager, int levelNo, CL_String descFile)
+: GameScene(manager), m_levelNo(levelNo), m_player(CL_Pointf(), CL_Sizef(1.0f, 2.8f))
 {
 	Configuration::Ref config = m_manager->getConfig();
 	Renderer::Ref renderer = m_manager->getRenderer();

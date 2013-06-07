@@ -64,6 +64,8 @@ public:
 	void enterArea(CL_String name, CL_String entry);
 
 private:
+	const int m_levelNo;
+
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	
@@ -74,7 +76,7 @@ private:
 	Assets  m_assets;
 
 	// constructor:
-	explicit LevelScene(GameManager * manager, CL_String descFile);
+	explicit LevelScene(GameManager * manager, int levelNo, CL_String descFile);
 
 	// generating context:
 	LevelCtx getContext();
