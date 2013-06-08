@@ -9,10 +9,14 @@
 
 //************************************************************************************************************************
 
+static const float s_speedFactor = 4.0f;
+
+//************************************************************************************************************************
+
 // c-tor and d-tor:
 
 LevelPausedScene::LevelPausedScene(GameManager * manager)
-: GameScene(manager)
+: GameScene(manager), m_topScene(manager->getTopScene()), m_percent(0.0f)
 {
 	auto renderer = m_manager->getRenderer();
 
@@ -28,6 +32,7 @@ LevelPausedScene::LevelPausedScene(GameManager * manager)
 
 void LevelPausedScene::update(float secs)
 {
+	m_percent = min(1.0f, m_percent + secs * s_speedFactor);
 }
 
 void LevelPausedScene::render()
@@ -37,6 +42,11 @@ void LevelPausedScene::render()
 	const CL_Pointf margins(40.0f, 40.0f);
 	const CL_String caption = "Game paused, (*| ) continue ( |*) quit";
 
+	// render underlying scene:
+	m_topScene->render();
+
+	// render overlay:
+	CL_Draw::fill(renderer->getGC(), CL_Rectf(renderer->getGCSize()), CL_Colorf(0.0f, 0.0f, 0.0f, m_percent));
 	m_font.draw_text(renderer->getGC(), margins, caption, CL_Colorf::white);
 }
 

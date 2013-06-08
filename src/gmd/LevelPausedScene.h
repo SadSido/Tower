@@ -27,6 +27,12 @@ private:
 private:
 	CL_SlotContainer m_slots;
 	CL_Font_System m_font;
+
+	// scene for sub-rendering:
+	GameScene::Ref m_topScene;
+
+	// animation parameters:
+	float m_percent;
 };
 
 //************************************************************************************************************************

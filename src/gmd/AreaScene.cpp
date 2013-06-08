@@ -8,7 +8,7 @@
 
 //************************************************************************************************************************
 
-const float speedFactor = 4.0f;
+static const float s_speedFactor = 4.0f;
 
 //************************************************************************************************************************
 
@@ -26,7 +26,7 @@ void AreaScene::update(float secs)
 	if (m_direct)
 	{
 		// fade-out:
-		m_percent = min(1.0f, m_percent + secs * speedFactor);
+		m_percent = min(1.0f, m_percent + secs * s_speedFactor);
 		if (m_percent == 1.0f)
 		{
 			NotifyAreaData data = { m_areaName, m_entryName };
@@ -37,7 +37,7 @@ void AreaScene::update(float secs)
 	else
 	{
 		// fade-in:
-		m_percent = max(0.0f, m_percent - secs * speedFactor);
+		m_percent = max(0.0f, m_percent - secs * s_speedFactor);
 		if (m_percent == 0.0f)
 		{
 			m_manager->popScene();
