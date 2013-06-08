@@ -1,7 +1,7 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
 // ORIGIN: the scene for choosing starting level
 
-#include "LevelSelectScene.h"
+#include "SelectLevelScene.h"
 #include "LevelScene.h"
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
@@ -11,7 +11,7 @@
 
 // c-tor and d-tor:
 
-LevelSelectScene::LevelSelectScene(GameManager * manager)
+SelectLevelScene::SelectLevelScene(GameManager * manager)
 : GameScene(manager), m_selected(0)
 {
 	auto renderer = m_manager->getRenderer();
@@ -20,17 +20,17 @@ LevelSelectScene::LevelSelectScene(GameManager * manager)
 	m_font = CL_Font_System(renderer->getGC(), "Microsoft Sans Serif", 32);
 
 	// attach input handlers:
-	m_slots.connect(renderer->getIC().get_keyboard().sig_key_down(), this, &LevelSelectScene::onKeyDown);
-	m_slots.connect(renderer->getIC().get_mouse().sig_key_down(), this, &LevelSelectScene::onKeyDown);
+	m_slots.connect(renderer->getIC().get_keyboard().sig_key_down(), this, &SelectLevelScene::onKeyDown);
+	m_slots.connect(renderer->getIC().get_mouse().sig_key_down(), this, &SelectLevelScene::onKeyDown);
 }
 
 // scene lifecycle:
 
-void LevelSelectScene::update(float secs)
+void SelectLevelScene::update(float secs)
 {
 }
 
-void LevelSelectScene::render()
+void SelectLevelScene::render()
 {
 	Renderer::Ref renderer = m_manager->getRenderer();
 
@@ -48,7 +48,7 @@ void LevelSelectScene::render()
 
 // input event handlers:
 
-void LevelSelectScene::onKeyDown(const CL_InputEvent &key, const CL_InputState &state)
+void SelectLevelScene::onKeyDown(const CL_InputEvent &key, const CL_InputState &state)
 {
 	auto cfg = m_manager->getConfig();
 	auto cnt = LevelScene::countLevels();

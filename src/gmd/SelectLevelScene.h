@@ -1,8 +1,8 @@
 // AUTHOR: Wiatcheslav "SadSido" Sidortsov
 // ORIGIN: the scene for choosing starting level
 
-#ifndef _LevelSelectScene_h_
-#define _LevelSelectScene_h_
+#ifndef _SelectLevelScene_h_
+#define _SelectLevelScene_h_
 
 #include "../sys/GameScene.h"
 #include <ClanLib/core.h>
@@ -10,11 +10,11 @@
 
 //************************************************************************************************************************
 
-class LevelSelectScene : public GameScene
+class SelectLevelScene : public GameScene
 {
 public:
 	// c-tors and d-tors:
-	explicit LevelSelectScene(GameManager * manager);
+	explicit SelectLevelScene(GameManager * manager);
 
 	// scene lifecycle:
 	virtual void update(float secs);

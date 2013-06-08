@@ -83,13 +83,13 @@
     <ClCompile Include="src\sys\Sounder.cpp">
       <Filter>sys</Filter>
     </ClCompile>
-    <ClCompile Include="src\gmd\LevelSelectScene.cpp">
-      <Filter>gmd</Filter>
-    </ClCompile>
     <ClCompile Include="src\gmd\LevelFailedScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
     <ClCompile Include="src\gmd\LevelDoneScene.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gmd\SelectLevelScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
   </ItemGroup>
@@ -195,9 +195,6 @@
     <ClInclude Include="src\sys\Sounder.h">
       <Filter>sys</Filter>
     </ClInclude>
-    <ClInclude Include="src\gmd\LevelSelectScene.h">
-      <Filter>gmd</Filter>
-    </ClInclude>
     <ClInclude Include="src\util\Generic.h">
       <Filter>util</Filter>
     </ClInclude>
@@ -205,6 +202,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\LevelDoneScene.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\SelectLevelScene.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
