@@ -4,6 +4,7 @@
 #include "LevelScene.h"
 #include "LevelFailedScene.h"
 #include "LevelDoneScene.h"
+#include "LevelPausedScene.h"
 #include "Player.h"
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
@@ -71,7 +72,7 @@ void LevelScene::update(float secs)
 	// check the globals:
 	if (ctx.keys.get_keycode(ctx.cfg->keyPause()))
 	{
-		m_manager->popScene();
+		m_manager->pushScene(GameScene::Ref(new LevelPausedScene(m_manager)));
 	}
 	if (m_globals.check(Globals::victory()))
 	{

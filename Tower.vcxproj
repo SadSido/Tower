@@ -99,6 +99,7 @@
     <ClCompile Include="src\gmd\Hitmap.cpp" />
     <ClCompile Include="src\gmd\LevelDoneScene.cpp" />
     <ClCompile Include="src\gmd\LevelFailedScene.cpp" />
+    <ClCompile Include="src\gmd\LevelPausedScene.cpp" />
     <ClCompile Include="src\gmd\LevelScene.cpp" />
     <ClCompile Include="src\gmd\Player.cpp" />
     <ClCompile Include="src\gmd\SelectLevelScene.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="src\gmd\Hitmap.h" />
     <ClInclude Include="src\gmd\LevelDoneScene.h" />
     <ClInclude Include="src\gmd\LevelFailedScene.h" />
+    <ClInclude Include="src\gmd\LevelPausedScene.h" />
     <ClInclude Include="src\gmd\LevelScene.h" />
     <ClInclude Include="src\gmd\Player.h" />
     <ClInclude Include="src\gmd\SelectLevelScene.h" />
