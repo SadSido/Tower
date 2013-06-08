@@ -2,7 +2,7 @@
 // ORIGIN: the scene, that allows player to proceed to the next level
 
 #include "LevelDoneScene.h"
-#include "LevelScene.h"
+#include "IntroScene.h"
 #include "../sys/GameManager.h"
 #include "../sys/Renderer.h"
 #include "../util/Generic.h"
@@ -50,13 +50,7 @@ void LevelDoneScene::onKeyDown(const CL_InputEvent &key, const CL_InputState &st
 	if (key.id == cfg->mouseLeft())
 	{
 		const int nextLevel = m_levelNo + 1;
-		const int cntLevels = LevelScene::countLevels();
-
-		if (nextLevel < cntLevels) 
-		{ m_manager->repScene(LevelScene::createLevel(m_manager, nextLevel)); }		
-		
-		else
-		{ m_manager->popScene(); } 
+		m_manager->repScene(IntroScene::createIntro(m_manager, nextLevel));
 	}
 
 	// right mouse - quit to main menu:

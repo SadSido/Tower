@@ -95,6 +95,9 @@
     <ClCompile Include="src\gmd\LevelPausedScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\IntroScene.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -211,6 +214,9 @@
       <Filter>gmd</Filter>
     </ClInclude>
     <ClInclude Include="src\gmd\LevelPausedScene.h">
+      <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\IntroScene.h">
       <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
