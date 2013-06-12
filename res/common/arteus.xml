@@ -74,9 +74,31 @@
 	</sprite>
 	<!-- hitmaps -->
 	<hitmap name="arteus_strike_map">
-		<rect t="-1.0" l="1.0" w="1.0" h="1.0"/>
-		<rect t="-0.5" l="1.0" w="1.0" h="1.0"/>
-		<rect t="-0.0" l="1.0" w="1.0" h="1.0"/>
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>		
+		<rect t="-1.0" l="0.0" w="1.0" h="1.0"/>
+		<rect t="-0.8" l="1.0" w="1.4" h="1.7"/>
+		<rect t="+0.4" l="1.0" w="1.6" h="1.7"/>
+		<rect t="+0.4" l="1.0" w="1.6" h="2.4"/>
+	</hitmap>
+	<hitmap name="arteus_slash_map">
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>		
+		<rect t="-1.0" l="0.0" w="1.0" h="1.0"/>
+		<rect t="-0.8" l="1.0" w="1.4" h="1.7"/>
+		<rect t="+0.4" l="1.0" w="1.6" h="1.7"/>
+		<rect t="+0.8" l="1.0" w="1.6" h="1.7"/>
+	</hitmap>
+	<hitmap name="arteus_pierce_map">
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>
+		<rect t="1.1"  l="1.0" w="2.0" h="0.7"/>
+		<rect t="0.8"  l="1.2" w="2.2" h="0.7"/>
+	</hitmap>
+	<hitmap name="arteus_shield_map">
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>
+		<rect t="0.6"  l="0.9" w="0.5" h="1.4"/>
+		<rect t="0.6"  l="0.9" w="0.5" h="1.4"/>
 	</hitmap>
 	<!-- sounds -->
 	<sample name="arteus_pierce_snd" file="arteus_jump.wav"/>

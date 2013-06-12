@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "LevelScene.h"
+#include "../util/Generic.h"
 #include <assert.h>
 
 //************************************************************************************************************************
@@ -175,8 +176,13 @@ bool Player::render(const LevelCtx &ctx)
 	// test the sword rect:
 
 	auto swordRect = ctx.tilemap->toScreen(getSwordRect());
-	CL_Draw::box(ctx.gc, swordRect, CL_Colorf(255,0,0));
+	CL_Draw::box(ctx.gc, swordRect, CL_Colorf::red);
+
+	// test the shield rect:
 	
+	auto shieldRect = ctx.tilemap->toScreen(getShieldRect());
+	CL_Draw::box(ctx.gc, shieldRect, CL_Colorf::blue);
+
 	return true;
 }
 
@@ -218,8 +224,8 @@ void Player::upload(const LevelCtx &ctx)
 	}
 
 	// load hitmaps:
-	const int statesWithMap [] = { state_Strike };
-	for (int stateNo = 0; stateNo < 1; ++ stateNo)
+	const int statesWithMap [] = { state_Strike, state_Slash, state_Pierce, state_Shield };
+	for (int stateNo = 0; stateNo < COUNTOF(statesWithMap); ++ stateNo)
 	{ 
 		auto name = s_prefix + getStateName(statesWithMap[stateNo]) + s_mapsuffix;
 		hitmaps[statesWithMap[stateNo]] = Hitmap(name, &ctx.assets); 
@@ -227,7 +233,7 @@ void Player::upload(const LevelCtx &ctx)
 
 	// load sounds:
 	const int statesWithSound [] = { state_Strike, state_Pierce, state_Slash };
-	for (int stateNo = 0; stateNo < 3; ++ stateNo)
+	for (int stateNo = 0; stateNo < COUNTOF(statesWithSound); ++ stateNo)
 	{ 
 		auto name = s_prefix + getStateName(statesWithSound[stateNo]) + s_sndsuffix;
 		CL_SoundBuffer & buff = sounds[statesWithSound[stateNo]];
