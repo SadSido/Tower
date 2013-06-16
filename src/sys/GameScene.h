@@ -15,7 +15,9 @@ class GameScene
 {
 public:
 	typedef std::shared_ptr<GameScene> Ref;
+	
 	explicit GameScene(GameManager * manager);
+	virtual ~GameScene();
 
 	virtual void update(float secs) = 0;
 	virtual void render() = 0;
