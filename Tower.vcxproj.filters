@@ -98,6 +98,9 @@
     <ClCompile Include="src\gmd\IntroScene.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\ent\MonsterEntity.cpp">
+      <Filter>ent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="src\gmd\IntroScene.h">
       <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\MonsterEntity.h">
+      <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
