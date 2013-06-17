@@ -12,6 +12,32 @@
 //************************************************************************************************************************
 
 struct LevelCtx;
+class MonsterEntity;
+
+//************************************************************************************************************************
+
+// policies are the basic interfaces for monster behavior. Every
+// monster can be customized by assigning a set of policies:
+
+struct MovingPolicy
+{
+	typedef std::shared_ptr<MovingPolicy> Ref;
+		
+	explicit MovingPolicy() {}
+	virtual ~MovingPolicy() {}
+
+	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx);
+	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx);
+	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx);
+};
+
+struct DetectPolicy
+{
+	typedef std::shared_ptr<MovingPolicy> Ref;
+		
+	explicit DetectPolicy() {}
+	virtual ~DetectPolicy() {}
+};
 
 //************************************************************************************************************************
 
@@ -20,24 +46,6 @@ struct LevelCtx;
 class MonsterEntity : public Entity
 {
 public:
-	// policies define monsters behavior: flying 
-	// or still, melee or shooting missiles, etc:
-
-	struct MovingPolicy
-	{
-		typedef std::shared_ptr<MovingPolicy> Ref;
-		
-		explicit MovingPolicy() {}
-		virtual ~MovingPolicy() {}
-	};
-
-	struct DetectPolicy
-	{
-		typedef std::shared_ptr<MovingPolicy> Ref;
-		
-		explicit DetectPolicy() {}
-		virtual ~DetectPolicy() {}
-	};
 
 public:
 	// c-tors and d-tors:

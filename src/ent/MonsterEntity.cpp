@@ -82,11 +82,6 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 	// resolve movement:
 	if (!isRecovering())
 	{
-		// m_vel += m_acc * secs;
-		// m_rect.translate(m_vel * secs);
-		// setFacing();
-
-		// resolve movement:
 		m_vel += m_acc * secs;
 		setFacing();
 
@@ -97,7 +92,9 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 
 		m_rect.translate(moveTest.delta);
 
-		// INVOKE MovePolicy.OnCollision() somewhere here ...
+		// something like this:
+		// if (moveTest.type != th_None)
+		// { m_mpolicy->onCollided(this, ctx); }
 	}
 
 	// select and update sprite:
@@ -164,6 +161,7 @@ void MonsterEntity::update_Emerge(const LevelCtx &ctx)
 	if (getSprite().is_finished())
 	{
 		// INVOKE MovePolicy.InitMovement();
+		// m_mpolicy->onStarted(this, ctx);
 	}
 }
 
@@ -177,7 +175,10 @@ void MonsterEntity::update_Move(const LevelCtx &ctx)
 	checkPlayer(ctx);
 
 	if ( /* reachedPos() */ false)
-	{ m_towait = m_waittime; enterState(state_Wait, CL_Pointf()); }
+	{ 
+		//m_mpolicy->onReached(this, ctx);
+		m_towait = m_waittime; enterState(state_Wait, CL_Pointf()); 
+	}
 }
 
 void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
