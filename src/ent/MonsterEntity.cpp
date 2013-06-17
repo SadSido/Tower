@@ -2,6 +2,7 @@
 // ORIGIN: base class for the game monsters
 
 #include "MonsterEntity.h"
+#include "MonsterPolicies.h"
 #include "../gmd/LevelScene.h"
 #include <assert.h>
 
@@ -66,6 +67,10 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
 		if (prop.get_attribute("name") == "health") 
 		{ m_health = prop.get_attribute_float("value"); }
 	}
+
+	// let's have sample for now:
+	m_mpolicy = MovingPolicy::Ref(new NoMovingPolicy());
+	m_apolicy = AttackPolicy::Ref(new NoAttackPolicy());
 }
 
 bool MonsterEntity::update(const LevelCtx &ctx, float secs)
@@ -138,15 +143,12 @@ void MonsterEntity::upload(const LevelCtx &ctx)
 	m_basePos = getCenter();
 }
 
-// per-state updates:
+// interface for policies:
 
-void MonsterEntity::enterState(int state, CL_Pointf vel)
+void MonsterEntity::enterState(int state)
 {
 	// ensure valid state:
 	assert(state < state_Count);
-
-	// set movement params:
-	m_vel = vel;
 
 	// set new sprite:
 	if (state != getStateNo())
@@ -156,36 +158,33 @@ void MonsterEntity::enterState(int state, CL_Pointf vel)
 	}
 }
 
+// per-state updates:
+
 void MonsterEntity::update_Emerge(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
-	{
-		// INVOKE MovePolicy.InitMovement();
-		// m_mpolicy->onStarted(this, ctx);
-	}
+	{ m_mpolicy->onStarted(this, ctx); }
 }
 
 void MonsterEntity::update_Move(const LevelCtx &ctx)
 {
 	// suffer damage:
 	if (!checkDamage(ctx))
-	{ enterState(state_Vanish, CL_Pointf()); }
+	{ return; }
 
 	// apply damage:
 	checkPlayer(ctx);
 
-	if ( /* reachedPos() */ false)
-	{ 
-		//m_mpolicy->onReached(this, ctx);
-		m_towait = m_waittime; enterState(state_Wait, CL_Pointf()); 
-	}
+	// out-of-area event:
+	if (m_areal && outsideArea())
+	{ m_mpolicy->onReached(this, ctx); }
 }
 
 void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 {
 	// suffer damage:
 	if (!checkDamage(ctx))
-	{ enterState(state_Vanish, CL_Pointf()); }
+	{ return; }
 
 	// apply damage:
 	checkPlayer(ctx);
@@ -193,8 +192,8 @@ void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 	// decrement cooldown:
 	m_towait = max(0.0f, m_towait - secs);
 	
-	// if (m_towait == 0.0f)
-	// { setNextPos(); enterState(state_Move, m_vel); }
+	if (m_towait == 0.0f)
+	{ m_mpolicy->onWaited(this, ctx); }
 }
 
 void MonsterEntity::update_Vanish(const LevelCtx &ctx)
@@ -210,13 +209,30 @@ bool MonsterEntity::checkDamage(const LevelCtx &ctx)
 	if (ctx.player.getSwordRect().is_overlapped(m_rect))
 	{ doDamage(ctx, 1.0f); }
 
-	return (m_health > 0.0f);
+	// ok, still alive:
+	if (m_health > 0.0f)
+	{ return true; }
+
+	// or lethal damage:
+	m_vel = CL_Pointf();
+	m_acc = CL_Pointf();
+
+	enterState(state_Vanish);
+	return false;
 }
 
 void MonsterEntity::checkPlayer(const LevelCtx &ctx)
 {
 	if (m_damage && ctx.player.getRect().is_overlapped(m_rect))
 	{ ctx.player.doDamage(ctx, m_damage); }
+}
+
+// area handling:
+
+bool MonsterEntity::outsideArea()
+{
+	const auto pos = getCenter();
+	return abs(m_basePos.x - pos.x) > m_areal || abs(m_basePos.y - pos.y) > m_areal;
 }
 
 //************************************************************************************************************************

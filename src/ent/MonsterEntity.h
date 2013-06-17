@@ -29,11 +29,12 @@ struct MovingPolicy
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 };
 
 struct AttackPolicy
 {
-	typedef std::shared_ptr<MovingPolicy> Ref;
+	typedef std::shared_ptr<AttackPolicy> Ref;
 		
 	explicit AttackPolicy() {}
 	virtual ~AttackPolicy() {}
@@ -50,7 +51,7 @@ public:
 	explicit MonsterEntity(const CL_DomNodeList &plist);
 
 	// state management:
-	void enterState(int state, CL_Pointf vel);
+	void enterState(int state);
 
 private:
 	// virtual entity interface:
@@ -67,6 +68,9 @@ private:
 	// handling damage stuff:
 	bool checkDamage (const LevelCtx &ctx);
 	void checkPlayer (const LevelCtx &ctx);
+
+	// handling areal stuff:
+	bool outsideArea();
 
 private:
 	bool m_alive;

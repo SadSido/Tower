@@ -8,18 +8,25 @@
 
 //************************************************************************************************************************
 
-// movement policies:
+// policy with no implementation:
 
 struct NoMovingPolicy : MovingPolicy
 {
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override {};
 	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx) override {};
 	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) override {};
+	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) override {};
+};
+
+// monster does not actually move:
+
+struct StandStillPolicy : NoMovingPolicy
+{
 };
 
 //************************************************************************************************************************
 
-// attack policies:
+// policy with no implementation:
 
 struct NoAttackPolicy : AttackPolicy
 {
