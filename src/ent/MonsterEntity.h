@@ -15,25 +15,36 @@ struct LevelCtx;
 
 //************************************************************************************************************************
 
+// I GUESS WE SHOULD SEPARATE MONSTER'S HEALTH AND PLAYER'S HEALTH. NO NEED TO MOVE IT TO BASE ENTITY...
+
 class MonsterEntity : public Entity
 {
 public:
-	#pragma region event handlers
+	// policies define monsters behavior: flying 
+	// or still, melee or shooting missiles, etc:
 
-	// monster's events customize its behavior. Event can handle its
-	// own properties, initialized in constructor via xml attributes:
-	
-	struct Event
+	struct MovingPolicy
 	{
-		typedef std::shared_ptr<Event> Ref;
+		typedef std::shared_ptr<MovingPolicy> Ref;
 		
-		explicit Event();
-		virtual ~Event();
-
-		virtual bool process(MonsterEntity * owner, const LevelCtx &ctx);
+		explicit MovingPolicy() {}
+		virtual ~MovingPolicy() {}
 	};
-	
-	#pragma endregion
+
+	struct DetectPolicy
+	{
+		typedef std::shared_ptr<MovingPolicy> Ref;
+		
+		explicit DetectPolicy() {}
+		virtual ~DetectPolicy() {}
+	};
+
+public:
+	// c-tors and d-tors:
+	explicit MonsterEntity(const CL_DomNodeList &plist);
+
+	// state management:
+	void enterState(int state, CL_Pointf vel);
 
 private:
 	// virtual entity interface:
@@ -41,31 +52,32 @@ private:
 	virtual bool render (const LevelCtx &ctx);
 	virtual void upload (const LevelCtx &ctx);
 
-protected:
+	// per-state updates:
+	void update_Emerge (const LevelCtx &ctx);
+	void update_Move   (const LevelCtx &ctx);
+	void update_Wait   (const LevelCtx &ctx, float secs);
+	void update_Vanish (const LevelCtx &ctx);
+
+	// handling damage stuff:
+	bool checkDamage (const LevelCtx &ctx);
+	void checkPlayer (const LevelCtx &ctx);
+
+private:
 	bool m_alive;
+	CL_String m_prefix;
 
 	CL_Pointf m_basePos;
 	CL_Pointf m_nextPos;
 
-	// customizable behavior:
-	Event::Ref m_onEmerge;
-	Event::Ref m_onDestin;
-	Event::Ref m_onDetect;
+	float m_speed;
+	float m_areal;
+	float m_waittime;
+	float m_towait;
+	float m_damage;
+//	float m_health;
 
-public:
-
-	// to create a monster, one must specify the set 
-	// of its event handlers via template constructor:
-
-	template<typename EMERGE, typename DESTIN, typename DETECT>
-	explicit MonsterEntity(const CL_DomNodeList &plist)
-	: m_alive(true)
-	{
-		// create event handlers:
-		m_onEmerge = Event::Ref(new EMERGE(plist));
-		m_onDestin = Event::Ref(new DESTIN(plist));
-		m_onDetect = Event::Ref(new DETECT(plist));
-	}
+	MovingPolicy::Ref m_mpolicy;
+	DetectPolicy::Ref m_dpolicy;
 };
 
 //************************************************************************************************************************
