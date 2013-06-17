@@ -136,7 +136,7 @@
     <property name="velocity" value="1.0, 3.0"/>
    </properties>
   </object>
-  <object name="testee" type="spawn_entity" x="1152" y="832" width="64" height="64">
+  <object name="testee" type="spawn_entity" x="1152" y="768" width="64" height="64">
    <properties>
     <property name="damage" value="1.0"/>
     <property name="distance" value="5.0"/>
