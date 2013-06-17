@@ -26,17 +26,17 @@ struct MovingPolicy
 	explicit MovingPolicy() {}
 	virtual ~MovingPolicy() {}
 
-	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx);
-	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx);
-	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx);
+	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 };
 
-struct DetectPolicy
+struct AttackPolicy
 {
 	typedef std::shared_ptr<MovingPolicy> Ref;
 		
-	explicit DetectPolicy() {}
-	virtual ~DetectPolicy() {}
+	explicit AttackPolicy() {}
+	virtual ~AttackPolicy() {}
 };
 
 //************************************************************************************************************************
@@ -45,8 +45,6 @@ struct DetectPolicy
 
 class MonsterEntity : public Entity
 {
-public:
-
 public:
 	// c-tors and d-tors:
 	explicit MonsterEntity(const CL_DomNodeList &plist);
@@ -85,7 +83,7 @@ private:
 //	float m_health;
 
 	MovingPolicy::Ref m_mpolicy;
-	DetectPolicy::Ref m_dpolicy;
+	AttackPolicy::Ref m_apolicy;
 };
 
 //************************************************************************************************************************
