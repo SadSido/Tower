@@ -8,23 +8,14 @@
 
 //************************************************************************************************************************
 
-enum States
-{
-	state_Emerge,
-	state_Move,
-	state_Wait,
-	state_Vanish,
-	state_Count,
-};
-
 static CL_String getStateName(int state)
 {
 	switch (state)
 	{
-	case state_Emerge:  return "_emerge";
-	case state_Move:	return "_move";
-	case state_Wait:	return "_wait";
-	case state_Vanish:	return "_vanish";
+	case MonsterEntity::state_Emerge:	return "_emerge";
+	case MonsterEntity::state_Move:		return "_move";
+	case MonsterEntity::state_Wait:		return "_wait";
+	case MonsterEntity::state_Vanish:	return "_vanish";
 	}
 
 	assert(false);

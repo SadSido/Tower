@@ -47,6 +47,9 @@ struct AttackPolicy
 class MonsterEntity : public Entity
 {
 public:
+	enum States
+	{ state_Emerge, state_Move, state_Wait, state_Vanish, state_Count };
+
 	// c-tors and d-tors:
 	explicit MonsterEntity(const CL_DomNodeList &plist);
 
