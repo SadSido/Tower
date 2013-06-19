@@ -12,6 +12,7 @@
 //************************************************************************************************************************
 
 struct LevelCtx;
+struct TileTest;
 class MonsterEntity;
 
 //************************************************************************************************************************
@@ -27,9 +28,9 @@ struct MovingPolicy
 	virtual ~MovingPolicy() {}
 
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
-	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) = 0;
 };
 
 struct AttackPolicy

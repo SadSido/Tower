@@ -82,15 +82,10 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 		setFacing();
 
 		TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, anyBlocking);
-
-		if (moveTest.type == th_Horizontal) { m_vel.x = 0.0f; m_acc.x = 0.0f; }
-		if (moveTest.type == th_Vertical)   { m_vel.y = 0.0f; }
-
 		m_rect.translate(moveTest.delta);
 
-		// something like this:
-		// if (moveTest.type != th_None)
-		// { m_mpolicy->onCollided(this, ctx); }
+		if (moveTest.type != th_None)
+		{ m_mpolicy->onCollided(this, ctx, moveTest); }
 	}
 
 	// select and update sprite:

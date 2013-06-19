@@ -22,7 +22,7 @@ void WalkingPolicy::onStarted(MonsterEntity * owner, const LevelCtx &ctx)
 	owner->enterMoveState(m_vel, CL_Pointf()); 
 }
 
-void WalkingPolicy::onCollided(MonsterEntity * owner, const LevelCtx &ctx)
+void WalkingPolicy::onCollided(MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test)
 { owner->enterWaitState(); }
 
 void WalkingPolicy::onReached(MonsterEntity * owner, const LevelCtx &ctx)
