@@ -7,5 +7,32 @@
 
 //************************************************************************************************************************
 
+// monster does not actually move:
+
+void StandStillPolicy::onStarted(MonsterEntity * owner, const LevelCtx &ctx)
+{ 
+	owner->enterMoveState(CL_Pointf(), CL_Pointf()); 
+}
+
+// monster walks on the ground:
+
+void WalkingPolicy::onStarted(MonsterEntity * owner, const LevelCtx &ctx)
+{ 
+	m_vel = CL_Pointf(owner->getSpeed(), 0.0f);
+	owner->enterMoveState(m_vel, CL_Pointf()); 
+}
+
+void WalkingPolicy::onCollided(MonsterEntity * owner, const LevelCtx &ctx)
+{ owner->enterWaitState(); }
+
+void WalkingPolicy::onReached(MonsterEntity * owner, const LevelCtx &ctx)
+{ owner->enterWaitState(); }
+
+void WalkingPolicy::onWaited(MonsterEntity * owner, const LevelCtx &ctx)
+{
+	m_vel = - m_vel;
+	owner->enterMoveState(m_vel, CL_Pointf());
+}
+
 //************************************************************************************************************************
 

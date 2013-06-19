@@ -134,19 +134,18 @@ void MonsterEntity::upload(const LevelCtx &ctx)
 	m_basePos = getCenter();
 }
 
-// interface for policies:
+// states management:
 
-void MonsterEntity::enterState(int state)
+void MonsterEntity::enterMoveState(CL_Pointf vel, CL_Pointf acc)
 {
-	// ensure valid state:
-	assert(state < state_Count);
+	setVel(vel); setAcc(acc);
+	enterState(state_Move);
+}
 
-	// set new sprite:
-	if (state != getStateNo())
-	{
-		setStateNo(state);
-		getSprite().restart();
-	}
+void MonsterEntity::enterWaitState()
+{
+	m_towait = m_waittime;
+	enterState(state_Wait);
 }
 
 // per-state updates:
@@ -218,7 +217,20 @@ void MonsterEntity::checkPlayer(const LevelCtx &ctx)
 	{ ctx.player.doDamage(ctx, m_damage); }
 }
 
-// area handling:
+// minor helpers:
+
+void MonsterEntity::enterState(int state)
+{
+	// ensure valid state:
+	assert(state < state_Count);
+
+	// set new sprite:
+	if (state != getStateNo())
+	{
+		setStateNo(state);
+		getSprite().restart();
+	}
+}
 
 bool MonsterEntity::outsideArea()
 {

@@ -54,7 +54,12 @@ public:
 	explicit MonsterEntity(const CL_DomNodeList &plist);
 
 	// state management:
-	void enterState(int state);
+	void enterMoveState(CL_Pointf vel, CL_Pointf acc);
+	void enterWaitState();
+
+	// many getters:
+	float getSpeed() const
+	{ return m_speed; }
 
 private:
 	// virtual entity interface:
@@ -68,12 +73,13 @@ private:
 	void update_Wait   (const LevelCtx &ctx, float secs);
 	void update_Vanish (const LevelCtx &ctx);
 
-	// handling damage stuff:
+	// handling damage:
 	bool checkDamage (const LevelCtx &ctx);
 	void checkPlayer (const LevelCtx &ctx);
 
-	// handling areal stuff:
+	// minor helpers:
 	bool outsideArea();
+	void enterState(int state);
 
 private:
 	bool m_alive;
