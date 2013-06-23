@@ -27,7 +27,7 @@ static CL_String getStateName(int state)
 // c-tors and d-tors:
 
 MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
-: m_alive(true), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f), m_damage(0.0f)
+: m_alive(true), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f), m_damage(0.0f), m_detect(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -51,6 +51,9 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
 		{ m_waittime = prop.get_attribute_float("value"); }
 
 		// combat parameters:
+
+		if (prop.get_attribute("name") == "detect") 
+		{ m_detect = prop.get_attribute_float("value"); }
 
 		if (prop.get_attribute("name") == "damage") 
 		{ m_damage = prop.get_attribute_float("value"); }
@@ -160,6 +163,13 @@ void MonsterEntity::update_Move(const LevelCtx &ctx)
 	// apply damage:
 	checkPlayer(ctx);
 
+	// player detected event:
+	if (m_detect && detectPlayer(ctx))
+	{ m_apolicy->onDetected(this, ctx); }
+
+	// BUT if apolicy didn't run, we should check area event. Maybe 
+	// apolicy must return bool whether it handled event or not?
+
 	// out-of-area event:
 	if (m_areal && outsideArea())
 	{ m_mpolicy->onReached(this, ctx); }
@@ -227,10 +237,18 @@ void MonsterEntity::enterState(int state)
 	}
 }
 
-bool MonsterEntity::outsideArea()
+bool MonsterEntity::outsideArea() const
 {
 	const auto pos = getCenter();
 	return abs(m_basePos.x - pos.x) > m_areal || abs(m_basePos.y - pos.y) > m_areal;
+}
+
+bool MonsterEntity::detectPlayer(const LevelCtx &ctx) const
+{
+	const auto monsterPos = getCenter();
+	const auto playerPos  = ctx.player.getCenter();
+
+	return abs(playerPos.x - monsterPos.x) < m_detect || abs(playerPos.y - monsterPos.y) < m_detect;
 }
 
 //************************************************************************************************************************

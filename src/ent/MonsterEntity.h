@@ -39,6 +39,8 @@ struct AttackPolicy
 		
 	explicit AttackPolicy() {}
 	virtual ~AttackPolicy() {}
+
+	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 };
 
 //************************************************************************************************************************
@@ -79,7 +81,9 @@ private:
 	void checkPlayer (const LevelCtx &ctx);
 
 	// minor helpers:
-	bool outsideArea();
+	bool outsideArea() const;
+	bool detectPlayer(const LevelCtx &ctx) const;
+
 	void enterState(int state);
 
 private:
@@ -95,6 +99,7 @@ private:
 	float m_towait;
 	float m_damage;
 //	float m_health;
+	float m_detect;
 
 	MovingPolicy::Ref m_mpolicy;
 	AttackPolicy::Ref m_apolicy;

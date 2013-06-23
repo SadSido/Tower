@@ -12,10 +12,10 @@
 
 struct NoMovingPolicy : MovingPolicy
 {
-	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override {};
-	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) override {};
-	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) override {};
-	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) override {};
+	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override {}
+	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) override {}
+	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) override {}
+	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) override {}
 };
 
 // monster does not actually move:
@@ -43,6 +43,7 @@ struct WalkingPolicy : NoMovingPolicy
 
 struct NoAttackPolicy : AttackPolicy
 {
+	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) override {}
 };
 
 //************************************************************************************************************************
