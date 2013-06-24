@@ -36,3 +36,19 @@ void WalkingPolicy::onWaited(MonsterEntity * owner, const LevelCtx &ctx)
 
 //************************************************************************************************************************
 
+// monster can only touch player
+
+bool UnarmedPolicy::onTouched  (MonsterEntity * owner, const LevelCtx &ctx)
+{ ctx.player.doDamage(ctx, owner->getDamage());	return true; }
+
+//************************************************************************************************************************
+
+// monster is damaged equally by any type of attack:
+
+bool AllDamagePolicy::onDamage (MonsterEntity * owner, const LevelCtx &ctx)
+{
+	owner->doDamage(ctx, 1.0f);
+	return true;
+}
+
+//************************************************************************************************************************

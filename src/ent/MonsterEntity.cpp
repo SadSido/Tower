@@ -65,6 +65,7 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
 	// let's have sample for now:
 	m_mpolicy = MovingPolicy::Ref(new NoMovingPolicy());
 	m_apolicy = AttackPolicy::Ref(new NoAttackPolicy());
+	m_dpolicy = DamagePolicy::Ref(new NoDamagePolicy());
 }
 
 bool MonsterEntity::update(const LevelCtx &ctx, float secs)
@@ -157,20 +158,18 @@ void MonsterEntity::update_Emerge(const LevelCtx &ctx)
 void MonsterEntity::update_Move(const LevelCtx &ctx)
 {
 	// suffer damage:
-	if (!checkDamage(ctx))
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health < 0.0f))
 	{ return; }
 
-	// apply damage:
-	checkPlayer(ctx);
+	// maybe handle "touch player" event:
+	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
+	{ return; }
 
-	// player detected event:
-	if (m_detect && detectPlayer(ctx))
-	{ m_apolicy->onDetected(this, ctx); }
+	// maybe handle "player detected" event:
+	if (m_detect && detectPlayer(ctx) && m_apolicy->onDetected(this, ctx))
+	{ return; }
 
-	// BUT if apolicy didn't run, we should check area event. Maybe 
-	// apolicy must return bool whether it handled event or not?
-
-	// out-of-area event:
+	// maybe handle "out-of-area" event:
 	if (m_areal && outsideArea())
 	{ m_mpolicy->onReached(this, ctx); }
 }
@@ -178,11 +177,16 @@ void MonsterEntity::update_Move(const LevelCtx &ctx)
 void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 {
 	// suffer damage:
-	if (!checkDamage(ctx))
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health < 0.0f))
 	{ return; }
 
-	// apply damage:
-	checkPlayer(ctx);
+	// maybe handle "touch player" event:
+	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
+	{ return; }
+
+	// maybe handle "player detected" event:
+	if (m_detect && detectPlayer(ctx) && m_apolicy->onDetected(this, ctx))
+	{ return; }
 
 	// decrement cooldown:
 	m_towait = max(0.0f, m_towait - secs);
@@ -194,32 +198,10 @@ void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 void MonsterEntity::update_Vanish(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
-	{ m_alive = false; }
-}
-
-// damage handling:
-
-bool MonsterEntity::checkDamage(const LevelCtx &ctx)
-{
-	if (ctx.player.getSwordRect().is_overlapped(m_rect))
-	{ doDamage(ctx, 1.0f); }
-
-	// ok, still alive:
-	if (m_health > 0.0f)
-	{ return true; }
-
-	// or lethal damage:
-	m_vel = CL_Pointf();
-	m_acc = CL_Pointf();
-
-	enterState(state_Vanish);
-	return false;
-}
-
-void MonsterEntity::checkPlayer(const LevelCtx &ctx)
-{
-	if (m_damage && ctx.player.getRect().is_overlapped(m_rect))
-	{ ctx.player.doDamage(ctx, m_damage); }
+	{
+		m_dpolicy->onDeath(this, ctx);
+		m_alive = false; 
+	}
 }
 
 // minor helpers:
@@ -249,6 +231,16 @@ bool MonsterEntity::detectPlayer(const LevelCtx &ctx) const
 	const auto playerPos  = ctx.player.getCenter();
 
 	return abs(playerPos.x - monsterPos.x) < m_detect || abs(playerPos.y - monsterPos.y) < m_detect;
+}
+
+bool MonsterEntity::touchPlayer(const LevelCtx &ctx) const
+{
+	return ctx.player.getRect().is_overlapped(m_rect);
+}
+
+bool MonsterEntity::touchSword(const LevelCtx &ctx) const
+{
+	return ctx.player.getSwordRect().is_overlapped(m_rect);
 }
 
 //************************************************************************************************************************

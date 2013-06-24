@@ -40,7 +40,19 @@ struct AttackPolicy
 	explicit AttackPolicy() {}
 	virtual ~AttackPolicy() {}
 
-	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual bool onDetected (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+};
+
+struct DamagePolicy
+{
+	typedef std::shared_ptr<DamagePolicy> Ref;
+
+	explicit DamagePolicy() {}
+	virtual ~DamagePolicy() {}
+
+	virtual bool onDamage (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual bool onDeath  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 };
 
 //************************************************************************************************************************
@@ -64,6 +76,9 @@ public:
 	float getSpeed() const
 	{ return m_speed; }
 
+	float getDamage() const
+	{ return m_damage; }
+
 private:
 	// virtual entity interface:
 	virtual bool update (const LevelCtx &ctx, float secs);
@@ -78,13 +93,13 @@ private:
 
 	// handling damage:
 	bool checkDamage (const LevelCtx &ctx);
-	void checkPlayer (const LevelCtx &ctx);
 
 	// minor helpers:
-	bool outsideArea() const;
-	bool detectPlayer(const LevelCtx &ctx) const;
-
-	void enterState(int state);
+	bool outsideArea  () const;
+	bool detectPlayer (const LevelCtx &ctx) const;
+	bool touchPlayer  (const LevelCtx &ctx) const;
+	bool touchSword   (const LevelCtx &ctx) const;
+	void enterState   (int state);
 
 private:
 	bool m_alive;
@@ -103,6 +118,7 @@ private:
 
 	MovingPolicy::Ref m_mpolicy;
 	AttackPolicy::Ref m_apolicy;
+	DamagePolicy::Ref m_dpolicy;
 };
 
 //************************************************************************************************************************
