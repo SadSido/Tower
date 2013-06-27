@@ -4,9 +4,21 @@
 #include "MonsterEntity.h"
 #include "MonsterPolicies.h"
 #include "../gmd/LevelScene.h"
+#include "../util/MathUtils.h"
 #include <assert.h>
 
 //************************************************************************************************************************
+
+static const float s_recoverTime = 0.3f;
+static const float s_recoverFreq = 1.0f / s_recoverTime;
+
+//************************************************************************************************************************
+
+static CL_Colorf getRecoverColor(float recover)
+{
+	const float alpha = alphaInterpolateLinear(recover, s_recoverFreq);
+	return CL_Colorf(1.0f, 0.0f, 0.0f, alpha);
+}
 
 static CL_String getStateName(int state)
 {
@@ -27,7 +39,7 @@ static CL_String getStateName(int state)
 // c-tors and d-tors:
 
 MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
-: m_alive(true), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f), m_damage(0.0f), m_detect(0.0f)
+: m_alive(true), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f), m_damage(0.0f), m_health(0.0f), m_recover(0.0f), m_detect(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -79,6 +91,10 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 	case state_Vanish: { update_Vanish (ctx); break; }
 	}
 
+	// resolve recovering:
+	if (m_recover) 
+	{ m_recover = max(m_recover - secs, 0.0f); }
+
 	// resolve movement:
 	if (!isRecovering())
 	{
@@ -113,7 +129,7 @@ bool MonsterEntity::render(const LevelCtx &ctx)
 
 	if (isRecovering())
 	{
-		sprite.set_color(getRecoverColor());
+		sprite.set_color(getRecoverColor(m_recover));
 		sprite.draw(ctx.gc, anchor.x, anchor.y);
 	}
 
@@ -145,6 +161,17 @@ void MonsterEntity::enterWaitState()
 {
 	m_towait = m_waittime;
 	enterState(state_Wait);
+}
+
+// damage management:
+
+void MonsterEntity::applyDamage(float ammount)
+{
+	if (m_recover == 0.0f)
+	{ 
+		m_health  = max(m_health - ammount, 0.0f);
+		m_recover = (m_health) ? s_recoverTime : 0.0f;
+	}
 }
 
 // per-state updates:

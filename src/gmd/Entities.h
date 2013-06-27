@@ -36,7 +36,6 @@ public:
 	bool doUpdate (const LevelCtx &ctx, float secs);
 	bool doRender (const LevelCtx &ctx);
 	void doNotify (const LevelCtx &ctx, Notify code);
-	void doDamage (const LevelCtx &ctx, float ammount);
 
 	// member querries:
 
@@ -55,9 +54,6 @@ public:
 	float getFacing() const
 	{ return m_facing ? +1.0f : -1.0f; }
 
-	bool isRecovering() const
-	{ return m_recover > 0.0f; }
-
 	// member assign:
 
 	void setPos(CL_Pointf pos)
@@ -75,10 +71,6 @@ public:
 	void setFacing()
 	{ m_facing = (m_vel.x) ? (m_vel.x > 0.0f) : m_facing; }
 
-	// recovering utils:
-
-	CL_Colorf getRecoverColor() const;
-
 protected:
 
 	// virtual interface:
@@ -87,7 +79,6 @@ protected:
 	virtual bool render (const LevelCtx &ctx) = 0;
 	virtual void notify (const LevelCtx &ctx, Notify code);
 	virtual void upload (const LevelCtx &ctx);
-	virtual void damage (const LevelCtx &ctx, float ammount);
 
 	// state nums:
 
@@ -104,7 +95,6 @@ protected:
 	CL_SoundBuffer & getSound();
 
 protected:
-
 	CL_Rectf  m_rect;
 	CL_Pointf m_vel;
 	CL_Pointf m_acc;
@@ -113,9 +103,6 @@ protected:
 	bool m_uploaded;
 	int  m_stateNo;
 	
-	float m_health;
-	float m_recover;
-
 	SpriteVec m_sprites;
 	HitmapVec m_hitmaps;
 	SoundVec  m_sounds;

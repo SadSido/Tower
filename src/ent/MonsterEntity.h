@@ -77,6 +77,12 @@ public:
 
 	float getDamage() const
 	{ return m_damage; }
+	
+	bool isRecovering() const
+	{ return m_recover > 0.0f; }
+
+	// dealing damage:
+	void applyDamage(float ammount);
 
 private:
 	// virtual entity interface:
@@ -112,7 +118,8 @@ private:
 	float m_waittime;
 	float m_towait;
 	float m_damage;
-//	float m_health;
+	float m_health;
+	float m_recover;
 	float m_detect;
 
 	MovingPolicy::Ref m_mpolicy;

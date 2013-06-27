@@ -30,12 +30,17 @@ public:
 	// rendering player stats:
 	bool renderHUD(const LevelCtx &ctx);
 
+	// suffering damage:
+	void applyDamage(float ammount);
+
 private:
 	// current action if any:
 	Entity * m_action;
 
 	// pending damage:
 	float m_pendingDmg;
+	float m_health;
+	float m_recover;
 
 	// non-state sprites:
 	CL_Sprite m_sprHealth;
@@ -48,7 +53,6 @@ private:
 	virtual bool update (const LevelCtx &ctx, float secs);
 	virtual bool render (const LevelCtx &ctx);
 	virtual void upload (const LevelCtx &ctx);
-	virtual void damage (const LevelCtx &ctx, float ammount);
 
 	// per-state updates:
 	void enterAction   (const LevelCtx &ctx);

@@ -107,10 +107,8 @@ static CL_String getStateName(int state)
 //************************************************************************************************************************
 
 Player::Player(CL_Pointf pos, CL_Sizef size)
-: m_action(NULL), m_pendingDmg(0.0f)
+: m_action(NULL), m_pendingDmg(0.0f), m_recover(0.0f), m_health(s_startHealth)
 {
-	m_health = s_startHealth;
-
 	setPos(pos);
 	setSize(size);
 }
@@ -134,6 +132,10 @@ bool Player::update(const LevelCtx &ctx, float secs)
 	case state_Damage: { update_Damage (ctx, posFlags); break; }
 	case state_Defeat: { update_Defeat (ctx, posFlags); break; }
 	}
+
+	// resolve recovering:
+	if (m_recover) 
+	{ m_recover = max(m_recover - secs, 0.0f); }
 
 	// resolve movement:
 	m_vel += m_acc * secs;
@@ -246,7 +248,7 @@ void Player::upload(const LevelCtx &ctx)
 	m_sprHealth = CL_Sprite(ctx.gc, "health_bar", &ctx.assets);
 }
 
-void Player::damage(const LevelCtx &ctx, float ammount)
+void Player::applyDamage(float ammount)
 {
 	// player runs the damage animation, and only then checks
 	// and receives damage, therefore the damage is pending:

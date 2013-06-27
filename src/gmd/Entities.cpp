@@ -2,20 +2,14 @@
 // ORIGIN: base class for every entity in the game
 
 #include "Entities.h"
-#include "../util/MathUtils.h"
 #include <assert.h>
-
-//************************************************************************************************************************
-
-static const float s_recoverTime = 0.3f;
-static const float s_recoverFreq = 1.0f / s_recoverTime;
 
 //************************************************************************************************************************
 
 // c-tor and d-tor:
 
 Entity::Entity()
-: m_stateNo(0), m_uploaded(false), m_facing(false), m_health(1.0f), m_recover(0.0f)
+: m_stateNo(0), m_uploaded(false), m_facing(false)
 {}
 
 Entity::~Entity()
@@ -31,9 +25,6 @@ bool Entity::doUpdate (const LevelCtx &ctx, float secs)
 	// perform upload if necessary:
 	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
 
-	// autodecrement recover time:
-	if (m_recover) { m_recover  = max(m_recover - secs, 0.0f); }
-
 	// actual update:
 	return update(ctx, secs);
 }
@@ -48,10 +39,9 @@ bool Entity::doRender (const LevelCtx &ctx)
 }
 
 void Entity::doNotify(const LevelCtx &ctx, Notify code)
-{ notify(ctx, code); }
-
-void Entity::doDamage(const LevelCtx &ctx, float ammount)
-{ damage(ctx, ammount); }
+{ 
+	notify(ctx, code); 
+}
 
 // base entity does not react on notifications and loads nothing:
 
@@ -60,15 +50,6 @@ void Entity::notify(const LevelCtx &ctx, Notify code)
 
 void Entity::upload(const LevelCtx &ctx)
 {}
-
-void Entity::damage(const LevelCtx &ctx, float ammount)
-{
-	if (m_recover == 0.0f)
-	{ 
-		m_health  = max(m_health - ammount, 0.0f);
-		m_recover = (m_health) ? s_recoverTime : 0.0f;
-	}
-}
 
 // state numbers:
 
@@ -106,13 +87,5 @@ CL_SoundBuffer & Entity::getSound()
 
 Entity::SoundVec & Entity::getSounds()
 { return m_sounds; }
-
-// recovering:
-
-CL_Colorf Entity::getRecoverColor() const
-{
-	const float alpha = alphaInterpolateLinear(m_recover, s_recoverFreq);
-	return CL_Colorf(1.0f, 0.0f, 0.0f, alpha);
-}
 
 //************************************************************************************************************************

@@ -55,8 +55,8 @@ BasePatrol::BasePatrol(const CL_DomNodeList &props)
 		if (prop.get_attribute("name") == "damage") 
 		{ m_damage = prop.get_attribute_float("value"); }
 
-		if (prop.get_attribute("name") == "health") 
-		{ m_health = prop.get_attribute_float("value"); }
+		// if (prop.get_attribute("name") == "health") 
+		// { m_health = prop.get_attribute_float("value"); }
 	}
 }
 
@@ -72,7 +72,7 @@ bool BasePatrol::update(const LevelCtx &ctx, float secs)
 	}
 
 	// resolve movement:
-	if (!isRecovering())
+	// if (!isRecovering())
 	{
 		m_vel += m_acc * secs;
 		m_rect.translate(m_vel * secs);
@@ -98,10 +98,10 @@ bool BasePatrol::render(const LevelCtx &ctx)
 	sprite.set_color(CL_Color::white);
 	sprite.draw(ctx.gc, anchor.x, anchor.y);
 
-	if (isRecovering())
+	// if (isRecovering())
 	{
-		sprite.set_color(getRecoverColor());
-		sprite.draw(ctx.gc, anchor.x, anchor.y);
+		// sprite.set_color(getRecoverColor());
+		// sprite.draw(ctx.gc, anchor.x, anchor.y);
 	}
 
 	return true;
@@ -181,16 +181,20 @@ void BasePatrol::update_Vanish(const LevelCtx &ctx)
 
 bool BasePatrol::checkDamage(const LevelCtx &ctx)
 {
+	/*
 	if (ctx.player.getSwordRect().is_overlapped(m_rect))
 	{ doDamage(ctx, 1.0f); }
 
 	return (m_health > 0.0f);
+	*/
+
+	return true;
 }
 
 void BasePatrol::checkPlayer(const LevelCtx &ctx)
 {
 	if (m_damage && ctx.player.getRect().is_overlapped(m_rect))
-	{ ctx.player.doDamage(ctx, m_damage); }
+	{ ctx.player.applyDamage(m_damage); }
 }
 
 //************************************************************************************************************************
