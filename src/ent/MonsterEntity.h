@@ -64,9 +64,6 @@ public:
 	enum States
 	{ state_Emerge, state_Move, state_Wait, state_Vanish, state_Count };
 
-	// c-tors and d-tors:
-	explicit MonsterEntity(const CL_DomNodeList &plist);
-
 	// state management:
 	void enterMoveState(CL_Pointf vel, CL_Pointf acc);
 	void enterWaitState();
@@ -85,6 +82,9 @@ public:
 	void applyDamage(float ammount);
 
 private:
+	// c-tors and d-tors:
+	explicit MonsterEntity(const CL_DomNodeList &plist);
+
 	// virtual entity interface:
 	virtual bool update (const LevelCtx &ctx, float secs);
 	virtual bool render (const LevelCtx &ctx);
@@ -125,6 +125,22 @@ private:
 	MovingPolicy::Ref m_mpolicy;
 	AttackPolicy::Ref m_apolicy;
 	DamagePolicy::Ref m_dpolicy;
+
+public:
+	// actual factory for creating monsters. Specify template
+	// parameters to get various behavior combinations:
+
+	template<typename MPOLICY, typename APOLICY, typename DPOLICY>
+	Entity::Ref create(const CL_DomNodeList &plist)
+	{
+		auto monster = new MonsterEntity(plist);
+
+		monster->m_mpolicy = MovingPolicy::Ref(new MPOLICY());
+		monster->m_apolicy = MovingPolicy::Ref(new APOLICY());
+		monster->m_dpolicy = MovingPolicy::Ref(new DPOLICY());
+
+		return Entity::Ref(monster);
+	}
 };
 
 //************************************************************************************************************************
