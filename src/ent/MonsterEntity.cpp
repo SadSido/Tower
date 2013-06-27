@@ -170,7 +170,7 @@ void MonsterEntity::update_Move(const LevelCtx &ctx)
 	{ return; }
 
 	// maybe handle "out-of-area" event:
-	if (m_areal && outsideArea())
+	if (m_areal && outsideArea(ctx))
 	{ m_mpolicy->onReached(this, ctx); }
 }
 
@@ -198,10 +198,7 @@ void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 void MonsterEntity::update_Vanish(const LevelCtx &ctx)
 {
 	if (getSprite().is_finished())
-	{
-		m_dpolicy->onDeath(this, ctx);
-		m_alive = false; 
-	}
+	{ m_alive = false; }
 }
 
 // minor helpers:
@@ -219,7 +216,7 @@ void MonsterEntity::enterState(int state)
 	}
 }
 
-bool MonsterEntity::outsideArea() const
+bool MonsterEntity::outsideArea(const LevelCtx &ctx) const
 {
 	const auto pos = getCenter();
 	return abs(m_basePos.x - pos.x) > m_areal || abs(m_basePos.y - pos.y) > m_areal;

@@ -52,7 +52,6 @@ struct DamagePolicy
 	virtual ~DamagePolicy() {}
 
 	virtual bool onDamage (MonsterEntity * owner, const LevelCtx &ctx) = 0;
-	virtual bool onDeath  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 };
 
 //************************************************************************************************************************
@@ -95,7 +94,7 @@ private:
 	bool checkDamage (const LevelCtx &ctx);
 
 	// minor helpers:
-	bool outsideArea  () const;
+	bool outsideArea  (const LevelCtx &ctx) const;
 	bool detectPlayer (const LevelCtx &ctx) const;
 	bool touchPlayer  (const LevelCtx &ctx) const;
 	bool touchSword   (const LevelCtx &ctx) const;

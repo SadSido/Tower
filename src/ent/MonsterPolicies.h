@@ -59,7 +59,6 @@ struct UnarmedPolicy : NoAttackPolicy
 struct NoDamagePolicy : DamagePolicy
 {
 	virtual bool onDamage (MonsterEntity * owner, const LevelCtx &ctx) override { return false; }
-	virtual bool onDeath  (MonsterEntity * owner, const LevelCtx &ctx) override { return false; }
 };
 
 // standard damage policy:
