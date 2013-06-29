@@ -131,13 +131,13 @@ public:
 	// parameters to get various behavior combinations:
 
 	template<typename MPOLICY, typename APOLICY, typename DPOLICY>
-	Entity::Ref create(const CL_DomNodeList &plist)
+	static Entity::Ref create(const CL_DomNodeList &plist)
 	{
 		auto monster = new MonsterEntity(plist);
 
 		monster->m_mpolicy = MovingPolicy::Ref(new MPOLICY());
-		monster->m_apolicy = MovingPolicy::Ref(new APOLICY());
-		monster->m_dpolicy = MovingPolicy::Ref(new DPOLICY());
+		monster->m_apolicy = AttackPolicy::Ref(new APOLICY());
+		monster->m_dpolicy = DamagePolicy::Ref(new DPOLICY());
 
 		return Entity::Ref(monster);
 	}
