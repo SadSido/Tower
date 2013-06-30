@@ -40,6 +40,19 @@ struct WalkingPolicy : NoMovingPolicy
 	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) override;
 };
 
+// monster can fly:
+
+struct FlyingPolicy : NoMovingPolicy
+{
+	CL_Pointf m_vel;
+
+	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) override;
+};
+
 //************************************************************************************************************************
 
 // policy with no implementation:
