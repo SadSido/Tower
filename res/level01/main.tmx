@@ -136,7 +136,7 @@
     <property name="velocity" value="1.0, 3.0"/>
    </properties>
   </object>
-  <object name="eye_01" type="spawn_entity" x="1152" y="704" width="64" height="128">
+  <object name="eye_01" type="spawn_entity" x="1537" y="729" width="52" height="102">
    <properties>
     <property name="" value=""/>
     <property name="damage" value="2.0"/>
@@ -147,7 +147,7 @@
     <property name="spawn_limit" value="1.0"/>
    </properties>
   </object>
-  <object name="eye_01" type="spawn_entity" x="1280" y="704" width="64" height="128">
+  <object name="eye_01" type="spawn_entity" x="1466" y="729" width="52" height="102">
    <properties>
     <property name="" value=""/>
     <property name="damage" value="2.0"/>
@@ -158,18 +158,18 @@
     <property name="spawn_limit" value="1.0"/>
    </properties>
   </object>
-  <object name="eye_01" type="spawn_entity" x="1408" y="704" width="64" height="128">
+  <object name="eye_01" type="spawn_entity" x="1311" y="729" width="52" height="102">
    <properties>
     <property name="" value=""/>
     <property name="damage" value="2.0"/>
     <property name="health" value="3.0"/>
     <property name="prefix" value="eye"/>
     <property name="spawn_entity" value="plant_monster"/>
-    <property name="spawn_interval" value="5.0"/>
+    <property name="spawn_interval" value="2.0"/>
     <property name="spawn_limit" value="1.0"/>
    </properties>
   </object>
-  <object name="eye_01" type="spawn_entity" x="1536" y="704" width="64" height="128">
+  <object name="eye_01" type="spawn_entity" x="1162" y="729" width="52" height="102">
    <properties>
     <property name="" value=""/>
     <property name="damage" value="2.0"/>
