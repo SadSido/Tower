@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<resources>
+	<sprite name="eye_emerge">
+		<image file="eye_emerge_00.png" />
+		<image file="eye_emerge_01.png" />
+		<image file="eye_emerge_02.png" />
+		<image file="eye_move_00.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="100"/>
+	</sprite>
+	<sprite name="eye_vanish">
+		<image file="eye_move_00.png" />
+		<image file="eye_vanish_01.png" />
+		<image file="eye_vanish_02.png" />
+		<image file="eye_vanish_03.png" />
+		<image file="eye_vanish_04.png" />
+ 		<animation loop="no" on_finish="last_frame" speed="100"/>
+	</sprite>
+	<sprite name="eye_move">
+		<image file="eye_move_00.png" />
+		<image file="eye_move_01.png" />
+ 		<animation loop="yes" speed="300"/>
+	</sprite>
+	<sprite name="eye_wait">
+		<image file="eye_move_00.png" />
+		<image file="eye_move_01.png" />
+ 		<animation loop="yes" speed="300"/>
+	</sprite>
+</resources>

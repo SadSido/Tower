@@ -67,6 +67,7 @@ public:
 	// state management:
 	void enterMoveState(CL_Pointf vel, CL_Pointf acc);
 	void enterWaitState();
+	void enterVanishState();
 
 	// many getters:
 	float getSpeed() const
@@ -79,11 +80,12 @@ public:
 	{ return m_recover > 0.0f; }
 
 	// dealing damage:
-	void applyDamage(float ammount);
+	float applyDamage(float ammount);
 
 private:
 	// c-tors and d-tors:
 	explicit MonsterEntity(const CL_DomNodeList &plist);
+	Entity::Ref clone();
 
 	// virtual entity interface:
 	virtual bool update (const LevelCtx &ctx, float secs);

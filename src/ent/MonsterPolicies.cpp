@@ -47,7 +47,9 @@ bool UnarmedPolicy::onTouched  (MonsterEntity * owner, const LevelCtx &ctx)
 
 bool AllDamagePolicy::onDamage (MonsterEntity * owner, const LevelCtx &ctx)
 {
-	owner->applyDamage(1.0f);
+	if (owner->applyDamage(1.0f) == 0.0f)
+	{ owner->enterVanishState(); }
+
 	return true;
 }
 

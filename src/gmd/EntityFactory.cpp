@@ -10,6 +10,7 @@
 #include "../ent/RainEffect.h"
 #include "../ent/PatrolEntity.h"
 #include "../ent/Particles.h"
+#include "../ent/MonsterTypes.h"
 
 #include <assert.h>
 
@@ -64,6 +65,9 @@ Entity::Ref createEntity(CL_String type, const CL_DomNodeList &plist)
 
 	if (type == "particle_system")
 	{ return Entity::Ref(new ParticleSystem(plist)); }
+
+	if (type == "plant_monster")
+	{ return createPlant(plist); }
 
 	assert(false);
 	return Entity::Ref();

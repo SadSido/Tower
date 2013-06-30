@@ -86,6 +86,7 @@
     <ClCompile Include="src\ent\DialogEntity.cpp" />
     <ClCompile Include="src\ent\MonsterEntity.cpp" />
     <ClCompile Include="src\ent\MonsterPolicies.cpp" />
+    <ClCompile Include="src\ent\MonsterTypes.cpp" />
     <ClCompile Include="src\ent\Particles.cpp" />
     <ClCompile Include="src\ent\PatrolEntity.cpp" />
     <ClCompile Include="src\ent\RainEffect.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="src\ent\DialogEntity.h" />
     <ClInclude Include="src\ent\MonsterEntity.h" />
     <ClInclude Include="src\ent\MonsterPolicies.h" />
+    <ClInclude Include="src\ent\MonsterTypes.h" />
     <ClInclude Include="src\ent\Particles.h" />
     <ClInclude Include="src\ent\PatrolEntity.h" />
     <ClInclude Include="src\ent\RainEffect.h" />

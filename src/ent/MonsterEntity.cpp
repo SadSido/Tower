@@ -80,6 +80,11 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
 	m_dpolicy = DamagePolicy::Ref(new NoDamagePolicy());
 }
 
+Entity::Ref MonsterEntity::clone()
+{
+	return Entity::Ref(new MonsterEntity(*this));
+}
+
 bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 {
 	// dispatch state-based update:
@@ -143,7 +148,16 @@ void MonsterEntity::upload(const LevelCtx &ctx)
 
 	// load sprites:
 	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
-	{ sprites[stateNo] = CL_Sprite(ctx.gc, getStateName(stateNo), &ctx.assets); }
+	{ 
+		auto name = m_prefix + getStateName(stateNo);
+
+		try
+		{ sprites[stateNo] = CL_Sprite(ctx.gc, name, &ctx.assets); }
+
+		catch(...)
+		{}
+
+	}
 
 	// also, remember initial pos as a base one:
 	m_basePos = getCenter();
@@ -163,15 +177,24 @@ void MonsterEntity::enterWaitState()
 	enterState(state_Wait);
 }
 
+void MonsterEntity::enterVanishState()
+{ 
+	setVel(CL_Pointf(0.0f)); 
+	setAcc(CL_Pointf(0.0f));
+	enterState(state_Vanish);
+}
+
 // damage management:
 
-void MonsterEntity::applyDamage(float ammount)
+float MonsterEntity::applyDamage(float ammount)
 {
 	if (m_recover == 0.0f)
 	{ 
 		m_health  = max(m_health - ammount, 0.0f);
 		m_recover = (m_health) ? s_recoverTime : 0.0f;
 	}
+
+	return m_health;
 }
 
 // per-state updates:
@@ -185,7 +208,7 @@ void MonsterEntity::update_Emerge(const LevelCtx &ctx)
 void MonsterEntity::update_Move(const LevelCtx &ctx)
 {
 	// suffer damage:
-	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health < 0.0f))
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))
 	{ return; }
 
 	// maybe handle "touch player" event:
@@ -204,7 +227,7 @@ void MonsterEntity::update_Move(const LevelCtx &ctx)
 void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 {
 	// suffer damage:
-	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health < 0.0f))
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))
 	{ return; }
 
 	// maybe handle "touch player" event:
