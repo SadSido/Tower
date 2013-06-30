@@ -40,3 +40,14 @@ float Range::random() const
 { return from + (to - from) * (rand() % 64) / 64.0f; }
 
 //************************************************************************************************************************
+
+CL_Pointf getRandomVec(const Range &direction, const Range &amplitude)
+{
+	const float dir = direction.random();
+	const float amp = amplitude.random();
+
+	// it is more comfortable to have 90 degrees as "upwards":
+	return CL_Pointf(cos(degToRad(dir)), -1.0f * sin(degToRad(dir))) * amp;
+}
+
+//************************************************************************************************************************

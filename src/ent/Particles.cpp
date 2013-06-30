@@ -10,17 +10,6 @@
 namespace
 {
 	
-// select a random point from the range of directions and amplitudes:
-
-CL_Pointf getRandomPoint(const Range &direction, const Range &amplitude)
-{
-	const float dir = direction.random();
-	const float amp = amplitude.random();
-
-	// it is more comfortable to have 90 degrees as "upwards":
-	return CL_Pointf(cos(degToRad(dir)), -1.0f * sin(degToRad(dir))) * amp;
-}
-
 // some predefined particle solvers:
 
 void linearSolver(Particle &part, float secs)
@@ -124,7 +113,7 @@ bool ParticleSystem::update(const LevelCtx &ctx, float secs)
 		part.life = m_lifetime.random();
 		part.freq = 1.0f / part.life;
 		part.pos  = m_rect.get_center();
-		part.vel  = getRandomPoint(m_direction, m_velocity);
+		part.vel  = getRandomVec(m_direction, m_velocity);
 		
 		m_parts.push_back(part);
 
