@@ -36,6 +36,7 @@ public:
 	bool doUpdate (const LevelCtx &ctx, float secs);
 	bool doRender (const LevelCtx &ctx);
 	void doNotify (const LevelCtx &ctx, Notify code);
+	void doUpload (const LevelCtx &ctx);
 
 	// member querries:
 

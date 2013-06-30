@@ -37,6 +37,9 @@ SpawnEntity::SpawnEntity(const CL_DomNodeList &props)
 
 bool SpawnEntity::update(const LevelCtx &ctx, float secs)
 {
+	// upload spawnee once:
+	m_spawnee->doUpload(ctx);
+
 	// update the sub-entities:
 	for (auto it = m_entities->begin(); it != m_entities->end(); /**/)
 	{

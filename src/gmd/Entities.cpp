@@ -22,8 +22,8 @@ Entity::Ref Entity::clone()
 
 bool Entity::doUpdate (const LevelCtx &ctx, float secs)
 {
-	// perform upload if necessary:
-	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
+	// upload once:
+	doUpload(ctx);
 
 	// actual update:
 	return update(ctx, secs);
@@ -31,8 +31,8 @@ bool Entity::doUpdate (const LevelCtx &ctx, float secs)
 
 bool Entity::doRender (const LevelCtx &ctx)
 {
-	// perform upload if necessary:
-	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
+	// upload once:
+	doUpload(ctx);
 
 	// actual render:
 	return render(ctx);
@@ -41,6 +41,11 @@ bool Entity::doRender (const LevelCtx &ctx)
 void Entity::doNotify(const LevelCtx &ctx, Notify code)
 { 
 	notify(ctx, code); 
+}
+
+void Entity::doUpload(const LevelCtx &ctx)
+{ 
+	if (!m_uploaded) { m_uploaded = true; upload(ctx); }
 }
 
 // base entity does not react on notifications and loads nothing:
