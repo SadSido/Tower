@@ -107,6 +107,9 @@
     <ClCompile Include="src\ent\MonsterTypes.cpp">
       <Filter>ent</Filter>
     </ClCompile>
+    <ClCompile Include="src\gmd\EntityData.cpp">
+      <Filter>gmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -236,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="src\ent\MonsterTypes.h">
       <Filter>ent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gmd\EntityData.h">
+      <Filter>gmd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

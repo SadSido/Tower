@@ -72,7 +72,7 @@ CL_Sprite & Entity::getSprite()
 	return m_sprites[m_stateNo];
 }
 
-Entity::SpriteVec & Entity::getSprites()
+SpriteVec & Entity::getSprites()
 { return m_sprites; }
 
 Hitmap & Entity::getHitmap()
@@ -81,7 +81,7 @@ Hitmap & Entity::getHitmap()
 	return m_hitmaps[m_stateNo];
 }
 
-Entity::HitmapVec & Entity::getHitmaps()
+HitmapVec & Entity::getHitmaps()
 { return m_hitmaps; }
 
 CL_SoundBuffer & Entity::getSound()
@@ -90,7 +90,7 @@ CL_SoundBuffer & Entity::getSound()
 	return m_sounds[m_stateNo];
 }
 
-Entity::SoundVec & Entity::getSounds()
+SoundVec & Entity::getSounds()
 { return m_sounds; }
 
 //************************************************************************************************************************

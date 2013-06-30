@@ -97,6 +97,7 @@
     <ClCompile Include="src\gmd\Dialogs.cpp" />
     <ClCompile Include="src\gmd\DialogScene.cpp" />
     <ClCompile Include="src\gmd\Entities.cpp" />
+    <ClCompile Include="src\gmd\EntityData.cpp" />
     <ClCompile Include="src\gmd\EntityFactory.cpp" />
     <ClCompile Include="src\gmd\Globals.cpp" />
     <ClCompile Include="src\gmd\Hitmap.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="src\gmd\Dialogs.h" />
     <ClInclude Include="src\gmd\DialogScene.h" />
     <ClInclude Include="src\gmd\Entities.h" />
+    <ClInclude Include="src\gmd\EntityData.h" />
     <ClInclude Include="src\gmd\EntityFactory.h" />
     <ClInclude Include="src\gmd\Globals.h" />
     <ClInclude Include="src\gmd\Hitmap.h" />

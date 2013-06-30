@@ -5,7 +5,7 @@
 #define _Entities_h_
 
 #include "../sys/Notify.h"
-#include "Hitmap.h"
+#include "EntityData.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 #include <ClanLib/sound.h>
@@ -21,9 +21,6 @@ class Entity
 {
 public:
 	typedef std::shared_ptr<Entity> Ref;
-	typedef std::vector<CL_Sprite> SpriteVec;
-	typedef std::vector<Hitmap> HitmapVec;
-	typedef std::vector<CL_SoundBuffer> SoundVec;
 
 	// c-tor, d-tor and cloning:
 
