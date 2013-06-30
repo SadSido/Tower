@@ -10,7 +10,8 @@
 
 Entity::Ref createPlant(const CL_DomNodeList &props)
 {
-	return MonsterEntity::create<StandStillPolicy, UnarmedPolicy, AllDamagePolicy>(props);
+	const long stateMask = mask_Emerge | mask_Move | mask_Vanish;
+	return MonsterEntity::create<StandStillPolicy, UnarmedPolicy, AllDamagePolicy>(props, stateMask);
 }
 
 //************************************************************************************************************************

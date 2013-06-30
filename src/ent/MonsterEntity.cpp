@@ -38,8 +38,9 @@ static CL_String getStateName(int state)
 
 // c-tors and d-tors:
 
-MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
-: m_alive(true), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f), m_damage(0.0f), m_health(0.0f), m_recover(0.0f), m_detect(0.0f)
+MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
+: m_alive(true), m_statesMask(statesMask), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f)
+, m_towait(0.0f), m_damage(0.0f), m_health(0.0f), m_recover(0.0f), m_detect(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -73,11 +74,6 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props)
 		if (prop.get_attribute("name") == "health") 
 		{ m_health = prop.get_attribute_float("value"); }
 	}
-
-	// let's have sample for now:
-	m_mpolicy = MovingPolicy::Ref(new NoMovingPolicy());
-	m_apolicy = AttackPolicy::Ref(new NoAttackPolicy());
-	m_dpolicy = DamagePolicy::Ref(new NoDamagePolicy());
 }
 
 Entity::Ref MonsterEntity::clone()
@@ -149,14 +145,11 @@ void MonsterEntity::upload(const LevelCtx &ctx)
 	// load sprites:
 	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
 	{ 
-		auto name = m_prefix + getStateName(stateNo);
-
-		try
-		{ sprites[stateNo] = CL_Sprite(ctx.gc, name, &ctx.assets); }
-
-		catch(...)
-		{}
-
+		if (hasState(stateNo))
+		{
+			auto name = m_prefix + getStateName(stateNo);
+			sprites[stateNo] = CL_Sprite(ctx.gc, name, &ctx.assets);
+		}
 	}
 
 	// also, remember initial pos as a base one:
@@ -265,6 +258,9 @@ void MonsterEntity::enterState(int state)
 		getSprite().restart();
 	}
 }
+
+bool MonsterEntity::hasState(int state)
+{ return m_statesMask & (1 << state); }
 
 bool MonsterEntity::outsideArea(const LevelCtx &ctx) const
 {

@@ -21,9 +21,4 @@
 		<image file="eye_move_01.png" />
  		<animation loop="yes" speed="300"/>
 	</sprite>
-	<sprite name="eye_wait">
-		<image file="eye_move_00.png" />
-		<image file="eye_move_01.png" />
- 		<animation loop="yes" speed="300"/>
-	</sprite>
 </resources>

@@ -56,7 +56,15 @@ struct DamagePolicy
 
 //************************************************************************************************************************
 
-// I GUESS WE SHOULD SEPARATE MONSTER'S HEALTH AND PLAYER'S HEALTH. NO NEED TO MOVE IT TO BASE ENTITY...
+enum StatesMask
+{
+	mask_Emerge = 1 << 0,
+	mask_Move   = 1 << 1,
+	mask_Wait   = 1 << 2,
+	mask_Vanish = 1 << 3,
+};
+
+//************************************************************************************************************************
 
 class MonsterEntity : public Entity
 {
@@ -84,7 +92,7 @@ public:
 
 private:
 	// c-tors and d-tors:
-	explicit MonsterEntity(const CL_DomNodeList &plist);
+	explicit MonsterEntity(const CL_DomNodeList &plist, long statesMask);
 	Entity::Ref clone();
 
 	// virtual entity interface:
@@ -107,9 +115,11 @@ private:
 	bool touchPlayer  (const LevelCtx &ctx) const;
 	bool touchSword   (const LevelCtx &ctx) const;
 	void enterState   (int state);
+	bool hasState     (int state);
 
 private:
 	bool m_alive;
+	long m_statesMask;
 	CL_String m_prefix;
 
 	CL_Pointf m_basePos;
@@ -133,9 +143,9 @@ public:
 	// parameters to get various behavior combinations:
 
 	template<typename MPOLICY, typename APOLICY, typename DPOLICY>
-	static Entity::Ref create(const CL_DomNodeList &plist)
+	static Entity::Ref create(const CL_DomNodeList &plist, long statesMask)
 	{
-		auto monster = new MonsterEntity(plist);
+		auto monster = new MonsterEntity(plist, statesMask);
 
 		monster->m_mpolicy = MovingPolicy::Ref(new MPOLICY());
 		monster->m_apolicy = AttackPolicy::Ref(new APOLICY());
