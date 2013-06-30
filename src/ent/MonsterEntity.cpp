@@ -39,8 +39,8 @@ static CL_String getStateName(int state)
 // c-tors and d-tors:
 
 MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
-: m_alive(true), m_statesMask(statesMask), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f)
-, m_towait(0.0f), m_damage(0.0f), m_health(0.0f), m_recover(0.0f), m_detect(0.0f)
+: m_alive(true), m_statesMask(statesMask), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f)
+, m_damage(0.0f), m_health(0.0f), m_recover(0.0f), m_detect(0.0f), m_range(0.0f)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -68,6 +68,9 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
 		if (prop.get_attribute("name") == "detect") 
 		{ m_detect = prop.get_attribute_float("value"); }
 
+		if (prop.get_attribute("name") == "range") 
+		{ m_range = prop.get_attribute_float("value"); }
+
 		if (prop.get_attribute("name") == "damage") 
 		{ m_damage = prop.get_attribute_float("value"); }
 
@@ -88,6 +91,7 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 	{
 	case state_Emerge: { update_Emerge (ctx); break; }
 	case state_Move:   { update_Move   (ctx); break; }
+	case state_Strike: { update_Strike (ctx); break; }
 	case state_Wait:   { update_Wait   (ctx, secs); break;  } 
 	case state_Vanish: { update_Vanish (ctx); break; }
 	}
@@ -139,8 +143,14 @@ bool MonsterEntity::render(const LevelCtx &ctx)
 
 void MonsterEntity::upload(const LevelCtx &ctx)
 {
+	static CL_String s_mapsuffix = "_map";
+	static CL_String s_sndsuffix = "_snd";
+
 	SpriteVec & sprites = getSprites();
 	sprites.resize(state_Count);
+
+	HitmapVec & hitmaps = getHitmaps();
+	hitmaps.resize(state_Count);
 
 	// load sprites:
 	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
@@ -152,6 +162,16 @@ void MonsterEntity::upload(const LevelCtx &ctx)
 		}
 	}
 
+	// load hitmaps:
+	if (hasState(state_Strike))
+	{
+		auto name = m_prefix + getStateName(state_Strike) + s_mapsuffix; 
+		hitmaps[state_Strike] = Hitmap(name, &ctx.assets);
+	}
+
+	// load sounds:
+	// ...
+
 	// also, remember initial pos as a base one:
 	m_basePos = getCenter();
 }
@@ -162,6 +182,13 @@ void MonsterEntity::enterMoveState(CL_Pointf vel, CL_Pointf acc)
 {
 	setVel(vel); setAcc(acc);
 	enterState(state_Move);
+}
+
+void MonsterEntity::enterStrikeState()
+{ 
+	setVel(CL_Pointf(0.0f)); 
+	setAcc(CL_Pointf(0.0f));
+	enterState(state_Strike);
 }
 
 void MonsterEntity::enterWaitState()
@@ -208,13 +235,17 @@ void MonsterEntity::update_Move(const LevelCtx &ctx)
 	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
 	{ return; }
 
-	// maybe handle "out-of-area" event:
-	if (m_areal && outsideArea(ctx))
-	{ m_mpolicy->onReached(this, ctx); }
+	// maybe handle "player in range" event:
+	if (m_range && detectPlayer(ctx, m_range))
+	{ m_apolicy->onInRange(this, ctx); }
 
 	// maybe handle "player detected" event:
-	if (m_detect && detectPlayer(ctx))
+	else if (m_detect && detectPlayer(ctx, m_detect))
 	{ m_mpolicy->onDetected(this, ctx); }
+
+	// maybe handle "out-of-area" event:
+	else if (m_areal && outsideArea(ctx, m_areal))
+	{ m_mpolicy->onReached(this, ctx); }
 }
 
 void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
@@ -230,12 +261,23 @@ void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 	// decrement cooldown:
 	m_towait = max(0.0f, m_towait - secs);
 	
-	if (m_towait == 0.0f)
-	{ m_mpolicy->onWaited(this, ctx); }
+	// maybe handle "player in range" event:
+	if (m_range && detectPlayer(ctx, m_range))
+	{ m_apolicy->onInRange(this, ctx); }
 
 	// maybe handle "player detected" event:
-	if (m_detect && detectPlayer(ctx))
+	else if (m_detect && detectPlayer(ctx, m_detect))
 	{ m_mpolicy->onDetected(this, ctx); }
+
+	// or maybe the wait time expired:
+	else if (m_towait == 0.0f)
+	{ m_mpolicy->onWaited(this, ctx); }
+}
+
+void MonsterEntity::update_Strike(const LevelCtx &ctx)
+{
+	if (getSprite().is_finished())
+	{ return enterWaitState(); }
 }
 
 void MonsterEntity::update_Vanish(const LevelCtx &ctx)
@@ -262,18 +304,18 @@ void MonsterEntity::enterState(int state)
 bool MonsterEntity::hasState(int state)
 { return (m_statesMask & (1 << state)) > 0; }
 
-bool MonsterEntity::outsideArea(const LevelCtx &ctx) const
+bool MonsterEntity::outsideArea(const LevelCtx &ctx, float distance) const
 {
 	const auto pos = getCenter();
-	return abs(m_basePos.x - pos.x) > m_areal || abs(m_basePos.y - pos.y) > m_areal;
+	return abs(m_basePos.x - pos.x) > distance || abs(m_basePos.y - pos.y) > distance;
 }
 
-bool MonsterEntity::detectPlayer(const LevelCtx &ctx) const
+bool MonsterEntity::detectPlayer(const LevelCtx &ctx, float distance) const
 {
 	const auto monsterPos = getCenter();
 	const auto playerPos  = ctx.player.getCenter();
 
-	return abs(playerPos.x - monsterPos.x) < m_detect && abs(playerPos.y - monsterPos.y) < m_detect;
+	return abs(playerPos.x - monsterPos.x) < distance && abs(playerPos.y - monsterPos.y) < distance;
 }
 
 bool MonsterEntity::touchPlayer(const LevelCtx &ctx) const

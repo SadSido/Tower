@@ -46,7 +46,8 @@ struct WalkingPolicy : NoMovingPolicy
 
 struct NoAttackPolicy : AttackPolicy
 {
-	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) override { return false; }
+	virtual bool onInRange (MonsterEntity * owner, const LevelCtx &ctx) override { return false; }
+	virtual bool onTouched (MonsterEntity * owner, const LevelCtx &ctx) override { return false; }
 };
 
 // monster can only touch player:
@@ -54,6 +55,12 @@ struct NoAttackPolicy : AttackPolicy
 struct UnarmedPolicy : NoAttackPolicy
 {
 	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) override;
+};
+
+struct MeleePolicy : NoAttackPolicy
+{
+	virtual bool onInRange (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual bool onTouched (MonsterEntity * owner, const LevelCtx &ctx) override;
 };
 
 //************************************************************************************************************************

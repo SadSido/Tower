@@ -51,6 +51,14 @@ void WalkingPolicy::onDetected(MonsterEntity * owner, const LevelCtx &ctx)
 bool UnarmedPolicy::onTouched  (MonsterEntity * owner, const LevelCtx &ctx)
 { ctx.player.applyDamage(owner->getDamage()); return true; }
 
+// monster has a melee weapon to hit:
+
+bool MeleePolicy::onInRange (MonsterEntity * owner, const LevelCtx &ctx)
+{ owner->enterStrikeState(); return true; }
+
+bool MeleePolicy::onTouched (MonsterEntity * owner, const LevelCtx &ctx)
+{ ctx.player.applyDamage(owner->getDamage()); return true; }
+
 //************************************************************************************************************************
 
 // monster is damaged equally by any type of attack:

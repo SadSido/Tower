@@ -41,7 +41,8 @@ struct AttackPolicy
 	explicit AttackPolicy() {}
 	virtual ~AttackPolicy() {}
 
-	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual bool onInRange (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual bool onTouched (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 };
 
 struct DamagePolicy
@@ -78,6 +79,7 @@ public:
 	void enterMoveState(CL_Pointf vel, CL_Pointf acc);
 	void enterWaitState();
 	void enterVanishState();
+	void enterStrikeState();
 
 	// many getters:
 	float getSpeed() const
@@ -106,14 +108,15 @@ private:
 	void update_Emerge (const LevelCtx &ctx);
 	void update_Move   (const LevelCtx &ctx);
 	void update_Wait   (const LevelCtx &ctx, float secs);
+	void update_Strike (const LevelCtx &ctx);
 	void update_Vanish (const LevelCtx &ctx);
 
 	// handling damage:
-	bool checkDamage (const LevelCtx &ctx);
+	bool checkDamage   (const LevelCtx &ctx);
 
 	// minor helpers:
-	bool outsideArea  (const LevelCtx &ctx) const;
-	bool detectPlayer (const LevelCtx &ctx) const;
+	bool outsideArea  (const LevelCtx &ctx, float distance) const;
+	bool detectPlayer (const LevelCtx &ctx, float distance) const;
 	bool touchPlayer  (const LevelCtx &ctx) const;
 	bool touchSword   (const LevelCtx &ctx) const;
 	void enterState   (int state);
@@ -135,6 +138,7 @@ private:
 	float m_health;
 	float m_recover;
 	float m_detect;
+	float m_range;
 
 	MovingPolicy::Ref m_mpolicy;
 	AttackPolicy::Ref m_apolicy;
