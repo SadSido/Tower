@@ -69,6 +69,9 @@ public:
 	void setFacing()
 	{ m_facing = (m_vel.x) ? (m_vel.x > 0.0f) : m_facing; }
 
+	void setFacing(bool facing)
+	{ m_facing = facing; }
+
 protected:
 
 	// virtual interface:

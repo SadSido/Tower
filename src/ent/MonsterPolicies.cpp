@@ -38,6 +38,9 @@ void WalkingPolicy::onWaited(MonsterEntity * owner, const LevelCtx &ctx)
 
 // monster can only touch player
 
+bool UnarmedPolicy::onDetected (MonsterEntity * owner, const LevelCtx &ctx)
+{ owner->setFacing(owner->getCenter().x < ctx.player.getCenter().x); return false; }
+
 bool UnarmedPolicy::onTouched  (MonsterEntity * owner, const LevelCtx &ctx)
 { ctx.player.applyDamage(owner->getDamage()); return true; }
 

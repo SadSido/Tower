@@ -61,7 +61,9 @@ enum StatesMask
 	mask_Emerge = 1 << 0,
 	mask_Move   = 1 << 1,
 	mask_Wait   = 1 << 2,
-	mask_Vanish = 1 << 3,
+	mask_Strike = 1 << 3,
+	mask_Shoot  = 1 << 4,
+	mask_Vanish = 1 << 5,
 };
 
 //************************************************************************************************************************
@@ -70,7 +72,7 @@ class MonsterEntity : public Entity
 {
 public:
 	enum States
-	{ state_Emerge, state_Move, state_Wait, state_Vanish, state_Count };
+	{ state_Emerge, state_Move, state_Wait, state_Strike, state_Shoot, state_Vanish, state_Count };
 
 	// state management:
 	void enterMoveState(CL_Pointf vel, CL_Pointf acc);

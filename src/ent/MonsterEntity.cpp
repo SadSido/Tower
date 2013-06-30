@@ -260,7 +260,7 @@ void MonsterEntity::enterState(int state)
 }
 
 bool MonsterEntity::hasState(int state)
-{ return m_statesMask & (1 << state); }
+{ return (m_statesMask & (1 << state)) > 0; }
 
 bool MonsterEntity::outsideArea(const LevelCtx &ctx) const
 {
@@ -273,7 +273,7 @@ bool MonsterEntity::detectPlayer(const LevelCtx &ctx) const
 	const auto monsterPos = getCenter();
 	const auto playerPos  = ctx.player.getCenter();
 
-	return abs(playerPos.x - monsterPos.x) < m_detect || abs(playerPos.y - monsterPos.y) < m_detect;
+	return abs(playerPos.x - monsterPos.x) < m_detect && abs(playerPos.y - monsterPos.y) < m_detect;
 }
 
 bool MonsterEntity::touchPlayer(const LevelCtx &ctx) const

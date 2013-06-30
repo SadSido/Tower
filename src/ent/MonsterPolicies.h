@@ -51,6 +51,7 @@ struct NoAttackPolicy : AttackPolicy
 
 struct UnarmedPolicy : NoAttackPolicy
 {
+	virtual bool onDetected (MonsterEntity * owner, const LevelCtx &ctx) override;
 	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) override;
 };
 
