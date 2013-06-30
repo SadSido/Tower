@@ -180,6 +180,18 @@
     <property name="spawn_limit" value="1.0"/>
    </properties>
   </object>
+  <object name="eye_01" type="spawn_entity" x="1632" y="793" width="52" height="102">
+   <properties>
+    <property name="damage" value="2.0"/>
+    <property name="detect" value="3.0"/>
+    <property name="health" value="3.0"/>
+    <property name="prefix" value="eye"/>
+    <property name="spawn_entity" value="walker_monster"/>
+    <property name="spawn_interval" value="0.5"/>
+    <property name="spawn_limit" value="1.0"/>
+    <property name="speed" value="2.0"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="entries" width="40" height="15">
   <object name="main" x="2304" y="640"/>

@@ -11,6 +11,7 @@
 // the list of all available monsters:
 
 Entity::Ref createPlant(const CL_DomNodeList &props);
+Entity::Ref createWalker(const CL_DomNodeList &props);
 
 //************************************************************************************************************************
 
