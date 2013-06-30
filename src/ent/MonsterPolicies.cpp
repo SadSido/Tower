@@ -10,9 +10,10 @@
 // monster does not actually move:
 
 void StandStillPolicy::onStarted(MonsterEntity * owner, const LevelCtx &ctx)
-{ 
-	owner->enterMoveState(CL_Pointf(), CL_Pointf()); 
-}
+{ owner->enterMoveState(CL_Pointf(), CL_Pointf()); }
+
+void StandStillPolicy::onDetected(MonsterEntity * owner, const LevelCtx &ctx)
+{ owner->setFacing(owner->getCenter().x < ctx.player.getCenter().x); }
 
 // monster walks on the ground:
 
@@ -34,12 +35,18 @@ void WalkingPolicy::onWaited(MonsterEntity * owner, const LevelCtx &ctx)
 	owner->enterMoveState(m_vel, CL_Pointf());
 }
 
+void WalkingPolicy::onDetected(MonsterEntity * owner, const LevelCtx &ctx)
+{
+	const float speed = owner->getSpeed();
+	const bool facing = owner->getCenter().x < ctx.player.getCenter().x;
+	const auto newvel = CL_Pointf( facing ? speed : -speed, 0.0f);
+
+	owner->enterMoveState(newvel, CL_Pointf());
+}
+
 //************************************************************************************************************************
 
 // monster can only touch player
-
-bool UnarmedPolicy::onDetected (MonsterEntity * owner, const LevelCtx &ctx)
-{ owner->setFacing(owner->getCenter().x < ctx.player.getCenter().x); return false; }
 
 bool UnarmedPolicy::onTouched  (MonsterEntity * owner, const LevelCtx &ctx)
 { ctx.player.applyDamage(owner->getDamage()); return true; }

@@ -208,13 +208,13 @@ void MonsterEntity::update_Move(const LevelCtx &ctx)
 	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
 	{ return; }
 
-	// maybe handle "player detected" event:
-	if (m_detect && detectPlayer(ctx) && m_apolicy->onDetected(this, ctx))
-	{ return; }
-
 	// maybe handle "out-of-area" event:
 	if (m_areal && outsideArea(ctx))
 	{ m_mpolicy->onReached(this, ctx); }
+
+	// maybe handle "player detected" event:
+	if (m_detect && detectPlayer(ctx))
+	{ m_mpolicy->onDetected(this, ctx); }
 }
 
 void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
@@ -227,15 +227,15 @@ void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
 	{ return; }
 
-	// maybe handle "player detected" event:
-	if (m_detect && detectPlayer(ctx) && m_apolicy->onDetected(this, ctx))
-	{ return; }
-
 	// decrement cooldown:
 	m_towait = max(0.0f, m_towait - secs);
 	
 	if (m_towait == 0.0f)
 	{ m_mpolicy->onWaited(this, ctx); }
+
+	// maybe handle "player detected" event:
+	if (m_detect && detectPlayer(ctx))
+	{ m_mpolicy->onDetected(this, ctx); }
 }
 
 void MonsterEntity::update_Vanish(const LevelCtx &ctx)

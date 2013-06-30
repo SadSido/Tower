@@ -15,6 +15,7 @@ struct NoMovingPolicy : MovingPolicy
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override {}
 	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) override {}
 	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) override {}
+	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) override {}
 	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) override {}
 };
 
@@ -23,6 +24,7 @@ struct NoMovingPolicy : MovingPolicy
 struct StandStillPolicy : NoMovingPolicy
 {
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) override;
 };
 
 // monster walks on the ground:
@@ -34,6 +36,7 @@ struct WalkingPolicy : NoMovingPolicy
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override;
 	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) override;
 	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) override;
 	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) override;
 };
 
@@ -43,7 +46,6 @@ struct WalkingPolicy : NoMovingPolicy
 
 struct NoAttackPolicy : AttackPolicy
 {
-	virtual bool onDetected (MonsterEntity * owner, const LevelCtx &ctx) override { return false; }
 	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) override { return false; }
 };
 
@@ -51,7 +53,6 @@ struct NoAttackPolicy : AttackPolicy
 
 struct UnarmedPolicy : NoAttackPolicy
 {
-	virtual bool onDetected (MonsterEntity * owner, const LevelCtx &ctx) override;
 	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) override;
 };
 

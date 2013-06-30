@@ -30,6 +30,7 @@ struct MovingPolicy
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual void onReached  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) = 0;
+	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual void onCollided (MonsterEntity * owner, const LevelCtx &ctx, const TileTest &test) = 0;
 };
 
@@ -40,7 +41,6 @@ struct AttackPolicy
 	explicit AttackPolicy() {}
 	virtual ~AttackPolicy() {}
 
-	virtual bool onDetected (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) = 0;
 };
 
