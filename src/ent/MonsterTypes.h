@@ -13,6 +13,7 @@
 Entity::Ref createPlant(const CL_DomNodeList &props);
 Entity::Ref createWalker(const CL_DomNodeList &props);
 Entity::Ref createGuard(const CL_DomNodeList &props);
+Entity::Ref createFootman(const CL_DomNodeList &props);
 
 //************************************************************************************************************************
 

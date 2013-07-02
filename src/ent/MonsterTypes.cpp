@@ -26,5 +26,10 @@ Entity::Ref createGuard(const CL_DomNodeList &props)
 	return MonsterEntity::create<StandStillPolicy, MeleePolicy, AllDamagePolicy>(props, stateMask);
 }
 
+Entity::Ref createFootman(const CL_DomNodeList &props)
+{
+	const long stateMask = mask_Emerge | mask_Move | mask_Wait | mask_Strike | mask_Vanish;
+	return MonsterEntity::create<WalkingPolicy, MeleePolicy, AllDamagePolicy>(props, stateMask);
+}
 
 //************************************************************************************************************************
