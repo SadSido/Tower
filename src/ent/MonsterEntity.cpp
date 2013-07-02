@@ -27,6 +27,7 @@ static CL_String getStateName(int state)
 	case MonsterEntity::state_Emerge:	return "_emerge";
 	case MonsterEntity::state_Move:		return "_move";
 	case MonsterEntity::state_Wait:		return "_wait";
+	case MonsterEntity::state_Strike:	return "_strike";
 	case MonsterEntity::state_Vanish:	return "_vanish";
 	}
 
@@ -137,6 +138,11 @@ bool MonsterEntity::render(const LevelCtx &ctx)
 		sprite.set_color(getRecoverColor(m_recover));
 		sprite.draw(ctx.gc, anchor.x, anchor.y);
 	}
+
+	// test the sword rect:
+
+	auto swordRect = ctx.tilemap->toScreen(getHitRect());
+	CL_Draw::box(ctx.gc, swordRect, CL_Colorf::red);
 
 	return true;
 }
@@ -270,12 +276,20 @@ void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 	{ m_mpolicy->onDetected(this, ctx); }
 
 	// or maybe the wait time expired:
-	else if (m_towait == 0.0f)
+	if (m_towait == 0.0f)
 	{ m_mpolicy->onWaited(this, ctx); }
 }
 
 void MonsterEntity::update_Strike(const LevelCtx &ctx)
 {
+	// suffer damage:
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))
+	{ return; }
+
+	// maybe handle "touch player" event:
+	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
+	{ return; }
+
 	if (getSprite().is_finished())
 	{ return enterWaitState(); }
 }
@@ -320,7 +334,8 @@ bool MonsterEntity::detectPlayer(const LevelCtx &ctx, float distance) const
 
 bool MonsterEntity::touchPlayer(const LevelCtx &ctx) const
 {
-	return ctx.player.getRect().is_overlapped(m_rect);
+	return ctx.player.getRect().is_overlapped(m_rect) ||
+		   ctx.player.getRect().is_overlapped(getHitRect());
 }
 
 bool MonsterEntity::touchSword(const LevelCtx &ctx) const

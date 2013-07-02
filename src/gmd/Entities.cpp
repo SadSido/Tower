@@ -93,4 +93,30 @@ CL_SoundBuffer & Entity::getSound()
 SoundVec & Entity::getSounds()
 { return m_sounds; }
 
+// const versions:
+
+const CL_Sprite & Entity::getSprite() const
+{
+	assert(m_stateNo < (int)m_sprites.size());
+	return m_sprites[m_stateNo];
+}
+
+const Hitmap & Entity::getHitmap() const
+{
+	assert(m_stateNo < (int)m_hitmaps.size());
+	return m_hitmaps[m_stateNo];
+}
+
+// hitmap helper:
+
+CL_Rectf Entity::getHitRect() const
+{
+	const CL_Rectf hitrect = getHitmap().getRect(getSprite().get_current_frame());
+
+	const float topX = (getFacing() > 0.0f) ? m_rect.left + hitrect.left : m_rect.right - hitrect.right;
+	const float topY = m_rect.top  + hitrect.top;
+
+	return CL_Rectf(CL_Pointf(topX, topY), hitrect.get_size());
+}
+
 //************************************************************************************************************************

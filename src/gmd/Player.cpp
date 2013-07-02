@@ -497,9 +497,9 @@ CL_Rectf Player::getSwordRect()
 {
 	switch (getStateNo())
 	{
-	case state_Strike:	return getHitmapRect();
-	case state_Pierce:	return getHitmapRect();
-	case state_Slash:	return getHitmapRect();		 
+	case state_Strike:	return getHitRect();
+	case state_Pierce:	return getHitRect();
+	case state_Slash:	return getHitRect();		 
 	}
 	return CL_Rectf();
 }
@@ -508,20 +508,9 @@ CL_Rectf Player::getShieldRect()
 {
 	switch (getStateNo())
 	{
-	case state_Shield: return getHitmapRect(); 
+	case state_Shield: return getHitRect(); 
 	}
 	return CL_Rectf();
 }
-
-CL_Rectf Player::getHitmapRect()
-{
-	const CL_Rectf hitrect = getHitmap().getRect(getSprite().get_current_frame());
-
-	const float topX = (getFacing() > 0.0f) ? m_rect.left + hitrect.left : m_rect.right - hitrect.right;
-	const float topY = m_rect.top  + hitrect.top;
-
-	return CL_Rectf(CL_Pointf(topX, topY), hitrect.get_size());
-}
-
 
 //************************************************************************************************************************

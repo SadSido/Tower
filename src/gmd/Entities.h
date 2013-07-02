@@ -52,6 +52,8 @@ public:
 	float getFacing() const
 	{ return m_facing ? +1.0f : -1.0f; }
 
+	CL_Rectf getHitRect() const;
+
 	// member assign:
 
 	void setPos(CL_Pointf pos)
@@ -94,6 +96,11 @@ protected:
 	HitmapVec & getHitmaps();
 	SoundVec  & getSounds();
 	CL_SoundBuffer & getSound();
+
+	// const versions:
+
+	const CL_Sprite & getSprite() const;
+	const Hitmap & getHitmap() const;
 
 protected:
 	CL_Rectf  m_rect;

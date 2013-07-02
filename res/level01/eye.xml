@@ -21,9 +21,26 @@
 		<image file="eye_move_01.png" />
  		<animation loop="yes" speed="300"/>
 	</sprite>
+	<sprite name="eye_strike">
+		<image file="eye_move_00.png" />
+		<image file="eye_strike_01.png" />
+		<image file="eye_strike_02.png" />
+		<image file="eye_strike_03.png" />
+		<image file="eye_strike_02.png" />
+		<image file="eye_strike_01.png" />
+ 		<animation loop="no" speed="100"/>
+	</sprite>
 	<sprite name="eye_wait">
 		<image file="eye_move_00.png" />
 		<image file="eye_move_01.png" />
  		<animation loop="yes" speed="300"/>
 	</sprite>
+	<hitmap name="eye_strike_map">
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>		
+		<rect t="0.0"  l="1.0" w="1.0" h="2.0"/>
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>		
+		<rect t="0.0"  l="0.0" w="0.0" h="0.0"/>		
+	</hitmap>	
 </resources>

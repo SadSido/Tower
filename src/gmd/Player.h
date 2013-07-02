@@ -68,9 +68,6 @@ private:
 	void update_Strike (const LevelCtx &ctx, int posFlags);
 	void update_Damage (const LevelCtx &ctx, int posFlags);
 	void update_Defeat (const LevelCtx &ctx, int posFlags);
-
-	// rectangle helpers:
-	CL_Rectf getHitmapRect();
 };
 
 //************************************************************************************************************************
