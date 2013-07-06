@@ -165,6 +165,7 @@
     <property name="health" value="3.0"/>
     <property name="prefix" value="eye"/>
     <property name="range" value="2.0"/>
+    <property name="reload" value="1.0"/>
     <property name="spawn_entity" value="guard_monster"/>
     <property name="spawn_interval" value="5.0"/>
     <property name="spawn_limit" value="1.0"/>
@@ -178,6 +179,7 @@
     <property name="health" value="3.0"/>
     <property name="prefix" value="eye"/>
     <property name="range" value="3.0"/>
+    <property name="reload" value="1.0"/>
     <property name="spawn_entity" value="footman_monster"/>
     <property name="spawn_interval" value="0.5"/>
     <property name="spawn_limit" value="1.0"/>

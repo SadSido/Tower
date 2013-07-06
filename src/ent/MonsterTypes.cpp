@@ -22,13 +22,13 @@ Entity::Ref createWalker(const CL_DomNodeList &props)
 
 Entity::Ref createGuard(const CL_DomNodeList &props)
 {
-	const long stateMask = mask_Emerge | mask_Wait | mask_Strike | mask_Vanish;
+	const long stateMask = mask_Emerge | mask_Wait | mask_Strike | mask_Reload | mask_Vanish;
 	return MonsterEntity::create<StandStillPolicy, MeleePolicy, AllDamagePolicy>(props, stateMask);
 }
 
 Entity::Ref createFootman(const CL_DomNodeList &props)
 {
-	const long stateMask = mask_Emerge | mask_Move | mask_Wait | mask_Strike | mask_Vanish;
+	const long stateMask = mask_Emerge | mask_Move | mask_Wait | mask_Strike | mask_Reload | mask_Vanish;
 	return MonsterEntity::create<WalkingPolicy, MeleePolicy, AllDamagePolicy>(props, stateMask);
 }
 

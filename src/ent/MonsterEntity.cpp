@@ -27,6 +27,7 @@ static CL_String getStateName(int state)
 	case MonsterEntity::state_Emerge:	return "_emerge";
 	case MonsterEntity::state_Move:		return "_move";
 	case MonsterEntity::state_Wait:		return "_wait";
+	case MonsterEntity::state_Reload:	return "_wait";   // same as wait
 	case MonsterEntity::state_Strike:	return "_strike";
 	case MonsterEntity::state_Vanish:	return "_vanish";
 	}
@@ -72,6 +73,9 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
 		if (prop.get_attribute("name") == "range") 
 		{ m_range = prop.get_attribute_float("value"); }
 
+		if (prop.get_attribute("name") == "reload") 
+		{ m_reload = prop.get_attribute_float("value"); }
+
 		if (prop.get_attribute("name") == "damage") 
 		{ m_damage = prop.get_attribute_float("value"); }
 
@@ -94,6 +98,7 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 	case state_Move:   { update_Move   (ctx); break; }
 	case state_Strike: { update_Strike (ctx); break; }
 	case state_Wait:   { update_Wait   (ctx, secs); break;  } 
+	case state_Reload: { update_Reload (ctx, secs); break;  } 
 	case state_Vanish: { update_Vanish (ctx); break; }
 	}
 
@@ -203,6 +208,12 @@ void MonsterEntity::enterWaitState()
 	enterState(state_Wait);
 }
 
+void MonsterEntity::enterReloadState()
+{
+	m_towait = m_reload;
+	enterState(state_Reload);
+}
+
 void MonsterEntity::enterVanishState()
 { 
 	setVel(CL_Pointf(0.0f)); 
@@ -280,6 +291,24 @@ void MonsterEntity::update_Wait(const LevelCtx &ctx, float secs)
 	{ m_mpolicy->onWaited(this, ctx); }
 }
 
+void MonsterEntity::update_Reload(const LevelCtx &ctx, float secs)
+{
+	// suffer damage:
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))
+	{ return; }
+
+	// maybe handle "touch player" event:
+	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
+	{ return; }
+
+	// decrement cooldown:
+	m_towait = max(0.0f, m_towait - secs);
+	
+	// or maybe the wait time expired:
+	if (m_towait == 0.0f)
+	{ m_mpolicy->onWaited(this, ctx); }
+}
+
 void MonsterEntity::update_Strike(const LevelCtx &ctx)
 {
 	// suffer damage:
@@ -291,7 +320,7 @@ void MonsterEntity::update_Strike(const LevelCtx &ctx)
 	{ return; }
 
 	if (getSprite().is_finished())
-	{ return enterWaitState(); }
+	{ return enterReloadState(); }
 }
 
 void MonsterEntity::update_Vanish(const LevelCtx &ctx)
