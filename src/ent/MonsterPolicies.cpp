@@ -8,13 +8,18 @@
 
 //************************************************************************************************************************
 
+static void facePlayer(MonsterEntity * owner, const LevelCtx & ctx)
+{ owner->setFacing(owner->getCenter().x < ctx.player.getCenter().x); }
+
+//************************************************************************************************************************
+
 // monster does not actually move:
 
 void StandStillPolicy::onStarted(MonsterEntity * owner, const LevelCtx &ctx)
-{ owner->enterMoveState(CL_Pointf(), CL_Pointf()); }
+{ owner->enterWaitState(); }
 
-void StandStillPolicy::onDetected(MonsterEntity * owner, const LevelCtx &ctx)
-{ owner->setFacing(owner->getCenter().x < ctx.player.getCenter().x); }
+void StandStillPolicy::onWaited(MonsterEntity * owner, const LevelCtx &ctx)
+{ owner->enterWaitState(); }
 
 // monster walks on the ground:
 
@@ -90,7 +95,7 @@ bool UnarmedPolicy::onTouched  (MonsterEntity * owner, const LevelCtx &ctx)
 // monster has a melee weapon to hit:
 
 bool MeleePolicy::onInRange (MonsterEntity * owner, const LevelCtx &ctx)
-{ owner->enterStrikeState(); return true; }
+{ facePlayer(owner, ctx); owner->enterStrikeState(); return true; }
 
 bool MeleePolicy::onTouched (MonsterEntity * owner, const LevelCtx &ctx)
 { ctx.player.applyDamage(owner->getDamage()); return true; }

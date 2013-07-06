@@ -24,7 +24,7 @@ struct NoMovingPolicy : MovingPolicy
 struct StandStillPolicy : NoMovingPolicy
 {
 	virtual void onStarted  (MonsterEntity * owner, const LevelCtx &ctx) override;
-	virtual void onDetected (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual void onWaited   (MonsterEntity * owner, const LevelCtx &ctx) override;
 };
 
 // monster walks on the ground:
