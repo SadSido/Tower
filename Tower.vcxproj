@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="src\ent\AreaEntity.cpp" />
     <ClCompile Include="src\ent\DialogEntity.cpp" />
+    <ClCompile Include="src\ent\MissileEntity.cpp" />
     <ClCompile Include="src\ent\MonsterEntity.cpp" />
     <ClCompile Include="src\ent\MonsterPolicies.cpp" />
     <ClCompile Include="src\ent\MonsterTypes.cpp" />
@@ -123,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="src\ent\AreaEntity.h" />
     <ClInclude Include="src\ent\DialogEntity.h" />
+    <ClInclude Include="src\ent\MissileEntity.h" />
     <ClInclude Include="src\ent\MonsterEntity.h" />
     <ClInclude Include="src\ent\MonsterPolicies.h" />
     <ClInclude Include="src\ent\MonsterTypes.h" />

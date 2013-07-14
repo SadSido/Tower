@@ -110,6 +110,9 @@
     <ClCompile Include="src\gmd\EntityData.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
+    <ClCompile Include="src\ent\MissileEntity.cpp">
+      <Filter>ent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sys">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="src\gmd\EntityData.h">
       <Filter>gmd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ent\MissileEntity.h">
+      <Filter>ent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
