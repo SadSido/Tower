@@ -82,6 +82,7 @@ public:
 	void enterReloadState();
 	void enterVanishState();
 	void enterStrikeState();
+	void enterShootState();
 
 	// many getters:
 	float getSpeed() const
@@ -112,6 +113,7 @@ private:
 	void update_Wait   (const LevelCtx &ctx, float secs);
 	void update_Reload (const LevelCtx &ctx, float secs);
 	void update_Strike (const LevelCtx &ctx);
+	void update_Shoot  (const LevelCtx &ctx);
 	void update_Vanish (const LevelCtx &ctx);
 
 	// handling damage:

@@ -99,6 +99,7 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 	case state_Strike: { update_Strike (ctx); break; }
 	case state_Wait:   { update_Wait   (ctx, secs); break;  } 
 	case state_Reload: { update_Reload (ctx, secs); break;  } 
+	case state_Shoot:  { update_Shoot  (ctx); break; }
 	case state_Vanish: { update_Vanish (ctx); break; }
 	}
 
@@ -200,6 +201,13 @@ void MonsterEntity::enterStrikeState()
 	setVel(CL_Pointf(0.0f)); 
 	setAcc(CL_Pointf(0.0f));
 	enterState(state_Strike);
+}
+
+void MonsterEntity::enterShootState()
+{ 
+	setVel(CL_Pointf(0.0f)); 
+	setAcc(CL_Pointf(0.0f));
+	enterState(state_Shoot);
 }
 
 void MonsterEntity::enterWaitState()
@@ -310,6 +318,20 @@ void MonsterEntity::update_Reload(const LevelCtx &ctx, float secs)
 }
 
 void MonsterEntity::update_Strike(const LevelCtx &ctx)
+{
+	// suffer damage:
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))
+	{ return; }
+
+	// maybe handle "touch player" event:
+	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
+	{ return; }
+
+	if (getSprite().is_finished())
+	{ return enterReloadState(); }
+}
+
+void MonsterEntity::update_Shoot(const LevelCtx &ctx)
 {
 	// suffer damage:
 	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))

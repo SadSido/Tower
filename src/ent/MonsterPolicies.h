@@ -70,10 +70,18 @@ struct UnarmedPolicy : NoAttackPolicy
 	virtual bool onTouched  (MonsterEntity * owner, const LevelCtx &ctx) override;
 };
 
+// monster has some kind of melee weapon:
+
 struct MeleePolicy : NoAttackPolicy
 {
 	virtual bool onInRange (MonsterEntity * owner, const LevelCtx &ctx) override;
 	virtual bool onTouched (MonsterEntity * owner, const LevelCtx &ctx) override;
+};
+
+// monster can shoot some projectiles:
+
+struct ShootingPolicy : NoAttackPolicy
+{
 };
 
 //************************************************************************************************************************
