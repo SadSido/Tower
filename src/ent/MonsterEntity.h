@@ -64,8 +64,9 @@ enum StatesMask
 	mask_Wait   = 1 << 2,
 	mask_Strike = 1 << 3,
 	mask_Shoot  = 1 << 4,
-	mask_Reload = 1 << 5,
-	mask_Vanish = 1 << 6,
+	mask_Recoil = 1 << 5,
+	mask_Reload = 1 << 6,
+	mask_Vanish = 1 << 7,
 };
 
 //************************************************************************************************************************
@@ -74,7 +75,7 @@ class MonsterEntity : public Entity
 {
 public:
 	enum States
-	{ state_Emerge, state_Move, state_Wait, state_Strike, state_Shoot, state_Reload, state_Vanish, state_Count };
+	{ state_Emerge, state_Move, state_Wait, state_Strike, state_Shoot, state_Recoil, state_Reload, state_Vanish, state_Count };
 
 	// state management:
 	void enterMoveState(CL_Pointf vel, CL_Pointf acc);
@@ -114,6 +115,7 @@ private:
 	void update_Reload (const LevelCtx &ctx, float secs);
 	void update_Strike (const LevelCtx &ctx);
 	void update_Shoot  (const LevelCtx &ctx);
+	void update_Recoil (const LevelCtx &ctx);
 	void update_Vanish (const LevelCtx &ctx);
 
 	// handling damage:

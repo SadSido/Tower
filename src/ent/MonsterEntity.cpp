@@ -29,6 +29,8 @@ static CL_String getStateName(int state)
 	case MonsterEntity::state_Wait:		return "_wait";
 	case MonsterEntity::state_Reload:	return "_wait";   // same as wait
 	case MonsterEntity::state_Strike:	return "_strike";
+	case MonsterEntity::state_Shoot:	return "_shoot";
+	case MonsterEntity::state_Recoil:	return "_recoil";
 	case MonsterEntity::state_Vanish:	return "_vanish";
 	}
 
@@ -81,6 +83,8 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
 
 		if (prop.get_attribute("name") == "health") 
 		{ m_health = prop.get_attribute_float("value"); }
+
+		// shooting parameter (if any):
 	}
 }
 
@@ -100,6 +104,7 @@ bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 	case state_Wait:   { update_Wait   (ctx, secs); break;  } 
 	case state_Reload: { update_Reload (ctx, secs); break;  } 
 	case state_Shoot:  { update_Shoot  (ctx); break; }
+	case state_Recoil: { update_Recoil (ctx); break; }
 	case state_Vanish: { update_Vanish (ctx); break; }
 	}
 
@@ -332,6 +337,23 @@ void MonsterEntity::update_Strike(const LevelCtx &ctx)
 }
 
 void MonsterEntity::update_Shoot(const LevelCtx &ctx)
+{
+	// suffer damage:
+	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))
+	{ return; }
+
+	// maybe handle "touch player" event:
+	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
+	{ return; }
+
+	if (getSprite().is_finished())
+	{
+		// spawn missile here and target it:
+		return enterState(state_Recoil); 
+	}
+}
+
+void MonsterEntity::update_Recoil(const LevelCtx &ctx)
 {
 	// suffer damage:
 	if (touchSword(ctx) && m_dpolicy->onDamage(this, ctx) && (m_health == 0.0f))
