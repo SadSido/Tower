@@ -10,8 +10,8 @@
 
 // c-tors and d-tors:
 
-MissileEntity::MissileEntity()
-: m_alive(true)
+MissileEntity::MissileEntity(CL_String sprite)
+: m_bounces(1), m_sprite(sprite)
 {
 }
 
@@ -24,41 +24,25 @@ Entity::Ref MissileEntity::clone()
 
 bool MissileEntity::update(const LevelCtx &ctx, float secs)
 {
-	/*
-	// dispatch state-based update:
-	switch (getStateNo())
+	m_vel += m_acc * secs;
+	setFacing();
+
+	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, anyBlocking);
+	m_rect.translate(moveTest.delta);
+
+	// check collision with the tilemap
+	if (moveTest.type != th_None)
 	{
-	case state_Emerge: { update_Emerge (ctx); break; }
-	case state_Move:   { update_Move   (ctx); break; }
-	case state_Strike: { update_Strike (ctx); break; }
-	case state_Wait:   { update_Wait   (ctx, secs); break;  } 
-	case state_Reload: { update_Reload (ctx, secs); break;  } 
-	case state_Shoot:  { update_Shoot  (ctx); break; }
-	case state_Recoil: { update_Recoil (ctx); break; }
-	case state_Vanish: { update_Vanish (ctx); break; }
+		m_bounces -= 1;
+		m_vel.x = (moveTest.type == th_Vertical) ? - m_vel.x : + m_vel.x;
+		m_vel.y = (moveTest.type == th_Horizontal) ? - m_vel.y : + m_vel.y;
 	}
-
-	// resolve recovering:
-	if (m_recover) 
-	{ m_recover = max(m_recover - secs, 0.0f); }
-
-	// resolve movement:
-	if (!isRecovering())
-	{
-		m_vel += m_acc * secs;
-		setFacing();
-
-		TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, anyBlocking);
-		m_rect.translate(moveTest.delta);
-
-		if (moveTest.type != th_None)
-		{ m_mpolicy->onCollided(this, ctx, moveTest); }
-	}
-	*/
 
 	// select and update sprite:
 	getSprite().update();
-	return m_alive;
+
+	// check for exceeding bounces limit;
+	return (m_bounces > 0);
 }
 
 bool MissileEntity::render(const LevelCtx &ctx)
@@ -72,7 +56,6 @@ bool MissileEntity::render(const LevelCtx &ctx)
 	auto anchor = (facing > 0.0f) ? rect.get_top_left() : rect.get_top_right();
 
 	sprite.set_scale(facing, 1.0f);
-	sprite.set_color(CL_Color::white);
 	sprite.draw(ctx.gc, anchor.x, anchor.y);
 
 	return true;
@@ -80,39 +63,10 @@ bool MissileEntity::render(const LevelCtx &ctx)
 
 void MissileEntity::upload(const LevelCtx &ctx)
 {
-	/*
-	static CL_String s_mapsuffix = "_map";
-	static CL_String s_sndsuffix = "_snd";
-
 	SpriteVec & sprites = getSprites();
-	sprites.resize(state_Count);
+	sprites.resize(1);
 
-	HitmapVec & hitmaps = getHitmaps();
-	hitmaps.resize(state_Count);
-
-	// load sprites:
-	for (int stateNo = 0; stateNo < state_Count; ++ stateNo)
-	{ 
-		if (hasState(stateNo))
-		{
-			auto name = m_prefix + getStateName(stateNo);
-			sprites[stateNo] = CL_Sprite(ctx.gc, name, &ctx.assets);
-		}
-	}
-
-	// load hitmaps:
-	if (hasState(state_Strike))
-	{
-		auto name = m_prefix + getStateName(state_Strike) + s_mapsuffix; 
-		hitmaps[state_Strike] = Hitmap(name, &ctx.assets);
-	}
-
-	// load sounds:
-	// ...
-
-	// also, remember initial pos as a base one:
-	m_basePos = getCenter();
-	*/
+	sprites[0] = CL_Sprite(ctx.gc, m_sprite, &ctx.assets);
 }
 
 //************************************************************************************************************************

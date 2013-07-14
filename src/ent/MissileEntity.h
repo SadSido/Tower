@@ -20,7 +20,7 @@ class MissileEntity : public Entity
 {
 public:
 	// c-tors and d-tors:
-	explicit MissileEntity();
+	explicit MissileEntity(CL_String sprite);
 	Entity::Ref clone();
 
 private:
@@ -30,7 +30,8 @@ private:
 	virtual void upload (const LevelCtx &ctx);
 
 private:
-	bool m_alive;
+	int m_bounces;
+	CL_String m_sprite;
 };
 
 //************************************************************************************************************************
