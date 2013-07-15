@@ -32,4 +32,10 @@ Entity::Ref createFootman(const CL_DomNodeList &props)
 	return MonsterEntity::create<WalkingPolicy, MeleePolicy, AllDamagePolicy>(props, stateMask);
 }
 
+Entity::Ref createSniper(const CL_DomNodeList &props)
+{
+	const long stateMask = mask_Emerge | mask_Wait | mask_Shoot | mask_Recoil | mask_Reload | mask_Vanish;
+	return MonsterEntity::create<StandStillPolicy, ShootingPolicy, AllDamagePolicy>(props, stateMask);
+}
+
 //************************************************************************************************************************

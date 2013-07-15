@@ -82,6 +82,8 @@ struct MeleePolicy : NoAttackPolicy
 
 struct ShootingPolicy : NoAttackPolicy
 {
+	virtual bool onInRange (MonsterEntity * owner, const LevelCtx &ctx) override;
+	virtual bool onTouched (MonsterEntity * owner, const LevelCtx &ctx) override;
 };
 
 //************************************************************************************************************************

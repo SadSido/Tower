@@ -136,6 +136,7 @@ private:
 
 	CL_Pointf m_basePos;
 	CL_Pointf m_nextPos;
+	CL_Pointf m_barrel;
 
 	float m_speed;
 	float m_areal;
@@ -151,6 +152,9 @@ private:
 	MovingPolicy::Ref m_mpolicy;
 	AttackPolicy::Ref m_apolicy;
 	DamagePolicy::Ref m_dpolicy;
+
+	// missile entity for shooters:
+	Entity::Ref m_missile;
 
 public:
 	// actual factory for creating monsters. Specify template

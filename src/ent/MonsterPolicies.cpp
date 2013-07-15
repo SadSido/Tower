@@ -100,6 +100,14 @@ bool MeleePolicy::onInRange (MonsterEntity * owner, const LevelCtx &ctx)
 bool MeleePolicy::onTouched (MonsterEntity * owner, const LevelCtx &ctx)
 { ctx.player.applyDamage(owner->getDamage()); return true; }
 
+// monster is gonna shoot da missiles:
+
+bool ShootingPolicy::onInRange (MonsterEntity * owner, const LevelCtx &ctx)
+{ facePlayer(owner, ctx); owner->enterShootState(); return true; }
+
+bool ShootingPolicy::onTouched (MonsterEntity * owner, const LevelCtx &ctx)
+{ ctx.player.applyDamage(owner->getDamage()); return true; }
+
 //************************************************************************************************************************
 
 // monster is damaged equally by any type of attack:

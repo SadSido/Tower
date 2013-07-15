@@ -78,6 +78,9 @@ Entity::Ref createEntity(CL_String type, const CL_DomNodeList &plist)
 	if (type == "footman_monster")
 	{ return createFootman(plist); }
 
+	if (type == "sniper_monster")
+	{ return createSniper(plist); }
+
 	assert(false);
 	return Entity::Ref();
 }

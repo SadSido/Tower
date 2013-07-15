@@ -10,8 +10,7 @@
 
 // c-tors and d-tors:
 
-MissileEntity::MissileEntity(CL_String sprite)
-: m_bounces(1), m_sprite(sprite)
+MissileEntity::MissileEntity(const CL_DomNodeList &props)
 {
 }
 

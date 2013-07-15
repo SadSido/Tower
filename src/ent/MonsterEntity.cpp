@@ -3,8 +3,10 @@
 
 #include "MonsterEntity.h"
 #include "MonsterPolicies.h"
+#include "MissileEntity.h"
 #include "../gmd/LevelScene.h"
 #include "../util/MathUtils.h"
+#include "../util/XmlUtils.h"
 #include <assert.h>
 
 //************************************************************************************************************************
@@ -84,14 +86,22 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
 		if (prop.get_attribute("name") == "health") 
 		{ m_health = prop.get_attribute_float("value"); }
 
-		// shooting parameter (if any):
+		if (prop.get_attribute("name") == "barrel")
+		{ m_barrel = readPoint(prop, "value"); }
 	}
+
+	// create missile entity if needed:
+	
+	if (hasState(state_Shoot))
+	{ m_missile = Entity::Ref(new MissileEntity(props)); }
 }
 
 Entity::Ref MonsterEntity::clone()
 {
 	return Entity::Ref(new MonsterEntity(*this));
 }
+
+// virtual interface:
 
 bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 {
@@ -346,9 +356,16 @@ void MonsterEntity::update_Shoot(const LevelCtx &ctx)
 	if (m_damage && touchPlayer(ctx) && m_apolicy->onTouched(this, ctx))
 	{ return; }
 
+	// shoot and play recoil animation:
 	if (getSprite().is_finished())
 	{
-		// spawn missile here and target it:
+		CL_Pointf anchor = (getFacing() > 0.0f) ? getRect().get_top_left() : getRect().get_top_right();
+		CL_Pointf barrel = anchor + m_barrel;
+
+		Entity::Ref missile = m_missile->clone();
+		missile->setPos(barrel);
+
+		ctx.entities->push_back(missile);
 		return enterState(state_Recoil); 
 	}
 }

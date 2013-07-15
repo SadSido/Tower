@@ -20,7 +20,7 @@ class MissileEntity : public Entity
 {
 public:
 	// c-tors and d-tors:
-	explicit MissileEntity(CL_String sprite);
+	explicit MissileEntity(const CL_DomNodeList &props);
 	Entity::Ref clone();
 
 private:
