@@ -28,6 +28,7 @@ private:
 	virtual bool update (const LevelCtx &ctx, float secs);
 	virtual bool render (const LevelCtx &ctx);
 	virtual void upload (const LevelCtx &ctx);
+	virtual void notify (const LevelCtx &ctx, Notify code);
 
 private:
 	int m_bounces;

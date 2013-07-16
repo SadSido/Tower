@@ -359,11 +359,13 @@ void MonsterEntity::update_Shoot(const LevelCtx &ctx)
 	// shoot and play recoil animation:
 	if (getSprite().is_finished())
 	{
+		Entity::Ref missile = m_missile->clone();
+
 		CL_Pointf anchor = (getFacing() > 0.0f) ? getRect().get_top_left() : getRect().get_top_right();
 		CL_Pointf barrel = anchor + m_barrel;
 
-		Entity::Ref missile = m_missile->clone();
 		missile->setPos(barrel);
+		missile->doNotify(ctx, n_LockTarget);
 
 		ctx.entities->push_back(missile);
 		return enterState(state_Recoil); 

@@ -12,6 +12,7 @@
 
 MissileEntity::MissileEntity(const CL_DomNodeList &props)
 {
+	// implement your missile fantasies here:
 }
 
 Entity::Ref MissileEntity::clone()
@@ -66,6 +67,11 @@ void MissileEntity::upload(const LevelCtx &ctx)
 	sprites.resize(1);
 
 	sprites[0] = CL_Sprite(ctx.gc, m_sprite, &ctx.assets);
+}
+
+void MissileEntity::notify (const LevelCtx &ctx, Notify code)
+{
+	assert(code == n_LockTarget);
 }
 
 //************************************************************************************************************************
