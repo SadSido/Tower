@@ -48,6 +48,7 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
 : m_alive(true), m_statesMask(statesMask), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f)
 , m_damage(0.0f), m_health(0.0f), m_recover(0.0f), m_detect(0.0f), m_range(0.0f)
 {
+	CL_Sizef missileSize;
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
 		// process current property:
@@ -86,14 +87,20 @@ MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
 		if (prop.get_attribute("name") == "health") 
 		{ m_health = prop.get_attribute_float("value"); }
 
-		if (prop.get_attribute("name") == "barrel")
+		if (prop.get_attribute("name") == "barrel_pos")
 		{ m_barrel = readPoint(prop, "value"); }
+
+		if (prop.get_attribute("name") == "barrel_size")
+		{ missileSize = readSize(prop, "value"); }
 	}
 
 	// create missile entity if needed:
 	
 	if (hasState(state_Shoot))
-	{ m_missile = Entity::Ref(new MissileEntity(props)); }
+	{ 
+		m_missile = Entity::Ref(new MissileEntity(props)); 
+		m_missile->setSize(missileSize);
+	}
 }
 
 Entity::Ref MonsterEntity::clone()
@@ -105,6 +112,10 @@ Entity::Ref MonsterEntity::clone()
 
 bool MonsterEntity::update(const LevelCtx &ctx, float secs)
 {
+	// upload missile once:
+	if (m_missile)
+	{ m_missile->doUpload(ctx); }
+
 	// dispatch state-based update:
 	switch (getStateNo())
 	{
@@ -362,9 +373,9 @@ void MonsterEntity::update_Shoot(const LevelCtx &ctx)
 		Entity::Ref missile = m_missile->clone();
 
 		CL_Pointf anchor = (getFacing() > 0.0f) ? getRect().get_top_left() : getRect().get_top_right();
-		CL_Pointf barrel = anchor + m_barrel;
+		CL_Pointf barrel = CL_Pointf(m_barrel.x * (getFacing() > 0.0f) ? +1.0f : -1.0f, m_barrel.y);
 
-		missile->setPos(barrel);
+		missile->setPos(anchor + barrel);
 		missile->doNotify(ctx, n_LockTarget);
 
 		ctx.entities->push_back(missile);

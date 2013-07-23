@@ -160,14 +160,19 @@
   </object>
   <object name="eye_01" type="spawn_entity" x="1162" y="729" width="52" height="102">
    <properties>
+    <property name="barrel_pos" value="1.5, 0.5"/>
+    <property name="barrel_size" value="0.2, 0.2"/>
     <property name="damage" value="2.0"/>
     <property name="detect" value="3.0"/>
     <property name="health" value="3.0"/>
     <property name="prefix" value="eye"/>
-    <property name="range" value="2.0"/>
-    <property name="reload" value="1.0"/>
-    <property name="spawn_entity" value="guard_monster"/>
-    <property name="spawn_interval" value="5.0"/>
+    <property name="range" value="10.0"/>
+    <property name="reload" value="3.0"/>
+    <property name="shoot_acc" value="0.0, 0.0"/>
+    <property name="shoot_prefix" value="spark"/>
+    <property name="shoot_vel" value="8.0, 0.0"/>
+    <property name="spawn_entity" value="sniper_monster"/>
+    <property name="spawn_interval" value="1.0"/>
     <property name="spawn_limit" value="1.0"/>
     <property name="wait_time" value="1.0"/>
    </properties>
