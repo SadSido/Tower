@@ -31,8 +31,13 @@ private:
 	virtual void notify (const LevelCtx &ctx, Notify code);
 
 private:
-	int m_bounces;
 	CL_String m_sprite;
+
+	CL_Pointf m_lockVel;
+	CL_Pointf m_lockAcc;
+
+	int  m_bounces;
+	bool m_homing;	
 };
 
 //************************************************************************************************************************

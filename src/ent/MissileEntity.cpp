@@ -4,6 +4,7 @@
 #include "MissileEntity.h"
 #include "../gmd/LevelScene.h"
 #include "../util/MathUtils.h"
+#include "../util/XmlUtils.h"
 #include <assert.h>
 
 //************************************************************************************************************************
@@ -11,8 +12,25 @@
 // c-tors and d-tors:
 
 MissileEntity::MissileEntity(const CL_DomNodeList &props)
+: m_bounces(1), m_homing(false)
 {
-	// implement your missile fantasies here:
+	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
+	{
+		// process current property:
+		CL_DomElement prop = props.item(prNo).to_element();
+
+		if (prop.get_attribute("name") == "shoot_prefix") 
+		{ m_sprite = prop.get_attribute("value"); }
+
+		if (prop.get_attribute("name") == "shoot_bounce") 
+		{ m_bounces = prop.get_attribute_int("value"); }
+
+		if (prop.get_attribute("name") == "shoot_vel") 
+		{ m_lockVel = readPoint(prop, "value"); }
+
+		if (prop.get_attribute("name") == "shoot_acc") 
+		{ m_lockAcc = readPoint(prop, "value"); }
+	}
 }
 
 Entity::Ref MissileEntity::clone()
@@ -34,7 +52,7 @@ bool MissileEntity::update(const LevelCtx &ctx, float secs)
 	if (moveTest.type != th_None)
 	{
 		m_bounces -= 1;
-		m_vel.x = (moveTest.type == th_Vertical) ? - m_vel.x : + m_vel.x;
+		m_vel.x = (moveTest.type == th_Vertical)   ? - m_vel.x : + m_vel.x;
 		m_vel.y = (moveTest.type == th_Horizontal) ? - m_vel.y : + m_vel.y;
 	}
 
@@ -69,9 +87,16 @@ void MissileEntity::upload(const LevelCtx &ctx)
 	sprites[0] = CL_Sprite(ctx.gc, m_sprite, &ctx.assets);
 }
 
-void MissileEntity::notify (const LevelCtx &ctx, Notify code)
+void MissileEntity::notify(const LevelCtx &ctx, Notify code)
 {
 	assert(code == n_LockTarget);
+
+	// resolve player direction:
+	const float dir = (ctx.player.getCenter().x < getRect().get_center().x) ? -1.0f : +1.0f;
+
+	// assign movement parameters:
+	m_vel = CL_Pointf(m_lockVel.x * dir, m_lockVel.y);
+	m_acc = m_lockAcc;
 }
 
 //************************************************************************************************************************
