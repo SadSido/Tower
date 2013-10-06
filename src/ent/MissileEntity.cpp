@@ -56,6 +56,20 @@ bool MissileEntity::update(const LevelCtx &ctx, float secs)
 		m_vel.y = (moveTest.type == th_Vertical)   ? - m_vel.y : + m_vel.y;
 	}
 
+	// check collision with the shield
+	const CL_Rectf rcshield = ctx.player.getShieldRect();
+	bool checkFacing = (ctx.player.getFacing() > 0.0f) == (m_vel.x < 0.0f);
+
+	if (checkFacing && rcshield.is_overlapped(m_rect))
+	{
+		m_bounces -= 1;
+		// align rect at the edge of the shield:
+		float left = (m_vel.x > 0.0f) ? rcshield.left - m_rect.get_width() : rcshield.right;
+		m_rect.translate(left - m_rect.left, 0);
+		m_vel.x *= - 0.25f;
+		m_vel.y *= + 2.00f;
+	}
+
 	// select and update sprite:
 	getSprite().update();
 

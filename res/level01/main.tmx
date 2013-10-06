@@ -136,28 +136,6 @@
     <property name="velocity" value="1.0, 3.0"/>
    </properties>
   </object>
-  <object name="eye_01" type="spawn_entity" x="1537" y="729" width="52" height="102">
-   <properties>
-    <property name="damage" value="2.0"/>
-    <property name="detect" value="3.0"/>
-    <property name="health" value="3.0"/>
-    <property name="prefix" value="eye"/>
-    <property name="spawn_entity" value="plant_monster"/>
-    <property name="spawn_interval" value="5.0"/>
-    <property name="spawn_limit" value="1.0"/>
-   </properties>
-  </object>
-  <object name="eye_01" type="spawn_entity" x="1466" y="729" width="52" height="102">
-   <properties>
-    <property name="damage" value="2.0"/>
-    <property name="detect" value="3.0"/>
-    <property name="health" value="3.0"/>
-    <property name="prefix" value="eye"/>
-    <property name="spawn_entity" value="plant_monster"/>
-    <property name="spawn_interval" value="2.0"/>
-    <property name="spawn_limit" value="1.0"/>
-   </properties>
-  </object>
   <object name="eye_01" type="spawn_entity" x="1162" y="729" width="52" height="102">
    <properties>
     <property name="barrel_pos" value="1.5, 0.5"/>
@@ -168,27 +146,14 @@
     <property name="prefix" value="eye"/>
     <property name="range" value="10.0"/>
     <property name="reload" value="3.0"/>
-    <property name="shoot_acc" value="0.0, 0.0"/>
+    <property name="shoot_acc" value="0.0, 3.0"/>
+    <property name="shoot_bounce" value="2"/>
     <property name="shoot_prefix" value="spark"/>
     <property name="shoot_vel" value="8.0, 0.0"/>
     <property name="spawn_entity" value="sniper_monster"/>
     <property name="spawn_interval" value="1.0"/>
     <property name="spawn_limit" value="1.0"/>
     <property name="wait_time" value="1.0"/>
-   </properties>
-  </object>
-  <object name="eye_01" type="spawn_entity" x="1793" y="792" width="52" height="102">
-   <properties>
-    <property name="damage" value="2.0"/>
-    <property name="detect" value="6.0"/>
-    <property name="health" value="3.0"/>
-    <property name="prefix" value="eye"/>
-    <property name="range" value="3.0"/>
-    <property name="reload" value="1.0"/>
-    <property name="spawn_entity" value="footman_monster"/>
-    <property name="spawn_interval" value="0.5"/>
-    <property name="spawn_limit" value="1.0"/>
-    <property name="speed" value="2.0"/>
    </properties>
   </object>
  </objectgroup>
