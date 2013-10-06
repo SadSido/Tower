@@ -52,8 +52,8 @@ bool MissileEntity::update(const LevelCtx &ctx, float secs)
 	if (moveTest.type != th_None)
 	{
 		m_bounces -= 1;
-		m_vel.x = (moveTest.type == th_Vertical)   ? - m_vel.x : + m_vel.x;
-		m_vel.y = (moveTest.type == th_Horizontal) ? - m_vel.y : + m_vel.y;
+		m_vel.x = (moveTest.type == th_Horizontal) ? - m_vel.x : + m_vel.x;
+		m_vel.y = (moveTest.type == th_Vertical)   ? - m_vel.y : + m_vel.y;
 	}
 
 	// select and update sprite:
