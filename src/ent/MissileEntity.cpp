@@ -9,6 +9,32 @@
 
 //************************************************************************************************************************
 
+namespace
+{
+
+// geometry helpers:
+
+bool intersects(const CL_Rectf &rect, const CL_Pointf &p1, const CL_Pointf &p2)
+{
+	bool result = false; CL_LineSegment2f(p1, p2).clip(rect, result);
+	return result;
+}
+
+void bounceOffRect(CL_Rectf &rect, CL_Pointf &vel, const CL_Rectf &solid)
+{
+	const bool higher = (rect.get_center().y > solid.get_center().y);
+	const float left  = (vel.x > 0.0f) ? solid.left - rect.get_width() : solid.right;
+	
+	rect.translate(left - rect.left, 0);
+	
+	vel.x *= - 1.00f;
+	vel.y *= higher ? - 1.00f : + 1.00f;
+}
+
+}
+
+//************************************************************************************************************************
+
 // c-tors and d-tors:
 
 MissileEntity::MissileEntity(const CL_DomNodeList &props)
@@ -46,28 +72,35 @@ bool MissileEntity::update(const LevelCtx &ctx, float secs)
 	setFacing();
 
 	TileTest moveTest = ctx.tilemap->checkMove(m_rect, m_vel * secs, anyBlocking);
-	m_rect.translate(moveTest.delta);
+	
+	// series of player tests:
+	const bool testColl = intersects(ctx.player.getShieldRect(), getCenter(), getCenter() + moveTest.delta);
+	const bool testHit  = intersects(ctx.player.getRect(), getCenter(), getCenter() + moveTest.delta);
+	const bool testFace = (ctx.player.getFacing() > 0.0f) == (m_vel.x < 0.0f);
 
-	// check collision with the tilemap
-	if (moveTest.type != th_None)
+	// handle collision with the shield:
+	if (testColl && testFace)
 	{
-		m_bounces -= 1;
-		m_vel.x = (moveTest.type == th_Horizontal) ? - m_vel.x : + m_vel.x;
-		m_vel.y = (moveTest.type == th_Vertical)   ? - m_vel.y : + m_vel.y;
+		-- m_bounces;
+		bounceOffRect(m_rect, m_vel, ctx.player.getShieldRect());
+	}	
+	// handle collision with the player:
+	else if (testHit)
+	{
+		-- m_bounces;
+		bounceOffRect(m_rect, m_vel, ctx.player.getRect());
 	}
-
-	// check collision with the shield
-	const CL_Rectf rcshield = ctx.player.getShieldRect();
-	bool checkFacing = (ctx.player.getFacing() > 0.0f) == (m_vel.x < 0.0f);
-
-	if (checkFacing && rcshield.is_overlapped(m_rect))
+	// handle collision with the tilemap
+	else 
 	{
-		m_bounces -= 1;
-		// align rect at the edge of the shield:
-		float left = (m_vel.x > 0.0f) ? rcshield.left - m_rect.get_width() : rcshield.right;
-		m_rect.translate(left - m_rect.left, 0);
-		m_vel.x *= - 0.25f;
-		m_vel.y *= + 2.00f;
+		m_rect.translate(moveTest.delta);		
+		
+		if (moveTest.type != th_None)
+		{
+			m_bounces -= 1;
+			m_vel.x = (moveTest.type == th_Horizontal) ? - m_vel.x : + m_vel.x;
+			m_vel.y = (moveTest.type == th_Vertical)   ? - m_vel.y : + m_vel.y;
+		}
 	}
 
 	// select and update sprite:
