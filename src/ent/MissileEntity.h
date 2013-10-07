@@ -36,8 +36,9 @@ private:
 	CL_Pointf m_lockVel;
 	CL_Pointf m_lockAcc;
 
-	int  m_bounces;
-	bool m_homing;	
+	float m_damage;
+	int   m_bounces;
+	bool  m_homing;	
 };
 
 //************************************************************************************************************************

@@ -38,7 +38,7 @@ void bounceOffRect(CL_Rectf &rect, CL_Pointf &vel, const CL_Rectf &solid)
 // c-tors and d-tors:
 
 MissileEntity::MissileEntity(const CL_DomNodeList &props)
-: m_bounces(1), m_homing(false)
+: m_damage(1.0f), m_bounces(1), m_homing(false)
 {
 	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
 	{
@@ -56,6 +56,9 @@ MissileEntity::MissileEntity(const CL_DomNodeList &props)
 
 		if (prop.get_attribute("name") == "shoot_acc") 
 		{ m_lockAcc = readPoint(prop, "value"); }
+
+		if (prop.get_attribute("name") == "shoot_damage")
+		{ m_damage = prop.get_attribute_float("value"); }
 	}
 }
 
@@ -89,6 +92,7 @@ bool MissileEntity::update(const LevelCtx &ctx, float secs)
 	{
 		-- m_bounces;
 		bounceOffRect(m_rect, m_vel, ctx.player.getRect());
+		ctx.player.applyDamage(m_damage);
 	}
 	// handle collision with the tilemap
 	else 
