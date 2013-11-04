@@ -23,17 +23,17 @@ DialogEntity::DialogEntity(const CL_DomNodeList &props)
 bool DialogEntity::update(const LevelCtx &ctx, float secs)
 {
 	// checks whether we have a dialog available:
-	if (!m_dlgSet) { m_dlgSet = ctx.dialogs[m_dlgName]; }
+	if (!m_dialog) { m_dialog = ctx.dialogs[m_dlgName]; }
 
-	auto dialog = m_dlgSet->getDialog(ctx.globals);
+	auto branch = m_dialog->getBranch(ctx.globals);
 	
 	const bool isInside = m_rect.is_inside(ctx.player.getRect());
 	const bool assigned = ctx.player.checkAction(this);
 
-	if (!assigned && dialog && isInside)
+	if (!assigned && branch && isInside)
 	{ ctx.player.setAction(this); }
 
-	else if (assigned && (!dialog || !isInside))
+	else if (assigned && (!branch || !isInside))
 	{ ctx.player.setAction(NULL); }
 
 	return true;
@@ -49,9 +49,9 @@ bool DialogEntity::render(const LevelCtx &ctx)
 void DialogEntity::notify(const LevelCtx &ctx, Notify code)
 {
 	assert(code == n_DoAction);
-	if (auto dialog = m_dlgSet->getDialog(ctx.globals))
+	if (auto branch = m_dialog->getBranch(ctx.globals))
 	{
-		GameScene::Ref dlgScene(new DialogScene(ctx.manager, dialog, ctx.globals));
+		GameScene::Ref dlgScene(new DialogScene(ctx.manager, branch, ctx.globals));
 		ctx.manager->pushScene(dlgScene);
 	}
 }

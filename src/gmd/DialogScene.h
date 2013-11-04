@@ -14,7 +14,7 @@
 class DialogScene : public GameScene
 {
 public:
-	explicit DialogScene(GameManager * manager, DialogScript::Ref script, Globals & globals);
+	explicit DialogScene(GameManager * manager, DialogBranch::Ref branch, Globals & globals);
 
 	// scene lifecycle:
 	virtual void update(float secs);
@@ -38,8 +38,8 @@ private:
 	PhraseType m_oldtype;
 	PhraseType m_newtype;
 
-	DialogScript::Ref m_script;
-	DialogScript::Iter m_iter;
+	DialogBranch::Ref m_branch;
+	DialogBranch::Iter m_iter;
 	Globals & m_globals;
 
 	void updateRects(CL_Size window);

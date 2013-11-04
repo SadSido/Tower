@@ -18,7 +18,6 @@ CL_Colorf getPhraseColor(PhraseType type)
 {
 	switch (type)
 	{
-	case pht_None:   return CL_Colorf::azure;
 	case pht_Player: return CL_Colorf::white;
 	case pht_NPC:    return CL_Colorf::gray80;
 	}
@@ -44,8 +43,8 @@ CL_Colorf blendColors(CL_Colorf one, CL_Colorf two, float percent)
 
 // c-tor and d-tor:
 
-DialogScene::DialogScene(GameManager * manager, DialogScript::Ref script, Globals & globals)
-: GameScene(manager), m_topScene(manager->getTopScene()), m_script(script), m_iter(m_script->begin()), m_globals(globals)
+DialogScene::DialogScene(GameManager * manager, DialogBranch::Ref branch, Globals & globals)
+: GameScene(manager), m_topScene(manager->getTopScene()), m_branch(branch), m_iter(m_branch->begin()), m_globals(globals)
 {
 	auto renderer = m_manager->getRenderer();
 	
@@ -78,9 +77,9 @@ void DialogScene::update(float secs)
 	}
 
 	// finish the dialog:
-	if (m_iter == m_script->end())
+	if (m_iter == m_branch->end())
 	{
-		m_script->applyPosts(m_globals);
+		m_branch->applyPosts(m_globals);
 		m_manager->popScene(); 
 	}
 }
@@ -108,7 +107,7 @@ void DialogScene::render()
 void DialogScene::onKeyDown(const CL_InputEvent &key, const CL_InputState &state)
 {
 	// proceed to the next replic:
-	if (++ m_iter != m_script->end())
+	if (++ m_iter != m_branch->end())
 	{ updateLayout(); }	
 }
 

@@ -200,11 +200,7 @@ void LevelScene::loadAreaFile(CL_String::const_iterator &it)
 void LevelScene::loadDlgFile(CL_String::const_iterator &it)
 {
 	CL_String path = parseQuotes(it);
-	parseAssert(it, "as");
-	CL_String name = parseQuotes(it);
-
-	DialogSet::Ref dlgset = DialogSet::Ref(new DialogSet(path));
-	m_dialogs[name] = dlgset;
+	m_dialogs.loadDlgFile(path);
 }
 
 //************************************************************************************************************************

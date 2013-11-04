@@ -12,18 +12,17 @@ namespace
 {
 	PhraseType getPhraseType(const CL_String &desc)
 	{
-		if (desc == "pla") { return pht_Player; }
-		if (desc == "npc") { return pht_NPC;    }
-		if (desc == "non") { return pht_None;   }
+		if (desc == "<") { return pht_Player; }
+		if (desc == ">") { return pht_NPC;    }
 
 		assert(false);
-		return pht_None;
+		return pht_NPC;
 	}
 
 	// parsing conditions:
 
-	template<void (DialogScript::*FUNC)(bool, const CL_String&)>
-	void parseConditions(CL_String::const_iterator &it, DialogScript::Ref script)
+	template<void (DialogBranch::*FUNC)(bool, const CL_String&)>
+	void parseConditions(CL_String::const_iterator &it, DialogBranch::Ref branch)
 	{
 		// allow empty braces:
 		CL_String start = parseToken(it);
@@ -37,19 +36,19 @@ namespace
 			const int  starts = (direct) ? 0 : 1;
 
 			// apply parsed condition:
-			(*script.*FUNC)(direct, token.substr(starts));
+			(*branch.*FUNC)(direct, token.substr(starts));
 		}
 	}
 
-	void parsePrecs(CL_String::const_iterator &it, DialogScript::Ref script)
-	{ parseConditions<&DialogScript::addPrec>(it, script);	}
+	void parsePrecs(CL_String::const_iterator &it, DialogBranch::Ref branch)
+	{ parseConditions<&DialogBranch::addPrec>(it, branch);	}
 
-	void parsePosts(CL_String::const_iterator &it, DialogScript::Ref script)
-	{ parseConditions<&DialogScript::addPost>(it, script);	}
+	void parsePosts(CL_String::const_iterator &it, DialogBranch::Ref branch)
+	{ parseConditions<&DialogBranch::addPost>(it, branch);	}
 
 	// parsing scenario:
 
-	void parsePhrases(CL_String::const_iterator &it, DialogScript::Ref script)
+	void parsePhrases(CL_String::const_iterator &it, DialogBranch::Ref branch)
 	{
 		// allow empty braces:
 		CL_String start = parseToken(it);
@@ -63,7 +62,7 @@ namespace
 			const CL_String  text = parseQuotes(it);
 
 			// apply the phrase:
-			script->addText(type, text);
+			branch->addText(type, text);
 		}
 	}
 
@@ -71,11 +70,11 @@ namespace
 
 //************************************************************************************************************************
 
-DialogScript::DialogScript()
+DialogBranch::DialogBranch()
 {
 }
 
-bool DialogScript::checkPrecs(const Globals &globals) const
+bool DialogBranch::checkPrecs(const Globals &globals) const
 {
 	for (auto it = m_precs.begin(); it != m_precs.end(); ++ it)
 	{
@@ -85,7 +84,7 @@ bool DialogScript::checkPrecs(const Globals &globals) const
 	return true;
 }
 
-void DialogScript::applyPosts(Globals &globals) const
+void DialogBranch::applyPosts(Globals &globals) const
 {
 	for (auto it = m_posts.begin(); it != m_posts.end(); ++ it)
 	{
@@ -94,48 +93,80 @@ void DialogScript::applyPosts(Globals &globals) const
 	}
 }
 
-void DialogScript::addPrec(bool direct, const CL_String &global)
+void DialogBranch::addPrec(bool direct, const CL_String &global)
 {
 	m_precs.push_back(std::make_pair(direct, global));
 }
 
-void DialogScript::addPost(bool direct, const CL_String &global)
+void DialogBranch::addPost(bool direct, const CL_String &global)
 {
 	m_posts.push_back(std::make_pair(direct, global));
 }
 
-void DialogScript::addText(PhraseType type, const CL_String &text)
+void DialogBranch::addText(PhraseType type, const CL_String &text)
 {
 	m_texts.push_back(std::make_pair(type, text));
 }
 
 //************************************************************************************************************************
 
-DialogSet::DialogSet(CL_String path)
+Dialog::Dialog(CL_String::const_iterator &it)
 : m_gen(0)
 {
-	CL_String mkpath = makePath(path);
-	CL_String source = CL_File::read_text(mkpath);
+	// allow empty braces:
+	CL_String start = parseToken(it);
+	if (start == "{}") return;
 
-	// init stuff from dlg file:
-	loadDlgFile(source.begin());
+	assert(start == "{");		
+	for (CL_String token = parseToken(it); token != "}"; token = parseToken(it))
+	{
+		assert(token == "branch");
+		DialogBranch::Ref branch(new DialogBranch());
+
+		// read branch parts:
+		parsePrecs(it, branch);
+		parsePosts(it, branch);
+		parsePhrases(it, branch);
+
+		// commit to the list:
+		m_branches.push_back(branch);
+	}
 }
 
-DialogScript::Ref DialogSet::getDialog(const Globals &globals) const
+DialogBranch::Ref Dialog::getBranch(const Globals &globals) const
 {
 	// maybe precalculated already:
 	if (m_gen == globals.getGen())
 	{ return m_dlg; } 
 
 	// must calculate for these globals:
-	m_dlg = getDialogImp(globals);
+	m_dlg = getBranchImp(globals);
 	m_gen = globals.getGen();
 
 	// may be null here:
 	return m_dlg;
 }
 
-void DialogSet::loadDlgFile(CL_String::const_iterator it)
+DialogBranch::Ref Dialog::getBranchImp(const Globals &globals) const
+{
+	for (auto it = m_branches.begin(); it != m_branches.end(); ++ it)
+	{ if ((*it)->checkPrecs(globals)) return (*it); }
+
+	// none of the dialogs satisfies:
+	return DialogBranch::Ref(); 
+}
+
+//************************************************************************************************************************
+
+void Dialogs::loadDlgFile(CL_String path)
+{
+	CL_String mkpath = makePath(path);
+	CL_String source = CL_File::read_text(mkpath);
+
+	loadDlgFile(source.begin());
+}
+
+void Dialogs::loadDlgFile(CL_String::const_iterator it)
 {
 	while (*it)
 	{
@@ -153,26 +184,14 @@ void DialogSet::loadDlgFile(CL_String::const_iterator it)
 	}
 }
 
-void DialogSet::loadDialog(CL_String::const_iterator &it)
+void Dialogs::loadDialog(CL_String::const_iterator &it)
 {
-	DialogScript::Ref script(new DialogScript());
+	// parse out name and dialog:
+	auto name = parseToken(it);
+	auto dial = Dialog::Ref(new Dialog(it));
 
-	// read dialog parts:
-	parsePrecs(it, script);
-	parsePosts(it, script);
-	parsePhrases(it, script);
-
-	// commit to the list:
-	m_dialogs.push_back(script);
-}
-
-DialogScript::Ref DialogSet::getDialogImp(const Globals &globals) const
-{
-	for (auto it = m_dialogs.begin(); it != m_dialogs.end(); ++ it)
-	{ if ((*it)->checkPrecs(globals)) return (*it); }
-
-	// none of the dialogs satisfies:
-	return DialogScript::Ref(); 
+	// add dialog to the registry:
+	operator[](name) = dial;
 }
 
 //************************************************************************************************************************

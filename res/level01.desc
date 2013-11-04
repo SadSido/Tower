@@ -13,4 +13,4 @@ area "level01/throne_room.tmx" as "throne_room"
 area "level01/fencing_hall.tmx" as "fencing_hall"
 area "level01/watch_tower.tmx" as "watch_tower"
 
-dialog "level01/castle_guard.dlg" as "castle_guard"
+dialog "level01/castle_guard.dlg"

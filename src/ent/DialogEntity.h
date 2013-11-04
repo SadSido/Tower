@@ -20,7 +20,7 @@ public:
 
 private:
 	CL_String m_dlgName;
-	DialogSet::Ref m_dlgSet;
+	Dialog::Ref m_dialog;
 
 	// virtual entity interface:
 	virtual bool update(const LevelCtx &ctx, float secs);

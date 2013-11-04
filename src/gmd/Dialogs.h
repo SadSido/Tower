@@ -15,21 +15,20 @@ enum PhraseType
 {
 	pht_Player,
 	pht_NPC,
-	pht_None,
 };
 
 //************************************************************************************************************************
 
-struct DialogScript
+struct DialogBranch
 {
 	typedef std::pair<bool, CL_String> Condition;
 	typedef std::pair<PhraseType, CL_String> Phrase;
 
 public:
-	typedef std::shared_ptr<DialogScript> Ref;
+	typedef std::shared_ptr<DialogBranch> Ref;
 	typedef std::list<Phrase>::const_iterator Iter;
 
-	explicit DialogScript();
+	explicit DialogBranch();
 
 	// handling precs and posts:
 	bool checkPrecs(const Globals &globals) const;
@@ -51,32 +50,36 @@ private:
 };
 
 
-class DialogSet
+class Dialog
 {
 public:
-	typedef std::shared_ptr<DialogSet> Ref;
-	explicit DialogSet(CL_String path);
+	typedef std::shared_ptr<Dialog> Ref;
+	explicit Dialog(CL_String::const_iterator &it);
 
-	// get dialog for these globals:
-	DialogScript::Ref getDialog(const Globals &globals) const;
+	// get dialog branch for these globals:
+	DialogBranch::Ref getBranch(const Globals &globals) const;
 
 private:
-	std::list<DialogScript::Ref> m_dialogs;
+	std::list<DialogBranch::Ref> m_branches;
 	
-	void loadDlgFile(CL_String::const_iterator it);
-	void loadDialog(CL_String::const_iterator &it);
-
 	mutable long m_gen;
-	mutable DialogScript::Ref m_dlg;
+	mutable DialogBranch::Ref m_dlg;
 
 	// actually choosing dialog here:
-	DialogScript::Ref getDialogImp(const Globals &globals) const;
+	DialogBranch::Ref getBranchImp(const Globals &globals) const;
 };
 
 //************************************************************************************************************************
 
-struct Dialogs : public std::map<CL_String, DialogSet::Ref>
-{};
+struct Dialogs : public std::map<CL_String, Dialog::Ref>
+{
+public:
+	void loadDlgFile(CL_String path);
+
+private:
+	void loadDlgFile(CL_String::const_iterator it);
+	void loadDialog(CL_String::const_iterator &it);
+};
 
 //************************************************************************************************************************
 
