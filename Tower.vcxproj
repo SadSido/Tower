@@ -95,6 +95,7 @@
     <ClCompile Include="src\ent\SpriteEntity.cpp" />
     <ClCompile Include="src\gmd\Areas.cpp" />
     <ClCompile Include="src\gmd\AreaScene.cpp" />
+    <ClCompile Include="src\gmd\Databags.cpp" />
     <ClCompile Include="src\gmd\Dialogs.cpp" />
     <ClCompile Include="src\gmd\DialogScene.cpp" />
     <ClCompile Include="src\gmd\Entities.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="src\ent\SpriteEntity.h" />
     <ClInclude Include="src\gmd\Areas.h" />
     <ClInclude Include="src\gmd\AreaScene.h" />
+    <ClInclude Include="src\gmd\Databags.h" />
     <ClInclude Include="src\gmd\Dialogs.h" />
     <ClInclude Include="src\gmd\DialogScene.h" />
     <ClInclude Include="src\gmd\Entities.h" />
