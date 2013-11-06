@@ -34,7 +34,7 @@ class Databag
 	// data holders:
 
 	struct Value
-	{ typedef std::shared_ptr<Value> Ref; const int m_type; explicit Value(int type) : m_type(type) {} virtual ~Value() = 0; };
+	{ typedef std::shared_ptr<Value> Ref; const int m_type; explicit Value(int type) : m_type(type) {} virtual ~Value() {} };
 
 	template <typename TYPE> struct TypedValue : public Value
 	{ const TYPE m_value; explicit TypedValue(TYPE value) : Value(Traits<TYPE>::type), m_value(value) {} };
