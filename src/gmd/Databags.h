@@ -29,6 +29,7 @@ class Databag
 
 	DECLARE_DATABAG_TYPE(CL_String);
 	DECLARE_DATABAG_TYPE(CL_Pointf);
+	DECLARE_DATABAG_TYPE(CL_Sizef);
 
 	// data holders:
 
@@ -42,8 +43,6 @@ public:
 
 	typedef std::shared_ptr<Databag> Ref;
 	typedef std::map<CL_String, Value::Ref> Map;
-
-	explicit Databag();
 	
 	// setters and getters:
 
@@ -76,6 +75,12 @@ private:
 
 struct Databags : public std::map<CL_String, Databag::Ref>
 {
+public:
+	void loadBagFile(CL_String path);
+
+private:
+	void loadBagFile(CL_String::const_iterator it);
+	void loadDatabag(CL_String::const_iterator &it);
 };
 
 //************************************************************************************************************************
