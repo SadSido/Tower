@@ -33,7 +33,7 @@ class Databag
 	// data holders:
 
 	struct Value
-	{ typedef std::shared_ptr<Value> Ref; const int m_type; explicit Value(int type) : m_type(type) {} };
+	{ typedef std::shared_ptr<Value> Ref; const int m_type; explicit Value(int type) : m_type(type) {} virtual ~Value() = 0; };
 
 	template <typename TYPE> struct TypedValue : public Value
 	{ const TYPE m_value; explicit TypedValue(TYPE value) : Value(Traits<TYPE>::type), m_value(value) {} };
@@ -60,6 +60,12 @@ public:
 		
 		assert(it->second->m_type == Traits<TYPE>::type);
 		return static_cast<TypedValue<TYPE>*>(it->second.get())->m_value;
+	}
+
+	template <typename TYPE> bool has(const CL_String &key)
+	{
+		auto it = m_map.find(key);
+		return (it != m_map.end()) && (it->second->m_type == Traits<TYPE>::type);  
 	}
 
 private:
