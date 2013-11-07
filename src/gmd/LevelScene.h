@@ -11,6 +11,7 @@
 #include "Globals.h"
 #include "Dialogs.h"
 #include "Player.h"
+#include "Databags.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 
@@ -32,6 +33,7 @@ struct LevelCtx
 	Entities::Ref entities;
 	Tilemap::Ref  tilemap;
 
+	Databags &databags;
 	Dialogs  &dialogs;
 	Globals  &globals;
 	Player   &player;
@@ -69,11 +71,12 @@ private:
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	
-	Dialogs m_dialogs;
-	Globals m_globals;
-	Player  m_player;
-	Areas   m_areas;
-	Assets  m_assets;
+	Databags  m_databags;
+	Dialogs   m_dialogs;
+	Globals   m_globals;
+	Player    m_player;
+	Areas     m_areas;
+	Assets    m_assets;
 
 	// constructor:
 	explicit LevelScene(GameManager * manager, int levelNo, CL_String descFile);
@@ -86,6 +89,7 @@ private:
 	void loadResource(CL_String::const_iterator &it);
 	void loadAreaFile(CL_String::const_iterator &it);
 	void loadDlgFile(CL_String::const_iterator &it);
+	void loadBagFile(CL_String::const_iterator &it);
 };
 
 //************************************************************************************************************************

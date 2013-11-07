@@ -145,7 +145,7 @@ LevelCtx LevelScene::getContext()
 	CL_InputDevice    &kb = m_manager->getRenderer()->getIC().get_keyboard();
 	CL_InputDevice    &ms = m_manager->getRenderer()->getIC().get_mouse();
 
-	LevelCtx ctx = { m_manager, cf, gc, kb, ms, m_entities, m_tilemap, m_dialogs, m_globals, m_player, m_assets };
+	LevelCtx ctx = { m_manager, cf, gc, kb, ms, m_entities, m_tilemap, m_databags, m_dialogs, m_globals, m_player, m_assets };
 	return ctx;
 }
 
@@ -170,6 +170,9 @@ void LevelScene::loadDescFile(CL_String::const_iterator it)
 		{ loadAreaFile(it); }
 
 		else if (token == "dialog")
+		{ loadDlgFile(it); }
+
+		else if (token == "databag")
 		{ loadDlgFile(it); }
 
 		else
@@ -201,6 +204,12 @@ void LevelScene::loadDlgFile(CL_String::const_iterator &it)
 {
 	CL_String path = parseQuotes(it);
 	m_dialogs.loadDlgFile(path);
+}
+
+void LevelScene::loadBagFile(CL_String::const_iterator &it)
+{
+	CL_String path = parseQuotes(it);
+	m_databags.loadBagFile(path);
 }
 
 //************************************************************************************************************************
