@@ -67,6 +67,12 @@ public:
 		return (it != m_map.end()) && (it->second->m_type == Traits<TYPE>::type);  
 	}
 
+	template <typename TYPE> void keys(std::list<CL_String> &list)
+	{
+		for (auto it = m_map.begin(); it != m_map.end(); ++ it)
+		{ if (it->second->m_type == Traits<TYPE>::type) { list.push_back(it->first); } }
+	}
+
 private:
 	Map m_map;
 };
