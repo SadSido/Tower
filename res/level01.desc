@@ -1,16 +1,30 @@
 
-// resources:
+// level descriptor is a file of a "databag" format, which 
+// instructs the engine to load necessary level data:
 
-resource "common/arteus.xml"
-resource "common/HUD.xml"
-resource "level01/tiles.xml"
-resource "level01/familiar.xml"
-resource "level01/eye.xml"
+databag databags
+{}
 
-area "level01/main.tmx" as "main"
-area "level01/entrance_hall.tmx" as "entrance_hall"
-area "level01/throne_room.tmx" as "throne_room"
-area "level01/fencing_hall.tmx" as "fencing_hall"
-area "level01/watch_tower.tmx" as "watch_tower"
+databag dialogs
+{
+	string dialogs	"level01/castle_guard.dlg"
+}
 
-dialog "level01/castle_guard.dlg"
+databag resources
+{
+	string	arteus	"common/arteus.xml"
+	string	hud		"common/HUD.xml"
+	string	tiles	"level01/tiles.xml"
+	string	eye		"level01/eye.xml"
+	string  fam     "level01/familiar.xml"
+}
+
+databag areas
+{
+	string	main			"level01/main.tmx"
+	string	entrance_hall	"level01/entrance_hall.tmx"
+	string	throne_room		"level01/throne_room.tmx"
+	string	fencing_hall	"level01/fencing_hall.tmx"
+	string	watch_tower		"level01/watch_tower.tmx"
+}
+ 

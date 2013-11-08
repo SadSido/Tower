@@ -85,11 +85,13 @@ private:
 	LevelCtx getContext();
 
 	// parsing the desc file:
-	void loadDescFile(CL_String::const_iterator  it);
-	void loadResource(CL_String::const_iterator &it);
-	void loadAreaFile(CL_String::const_iterator &it);
-	void loadDlgFile(CL_String::const_iterator &it);
-	void loadBagFile(CL_String::const_iterator &it);
+	void loadDescFile (CL_String file);
+	void loadDescPart (Databag::Ref databag, void (LevelScene::*loader)(CL_String, CL_String)); 
+
+	void loadResource (CL_String name, CL_String file);
+	void loadAreaFile (CL_String name, CL_String file);
+	void loadDlgFile  (CL_String name, CL_String file);
+	void loadBagFile  (CL_String name, CL_String file);
 };
 
 //************************************************************************************************************************

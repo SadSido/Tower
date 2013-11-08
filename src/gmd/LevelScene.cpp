@@ -36,12 +36,8 @@ LevelScene::LevelScene(GameManager * manager, int levelNo, CL_String descFile)
 	Configuration::Ref config = m_manager->getConfig();
 	Renderer::Ref renderer = m_manager->getRenderer();
 
-	// prepare desc file:
-	CL_String descPath = makePath(descFile);
-	CL_String descStr  = CL_File::read_text(descPath);
-	
 	// init stuff from desc file:
-	loadDescFile(descStr.begin());
+	loadDescFile(descFile);
 
 	// set initial area:
 	enterArea("main", "main");
@@ -149,67 +145,63 @@ LevelCtx LevelScene::getContext()
 	return ctx;
 }
 
-
 // pasing and initialization stuff:
 
-void LevelScene::loadDescFile(CL_String::const_iterator it)
+void LevelScene::loadDescFile(CL_String file)
 {
-	while (*it)
-	{
-		// load stuff depending on token:
-		CL_String token = parseToken(it);
+	// read sections as databags:
+	
+	Databags sections; 
+	sections.loadBagFile(makePath(file));
 
-		// allow single-line comments:
-		if (token == "//")
-		{ parseLine(it); }
+	// load all the sections (areas go last):
+	
+	Databag::Ref databags = sections.find("databags")->second;
+	loadDescPart(databags, &LevelScene::loadBagFile);
 
-		else if (token == "resource")
-		{ loadResource(it); }
+	Databag::Ref dialogs = sections.find("dialogs")->second;
+	loadDescPart(dialogs, &LevelScene::loadDlgFile);
 
-		else if (token == "area")
-		{ loadAreaFile(it); }
+	Databag::Ref resources = sections.find("resources")->second;
+	loadDescPart(resources, &LevelScene::loadResource);
 
-		else if (token == "dialog")
-		{ loadDlgFile(it); }
-
-		else if (token == "databag")
-		{ loadDlgFile(it); }
-
-		else
-		{ assert(false); }
-	}
+	Databag::Ref areas = sections.find("areas")->second;
+	loadDescPart(areas, &LevelScene::loadAreaFile);
 }
 
-void LevelScene::loadResource(CL_String::const_iterator &it)
+void LevelScene::loadDescPart (Databag::Ref databag, void (LevelScene::*loader)(CL_String, CL_String))
 {
-	CL_String path = parseQuotes(it);
-	m_assets.add_resources(CL_ResourceManager(makePath(path)));
+	// get all string keys:
+	std::list<CL_String> keys; 
+	databag->keys<CL_String>(keys);
+	
+	// process all entries:
+	for (auto it = keys.begin(); it != keys.end(); ++ it)
+	{ (*this.*loader)(*it, databag->get<CL_String>(*it)); }
 }
 
-void LevelScene::loadAreaFile(CL_String::const_iterator &it)
+void LevelScene::loadResource(CL_String name, CL_String file)
 {
-	// get window size:
+	m_assets.add_resources(CL_ResourceManager(makePath(file)));
+}
+
+void LevelScene::loadAreaFile(CL_String name, CL_String file)
+{
 	Renderer::Ref renderer = m_manager->getRenderer();
 	CL_Sizef window = renderer->getGC().get_size();
 
-	CL_String path = parseQuotes(it);
-	parseAssert(it, "as");
-	CL_String name = parseQuotes(it);
-
-	Area area = Area(window, makePath(path), name);
+	Area area = Area(window, makePath(file), name);
 	m_areas[name] = area;
 }
 
-void LevelScene::loadDlgFile(CL_String::const_iterator &it)
+void LevelScene::loadDlgFile(CL_String name, CL_String file)
 {
-	CL_String path = parseQuotes(it);
-	m_dialogs.loadDlgFile(path);
+	m_dialogs.loadDlgFile(makePath(file));
 }
 
-void LevelScene::loadBagFile(CL_String::const_iterator &it)
+void LevelScene::loadBagFile(CL_String name, CL_String file)
 {
-	CL_String path = parseQuotes(it);
-	m_databags.loadBagFile(path);
+	m_databags.loadBagFile(makePath(file));
 }
 
 //************************************************************************************************************************

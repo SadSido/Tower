@@ -160,9 +160,7 @@ DialogBranch::Ref Dialog::getBranchImp(const Globals &globals) const
 
 void Dialogs::loadDlgFile(CL_String path)
 {
-	CL_String mkpath = makePath(path);
-	CL_String source = CL_File::read_text(mkpath);
-
+	CL_String source = CL_File::read_text(path);
 	loadDlgFile(source.begin());
 }
 
@@ -180,7 +178,7 @@ void Dialogs::loadDlgFile(CL_String::const_iterator it)
 		{ loadDialog(it); }
 
 		else
-		{ assert(false); }
+		{ assert(token.empty()); }
 	}
 }
 

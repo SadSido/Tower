@@ -63,9 +63,7 @@ namespace
 
 void Databags::loadBagFile(CL_String path)
 {
-	CL_String mkpath = makePath(path);
-	CL_String source = CL_File::read_text(mkpath);
-
+	CL_String source = CL_File::read_text(path);
 	loadBagFile(source.begin());
 }
 
@@ -83,7 +81,7 @@ void Databags::loadBagFile(CL_String::const_iterator it)
 		{ loadDatabag(it); }
 
 		else
-		{ assert(false); }
+		{ assert(token.empty()); }
 	}
 }
 
