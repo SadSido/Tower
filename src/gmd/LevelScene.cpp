@@ -30,7 +30,7 @@ GameScene::Ref LevelScene::createLevel(GameManager * manager, int levelNo)
 
 //************************************************************************************************************************
 
-LevelScene::LevelScene(GameManager * manager, int levelNo, CL_String descFile)
+LevelScene::LevelScene(GameManager * manager, int levelNo, const CL_String &descFile)
 : GameScene(manager), m_levelNo(levelNo), m_player(CL_Pointf(), CL_Sizef(1.0f, 2.8f))
 {
 	Configuration::Ref config = m_manager->getConfig();
@@ -115,7 +115,7 @@ void LevelScene::notify(Notify code, void * data)
 
 // areas management:
 
-void LevelScene::enterArea(CL_String name, CL_String entry)
+void LevelScene::enterArea(const CL_String &name, const CL_String &entry)
 {
 	auto it = m_areas.find(name);
 	assert(it != m_areas.end());
@@ -147,7 +147,7 @@ LevelCtx LevelScene::getContext()
 
 // pasing and initialization stuff:
 
-void LevelScene::loadDescFile(CL_String file)
+void LevelScene::loadDescFile(const CL_String &file)
 {
 	// read sections as databags:
 	
@@ -169,7 +169,7 @@ void LevelScene::loadDescFile(CL_String file)
 	loadDescPart(areas, &LevelScene::loadAreaFile);
 }
 
-void LevelScene::loadDescPart (Databag::Ref databag, void (LevelScene::*loader)(CL_String, CL_String))
+void LevelScene::loadDescPart (Databag::Ref databag, void (LevelScene::*loader)(const CL_String&, const CL_String&))
 {
 	// get all string keys:
 	std::list<CL_String> keys; 
@@ -180,12 +180,12 @@ void LevelScene::loadDescPart (Databag::Ref databag, void (LevelScene::*loader)(
 	{ (*this.*loader)(*it, databag->get<CL_String>(*it)); }
 }
 
-void LevelScene::loadResource(CL_String name, CL_String file)
+void LevelScene::loadResource(const CL_String &name, const CL_String &file)
 {
 	m_assets.add_resources(CL_ResourceManager(makePath(file)));
 }
 
-void LevelScene::loadAreaFile(CL_String name, CL_String file)
+void LevelScene::loadAreaFile(const CL_String &name, const CL_String &file)
 {
 	Renderer::Ref renderer = m_manager->getRenderer();
 	CL_Sizef window = renderer->getGC().get_size();
@@ -194,12 +194,12 @@ void LevelScene::loadAreaFile(CL_String name, CL_String file)
 	m_areas[name] = area;
 }
 
-void LevelScene::loadDlgFile(CL_String name, CL_String file)
+void LevelScene::loadDlgFile(const CL_String &name, const CL_String &file)
 {
 	m_dialogs.loadDlgFile(makePath(file));
 }
 
-void LevelScene::loadBagFile(CL_String name, CL_String file)
+void LevelScene::loadBagFile(const CL_String &name, const CL_String &file)
 {
 	m_databags.loadBagFile(makePath(file));
 }

@@ -19,7 +19,7 @@ class Area
 
 public:
 	explicit Area();
-	explicit Area(CL_Sizef window, CL_String path, CL_String name);
+	explicit Area(CL_Sizef window, const CL_String &path, const CL_String &name);
 
 	// member accessors:
 
@@ -32,7 +32,7 @@ public:
 	Tilemap::Ref getTilemap() const
 	{ return m_tilemap; }
 
-	CL_Pointf getEntryPoint(CL_String name) const
+	CL_Pointf getEntryPoint(const CL_String &name) const
 	{ return m_entryMap->find(name)->second; }
 
 private:

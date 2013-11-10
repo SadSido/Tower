@@ -158,7 +158,7 @@ DialogBranch::Ref Dialog::getBranchImp(const Globals &globals) const
 
 //************************************************************************************************************************
 
-void Dialogs::loadDlgFile(CL_String path)
+void Dialogs::loadDlgFile(const CL_String &path)
 {
 	CL_String source = CL_File::read_text(path);
 	loadDlgFile(source.begin());

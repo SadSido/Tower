@@ -74,7 +74,7 @@ private:
 struct Dialogs : public std::map<CL_String, Dialog::Ref>
 {
 public:
-	void loadDlgFile(CL_String path);
+	void loadDlgFile(const CL_String &path);
 
 private:
 	void loadDlgFile(CL_String::const_iterator it);

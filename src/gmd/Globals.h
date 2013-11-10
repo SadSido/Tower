@@ -15,12 +15,12 @@ public:
 	explicit Globals();
 
 	// variable query:
-	bool check(CL_String var) const;
+	bool check(const CL_String &var) const;
 	long getGen() const;
 
 	// modifications:
-	void add(CL_String var);
-	void del(CL_String var);
+	void add(const CL_String &var);
+	void del(const CL_String &var);
 
 public:
 	// some popular globals:

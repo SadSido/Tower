@@ -63,7 +63,7 @@ public:
 	virtual void notify(Notify code, void * data);
 
 	// area management:
-	void enterArea(CL_String name, CL_String entry);
+	void enterArea(const CL_String &name, const CL_String &entry);
 
 private:
 	const int m_levelNo;
@@ -79,19 +79,19 @@ private:
 	Assets    m_assets;
 
 	// constructor:
-	explicit LevelScene(GameManager * manager, int levelNo, CL_String descFile);
+	explicit LevelScene(GameManager * manager, int levelNo, const CL_String &descFile);
 
 	// generating context:
 	LevelCtx getContext();
 
 	// parsing the desc file:
-	void loadDescFile (CL_String file);
-	void loadDescPart (Databag::Ref databag, void (LevelScene::*loader)(CL_String, CL_String)); 
+	void loadDescFile (const CL_String &file);
+	void loadDescPart (Databag::Ref databag, void (LevelScene::*loader)(const CL_String&, const CL_String&)); 
 
-	void loadResource (CL_String name, CL_String file);
-	void loadAreaFile (CL_String name, CL_String file);
-	void loadDlgFile  (CL_String name, CL_String file);
-	void loadBagFile  (CL_String name, CL_String file);
+	void loadResource (const CL_String &name, const CL_String &file);
+	void loadAreaFile (const CL_String &name, const CL_String &file);
+	void loadDlgFile  (const CL_String &name, const CL_String &file);
+	void loadBagFile  (const CL_String &name, const CL_String &file);
 };
 
 //************************************************************************************************************************

@@ -43,7 +43,7 @@ Entity::Ref createEntity(CL_DomElement node, float tilesz)
 
 // can be optimized by using maps??
 
-Entity::Ref createEntity(CL_String type, const CL_DomNodeList &plist)
+Entity::Ref createEntity(const CL_String &type, const CL_DomNodeList &plist)
 {
 	if (type == "dialog_entity")
 	{ return Entity::Ref(new DialogEntity(plist)); }

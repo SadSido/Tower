@@ -61,7 +61,7 @@ namespace
 
 //************************************************************************************************************************
 
-void Databags::loadBagFile(CL_String path)
+void Databags::loadBagFile(const CL_String &path)
 {
 	CL_String source = CL_File::read_text(path);
 	loadBagFile(source.begin());

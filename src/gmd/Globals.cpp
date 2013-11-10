@@ -11,7 +11,7 @@ Globals::Globals()
 
 // variables query:
 
-bool Globals::check(CL_String var) const
+bool Globals::check(const CL_String &var) const
 {
 	return m_vars.find(var) != m_vars.end();
 }
@@ -23,13 +23,13 @@ long Globals::getGen() const
 
 // modifications:
 
-void Globals::add(CL_String var)
+void Globals::add(const CL_String &var)
 {
 	++ m_gen;
 	m_vars.insert(var);
 }
 
-void Globals::del(CL_String var)
+void Globals::del(const CL_String &var)
 {
 	++ m_gen;
 	m_vars.erase(var);

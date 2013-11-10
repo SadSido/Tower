@@ -83,7 +83,7 @@ private:
 struct Databags : public std::map<CL_String, Databag::Ref>
 {
 public:
-	void loadBagFile(CL_String path);
+	void loadBagFile(const CL_String &path);
 
 private:
 	void loadBagFile(CL_String::const_iterator it);

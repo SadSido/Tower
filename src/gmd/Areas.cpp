@@ -12,7 +12,7 @@
 Area::Area()
 {}
 
-Area::Area(CL_Sizef window, CL_String path, CL_String name)
+Area::Area(CL_Sizef window, const CL_String &path, const CL_String &name)
 : m_name(name)
 {
 	CL_DomDocument doc  = CL_DomDocument(CL_File(path));
