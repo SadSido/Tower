@@ -13,7 +13,7 @@
 class AreaScene : public GameScene
 {
 public:
-	explicit AreaScene(GameManager * manager, CL_String areaName, CL_String entryName);
+	explicit AreaScene(GameManager * manager, const CL_String &areaName, const CL_String &entryName);
 
 	// scene lifecycle:
 	virtual void update(float secs);

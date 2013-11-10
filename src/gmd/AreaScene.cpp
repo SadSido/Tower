@@ -14,7 +14,7 @@ static const float s_speedFactor = 4.0f;
 
 // c-tor and d-tor:
 
-AreaScene::AreaScene(GameManager * manager, CL_String areaName, CL_String entryName)
+AreaScene::AreaScene(GameManager * manager, const CL_String &areaName, const CL_String &entryName)
 : GameScene(manager), m_topScene(manager->getTopScene()), m_direct(true), m_percent(0.0f), m_areaName(areaName), m_entryName(entryName)
 {
 }

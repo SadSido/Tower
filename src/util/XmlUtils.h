@@ -18,9 +18,9 @@ Range     readRange (CL_DomElement node);
 
 // parse from one attribute:
 
-CL_Sizef  readSize  (CL_DomElement node, CL_String attrName);
-CL_Pointf readPoint (CL_DomElement node, CL_String attrName);
-Range     readRange (CL_DomElement node, CL_String attrName);
+CL_Sizef  readSize  (CL_DomElement node, const CL_String &attrName);
+CL_Pointf readPoint (CL_DomElement node, const CL_String &attrName);
+Range     readRange (CL_DomElement node, const CL_String &attrName);
 
 //************************************************************************************************************************
 

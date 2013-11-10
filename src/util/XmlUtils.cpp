@@ -47,13 +47,13 @@ CL_Rectf readRect(CL_DomElement node)
 
 // parsers from a single attr:
 
-CL_Sizef readSize(CL_DomElement node, CL_String attrName)
+CL_Sizef readSize(CL_DomElement node, const CL_String &attrName)
 {
 	auto point = readPoint(node, attrName);
 	return CL_Sizef(point.x, point.y);
 }
 
-CL_Pointf readPoint(CL_DomElement node, CL_String attrName)
+CL_Pointf readPoint(CL_DomElement node, const CL_String &attrName)
 {
 	auto values = CL_StringHelp::split_text(node.get_attribute(attrName), ",");
 	assert(values.size() == 2);
@@ -62,7 +62,7 @@ CL_Pointf readPoint(CL_DomElement node, CL_String attrName)
 	return result;
 }
 
-Range readRange(CL_DomElement node, CL_String attrName)
+Range readRange(CL_DomElement node, const CL_String &attrName)
 {
 	auto point = readPoint(node, attrName);
 	return Range(point.x, point.y);

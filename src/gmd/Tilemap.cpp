@@ -222,7 +222,7 @@ void Tilemap::pushDesc(TileDesc desc)
 	m_tiles.push_back(desc); 
 }
 
-void Tilemap::pushProxy(CL_String name, int count)
+void Tilemap::pushProxy(const CL_String &name, int count)
 { 
 	for (int no = 0; no < count; ++ no)
 	{
@@ -231,7 +231,7 @@ void Tilemap::pushProxy(CL_String name, int count)
 	}
 }
 
-void Tilemap::pushImage(CL_String name)
+void Tilemap::pushImage(const CL_String &name)
 {
 	m_bgName = name;
 }

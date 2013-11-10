@@ -103,8 +103,8 @@ public:
 	// filling the tilemap data (while loading):
 
 	void pushDesc  (TileDesc desc);
-	void pushProxy (CL_String name, int count);
-	void pushImage (CL_String name);
+	void pushProxy (const CL_String &name, int count);
+	void pushImage (const CL_String &name);
 
 	// rendering:
 	void renderImage(const LevelCtx &ctx);
