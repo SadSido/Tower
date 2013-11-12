@@ -169,6 +169,7 @@
     <None Include="res\level01\castle_guard.dlg" />
     <None Include="res\level01\eye.xml" />
     <None Include="res\level01\familiar.xml" />
+    <None Include="res\level01\monsters.bag" />
     <None Include="res\level01\tiles.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,11 +3,13 @@
 // instructs the engine to load necessary level data:
 
 databag databags
-{}
+{	
+	string	monster	"level01/monsters.bag"
+}
 
 databag dialogs
 {
-	string dialogs	"level01/castle_guard.dlg"
+	string	dialogs	"level01/castle_guard.dlg"
 }
 
 databag resources

@@ -278,5 +278,8 @@
     <None Include="res\level01.desc">
       <Filter>res</Filter>
     </None>
+    <None Include="res\level01\monsters.bag">
+      <Filter>res\level01</Filter>
+    </None>
   </ItemGroup>
 </Project>
