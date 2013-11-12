@@ -16,7 +16,7 @@ class DialogEntity : public Entity
 {
 public:
 	// common constructor for the entities:
-	explicit DialogEntity(const CL_DomNodeList &props);
+	explicit DialogEntity(const Databags &data, const CL_String &name);
 
 private:
 	CL_String m_dlgName;

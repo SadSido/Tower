@@ -8,23 +8,14 @@
 
 //************************************************************************************************************************
 	
-AreaEntity::AreaEntity(const CL_DomNodeList &props)
-: m_gen(0), m_cond(true)
+AreaEntity::AreaEntity(const Databags &data, const CL_String &name)
+: m_gen(0), m_opened(true)
 {
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
+	auto bag = data.find(name)->second;
 
-		if (prop.get_attribute("name") == "area") 
-		{ m_area = prop.get_attribute("value"); }
-	
-		if (prop.get_attribute("name") == "entry") 
-		{ m_entry = prop.get_attribute("value"); }
-
-		if (prop.get_attribute("name") == "condition") 
-		{ m_condition = prop.get_attribute("value"); }
-	}
+	m_area  = bag->get<CL_String>("area");
+	m_entry = bag->get<CL_String>("entry");
+	m_cond	= bag->get<CL_String>("condition");
 }
 
 bool AreaEntity::update(const LevelCtx &ctx, float secs)
@@ -32,7 +23,7 @@ bool AreaEntity::update(const LevelCtx &ctx, float secs)
 	const bool isInside = m_rect.is_inside(ctx.player.getRect());
 	const bool assigned = ctx.player.checkAction(this);
 
-	if (!assigned && isInside && checkCondition(ctx))
+	if (!assigned && isInside && isOpened(ctx))
 	{ ctx.player.setAction(this); }
 
 	else if (assigned && !isInside)
@@ -54,17 +45,17 @@ void AreaEntity::notify(const LevelCtx &ctx, Notify code)
 	ctx.manager->pushScene(dlgScene);
 }
 
-bool AreaEntity::checkCondition(const LevelCtx &ctx)
+bool AreaEntity::isOpened(const LevelCtx &ctx) const
 {
 	// maybe require re-checking?
-	if (!m_condition.empty() && m_gen != ctx.globals.getGen())
+	if (!m_cond.empty() && m_gen != ctx.globals.getGen())
 	{
 		m_gen = ctx.globals.getGen();
-		m_cond = ctx.globals.check(m_condition);
+		m_opened = ctx.globals.check(m_cond);
 	}
 
 	// returned cached result:
-	return m_cond;
+	return m_opened;
 }
 
 //************************************************************************************************************************

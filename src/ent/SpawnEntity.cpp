@@ -7,27 +7,19 @@
 
 //************************************************************************************************************************
 	
-SpawnEntity::SpawnEntity(const CL_DomNodeList &props)
+SpawnEntity::SpawnEntity(const Databags &data, const CL_String &name)
 : m_spawning(false)
 {
-	CL_String spawnee;
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
+	auto bag = data.find(name)->second;
 
-		if (prop.get_attribute("name") == "spawn_entity") 
-		{ spawnee = prop.get_attribute("value"); }
-
-		if (prop.get_attribute("name") == "spawn_interval") 
-		{ m_interval = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "spawn_limit") 
-		{ m_limit = prop.get_attribute_int("value"); }
-	}
+	CL_String spawntype = bag->get<CL_String>("spawn_type");
+	CL_String spawnbag  = bag->get<CL_String>("spawn_bag");
+	
+	m_interval = bag->get<float>("interval");
+	m_limit    = bag->get<int>("limit");
 
 	// create spawnee pattern:
-	m_spawnee = createEntity(spawnee, props);
+	m_spawnee = createEntity(data, spawntype, spawnbag);
 
 	// create list of entities:
 	m_entities = Entities::Ref(new Entities());

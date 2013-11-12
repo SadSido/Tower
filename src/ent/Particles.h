@@ -31,7 +31,7 @@ public:
 	typedef void (*SolverFn)(Particle&, float);
 
 	// common constructor for the entities:
-	explicit ParticleSystem(const CL_DomNodeList &props);
+	explicit ParticleSystem(const Databags &data, const CL_String &name);
 
 private:
 	// virtual entity interface:

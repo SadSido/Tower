@@ -5,6 +5,7 @@
 #define _SpawnEntity_h_
 
 #include "../gmd/Entities.h"
+#include "../gmd/Databags.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 
@@ -14,7 +15,7 @@ class SpawnEntity : public Entity
 {
 public:
 	// common constructor for the entities:
-	explicit SpawnEntity(const CL_DomNodeList &props);
+	explicit SpawnEntity(const Databags &data, const CL_String &name);
 
 private:
 	// virtual entity interface:

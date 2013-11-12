@@ -6,11 +6,12 @@
 
 #include <ClanLib/core.h>
 #include "Entities.h"
+#include "Databags.h"
 
 //************************************************************************************************************************
 
-Entity::Ref createEntity (CL_DomElement node, float tilesz);
-Entity::Ref createEntity (const CL_String &type, const CL_DomNodeList &plist);
+Entity::Ref createEntity (const Databags &data, const CL_DomElement &node, float tilesz);
+Entity::Ref createEntity (const Databags &data, const CL_String &type, const CL_String &name);
 
 //************************************************************************************************************************
 

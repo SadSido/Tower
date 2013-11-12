@@ -10,29 +10,16 @@
 
 //************************************************************************************************************************
 	
-RainEffect::RainEffect(const CL_DomNodeList &props)
+RainEffect::RainEffect(const Databags &data, const CL_String &name)
 : m_interval(0.0f), m_lifetime(0.0f), m_lifefreq(0.0f), m_tospawn(0.0f)
 {
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
+	auto bag = data.find(name)->second;
 
-		if (prop.get_attribute("name") == "interval")
-		{ m_interval = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "lifetime")
-		{ 
-			m_lifetime = prop.get_attribute_float("value");
-			m_lifefreq = 1.0f / m_lifetime;
-		}
-
-		if (prop.get_attribute("name") == "drop_len")
-		{ m_droplen = readPoint(prop, "value"); }
-
-		if (prop.get_attribute("name") == "drop_vel")
-		{ m_dropvel = readPoint(prop, "value"); }
-	}
+	m_interval = bag->get<float>("interval");
+	m_lifetime = bag->get<float>("lifetime");
+	m_lifefreq = 1.0f / m_lifetime;
+	m_droplen  = bag->get<CL_Pointf>("drop_len");
+	m_dropvel  = bag->get<CL_Pointf>("drop_vel");
 }
 
 bool RainEffect::update(const LevelCtx &ctx, float secs)

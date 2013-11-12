@@ -50,40 +50,27 @@ ParticleSystem::SolverFn getNamedSolver(const CL_String &name)
 
 //************************************************************************************************************************
 
-ParticleSystem::ParticleSystem(const CL_DomNodeList &props)
+ParticleSystem::ParticleSystem(const Databags &data, const CL_String &name)
 : m_partcount(0), m_infinite(false), m_tospawn(0.0f), m_solver(freefallSolver)
 {
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
+	auto bag = data.find(name)->second;
 
-		if (prop.get_attribute("name") == "interval")
-		{ m_interval = readRange(prop, "value"); }
+	m_interval  = bag->get<Range>("interval");
+	m_lifetime  = bag->get<Range>("lifetime");
+	m_velocity  = bag->get<Range>("velocity");
+	m_direction = bag->get<Range>("direction");
+	m_sprName   = bag->get<CL_String>("sprite");
+	
+	CL_String type = bag->get<CL_String>("track_type");
+	m_solver = getNamedSolver(type);
 
-		if (prop.get_attribute("name") == "lifetime")
-		{ m_lifetime = readRange(prop, "value"); }
+	if (bag->has<bool>("infinite")) 
+	{ m_infinite = bag->get<bool>("infinite"); }
 
-		if (prop.get_attribute("name") == "velocity")
-		{ m_velocity = readRange(prop, "value"); }
+	if (!m_infinite)
+	{ m_partcount = bag->get<int>("count"); }
 
-		if (prop.get_attribute("name") == "direction")
-		{ m_direction = readRange(prop, "value"); }
-
-		if (prop.get_attribute("name") == "sprite")
-		{ m_sprName = prop.get_attribute("value"); }
-
-		if (prop.get_attribute("name") == "count")
-		{ 
-			const CL_String value = prop.get_attribute("value");
-
-			m_infinite  = (value == "infinite");
-			m_partcount = (m_infinite) ? 0 : CL_StringHelp::text_to_int(value);
-		}
-
-		if (prop.get_attribute("name") == "track_type")
-		{ m_solver = getNamedSolver(prop.get_attribute("value")); }
-	}
+	assert(m_infinite || m_partcount);
 }
 
 bool ParticleSystem::update(const LevelCtx &ctx, float secs)

@@ -8,16 +8,10 @@
 
 //************************************************************************************************************************
 	
-DialogEntity::DialogEntity(const CL_DomNodeList &props)
+DialogEntity::DialogEntity(const Databags &data, const CL_String &name)
 {
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
-
-		if (prop.get_attribute("name") == "dialog") 
-		{ m_dlgName = prop.get_attribute("value"); }
-	}
+	auto bag = data.find(name)->second;
+	m_dlgName = bag->get<CL_String>("dialog");
 }
 
 bool DialogEntity::update(const LevelCtx &ctx, float secs)

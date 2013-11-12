@@ -22,7 +22,7 @@ class RainEffect : public Entity
 
 public:
 	// common constructor for the entities:
-	explicit RainEffect(const CL_DomNodeList &props);
+	explicit RainEffect(const Databags &data, const CL_String &name);
 
 private:
 	// virtual entity interface:
