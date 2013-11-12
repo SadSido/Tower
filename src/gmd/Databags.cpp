@@ -36,6 +36,9 @@ namespace
 
 		if (type == "size")
 		{ CL_Sizef value = splitTwo<CL_Sizef>(data); dbag->set<CL_Sizef>(name, value); return; }
+
+		if (type == "range")
+		{ Range value = splitTwo<Range>(data); dbag->set<Range>(name, value); return; }
 	}
 
 	Databag::Ref parseDatabag(CL_String::const_iterator &it)

@@ -8,6 +8,7 @@
 #include <map>
 #include <list>
 #include <assert.h>
+#include "../util/MathUtils.h"
 
 //************************************************************************************************************************
 
@@ -31,6 +32,7 @@ class Databag
 	DECLARE_DATABAG_TYPE(CL_String);
 	DECLARE_DATABAG_TYPE(CL_Pointf);
 	DECLARE_DATABAG_TYPE(CL_Sizef);
+	DECLARE_DATABAG_TYPE(Range)
 
 	// data holders:
 
