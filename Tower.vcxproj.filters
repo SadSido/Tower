@@ -68,9 +68,6 @@
     <ClCompile Include="src\gmd\Hitmap.cpp">
       <Filter>gmd</Filter>
     </ClCompile>
-    <ClCompile Include="src\ent\PatrolEntity.cpp">
-      <Filter>ent</Filter>
-    </ClCompile>
     <ClCompile Include="src\util\MathUtils.cpp">
       <Filter>util</Filter>
     </ClCompile>
@@ -132,6 +129,12 @@
     </Filter>
     <Filter Include="ent">
       <UniqueIdentifier>{3239efa1-72dc-4f16-b0c3-7f7874db9e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\level01">
+      <UniqueIdentifier>{c2edf3b3-aa9f-4013-a0ba-1dd04916d38c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\common">
+      <UniqueIdentifier>{fda3401a-73ca-4dd4-855e-35eb0c2ce154}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -201,9 +204,6 @@
     <ClInclude Include="src\gmd\Hitmap.h">
       <Filter>gmd</Filter>
     </ClInclude>
-    <ClInclude Include="src\ent\PatrolEntity.h">
-      <Filter>ent</Filter>
-    </ClInclude>
     <ClInclude Include="src\util\MathUtils.h">
       <Filter>util</Filter>
     </ClInclude>
@@ -257,6 +257,24 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\level01\castle_guard.dlg">
+      <Filter>res\level01</Filter>
+    </None>
+    <None Include="res\level01\familiar.xml">
+      <Filter>res\level01</Filter>
+    </None>
+    <None Include="res\level01\tiles.xml">
+      <Filter>res\level01</Filter>
+    </None>
+    <None Include="res\level01\eye.xml">
+      <Filter>res\level01</Filter>
+    </None>
+    <None Include="res\common\HUD.xml">
+      <Filter>res\common</Filter>
+    </None>
+    <None Include="res\common\arteus.xml">
+      <Filter>res\common</Filter>
+    </None>
     <None Include="res\level01.desc">
       <Filter>res</Filter>
     </None>

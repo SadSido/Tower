@@ -89,7 +89,6 @@
     <ClCompile Include="src\ent\MonsterPolicies.cpp" />
     <ClCompile Include="src\ent\MonsterTypes.cpp" />
     <ClCompile Include="src\ent\Particles.cpp" />
-    <ClCompile Include="src\ent\PatrolEntity.cpp" />
     <ClCompile Include="src\ent\RainEffect.cpp" />
     <ClCompile Include="src\ent\SpawnEntity.cpp" />
     <ClCompile Include="src\ent\SpriteEntity.cpp" />
@@ -130,7 +129,6 @@
     <ClInclude Include="src\ent\MonsterPolicies.h" />
     <ClInclude Include="src\ent\MonsterTypes.h" />
     <ClInclude Include="src\ent\Particles.h" />
-    <ClInclude Include="src\ent\PatrolEntity.h" />
     <ClInclude Include="src\ent\RainEffect.h" />
     <ClInclude Include="src\ent\SpawnEntity.h" />
     <ClInclude Include="src\ent\SpriteEntity.h" />
@@ -165,7 +163,13 @@
     <ClInclude Include="src\util\XmlUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\common\arteus.xml" />
+    <None Include="res\common\HUD.xml" />
     <None Include="res\level01.desc" />
+    <None Include="res\level01\castle_guard.dlg" />
+    <None Include="res\level01\eye.xml" />
+    <None Include="res\level01\familiar.xml" />
+    <None Include="res\level01\tiles.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

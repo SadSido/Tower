@@ -8,7 +8,6 @@
 #include "../ent/AreaEntity.h"
 #include "../ent/SpawnEntity.h"
 #include "../ent/RainEffect.h"
-#include "../ent/PatrolEntity.h"
 #include "../ent/Particles.h"
 #include "../ent/MonsterTypes.h"
 
@@ -56,12 +55,6 @@ Entity::Ref createEntity(const CL_String &type, const CL_DomNodeList &plist)
 
 	if (type == "rain_effect")
 	{ return Entity::Ref(new RainEffect(plist)); }
-
-	if (type == "flying_patrol")
-	{ return Entity::Ref(new FlyingPatrol(plist)); }
-
-	if (type == "ground_patrol")
-	{ return Entity::Ref(new GroundPatrol(plist)); }
 
 	if (type == "particle_system")
 	{ return Entity::Ref(new ParticleSystem(plist)); }

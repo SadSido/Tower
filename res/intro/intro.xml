@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<resources>
-  <sprite name="brick" base_angle="0">
-    <image file="brick.png" />
-  </sprite>
-</resources>

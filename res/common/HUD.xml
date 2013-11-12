@@ -4,4 +4,4 @@
 	<sprite name="health_bar">
 		<image file="health.png" />
  	</sprite>
-/resources>
+</resources>
