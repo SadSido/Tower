@@ -57,19 +57,19 @@ Entity::Ref createEntity(const Databags &data, const CL_String &type, const CL_S
 	{ return Entity::Ref(new ParticleSystem(data, name)); }
 
 	if (type == "plant_monster")
-	{ return createPlant(plist); }
+	{ return createPlant(data, name); }
 
 	if (type == "walker_monster")
-	{ return createWalker(plist); }
+	{ return createWalker(data, name); }
 
 	if (type == "guard_monster")
-	{ return createGuard(plist); }
+	{ return createGuard(data, name); }
 
 	if (type == "footman_monster")
-	{ return createFootman(plist); }
+	{ return createFootman(data, name); }
 
 	if (type == "sniper_monster")
-	{ return createSniper(plist); }
+	{ return createSniper(data, name); }
 
 	assert(false);
 	return Entity::Ref();

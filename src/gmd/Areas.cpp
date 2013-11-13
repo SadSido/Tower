@@ -12,8 +12,7 @@
 Area::Area()
 {}
 
-Area::Area(CL_Sizef window, const CL_String &path, const CL_String &name)
-: m_name(name)
+Area::Area(const CL_String &path, const Databags &data, const CL_Sizef &window)
 {
 	CL_DomDocument doc  = CL_DomDocument(CL_File(path));
 	CL_DomElement  root = doc.get_document_element();
@@ -22,8 +21,8 @@ Area::Area(CL_Sizef window, const CL_String &path, const CL_String &name)
 	m_tilemap = loadTilemap(root);
 	m_tilemap->window(window);
 
-	// load the entities:
-	m_entities = loadEntities(root);
+	// load the entities (now needs databags):
+	m_entities = loadEntities(root, data);
 
 	// generate entry points:
 	m_entryMap = loadEntryMap(root);
@@ -128,7 +127,7 @@ Tilemap::Ref Area::loadTilemap(CL_DomElement &root)
 	return result;
 }
 
-Entities::Ref Area::loadEntities(CL_DomElement &root)
+Entities::Ref Area::loadEntities(CL_DomElement &root, const Databags &data)
 {
 	const float tilesz = root.get_attribute_float("tilewidth");
 	Entities::Ref result = Entities::Ref(new Entities());
@@ -145,7 +144,7 @@ Entities::Ref Area::loadEntities(CL_DomElement &root)
 		for (int obNo = 0; obNo < objects.get_length(); ++ obNo)
 		{
 			CL_DomElement object = objects.item(obNo).to_element();
-			result->push_back(createEntity(object, tilesz));
+			result->push_back(createEntity(data, object, tilesz));
 		}
 	}
 

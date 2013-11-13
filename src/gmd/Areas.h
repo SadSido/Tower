@@ -19,12 +19,12 @@ class Area
 
 public:
 	explicit Area();
-	explicit Area(CL_Sizef window, const CL_String &path, const CL_String &name);
+	explicit Area(const CL_String &path, const Databags &data, const CL_Sizef &window);
 
 	// member accessors:
 
-	CL_String getName() const
-	{ return m_name; }
+	//CL_String getName() const
+	//{ return m_name; }
 
 	Entities::Ref getEntities() const
 	{ return m_entities; }
@@ -36,7 +36,6 @@ public:
 	{ return m_entryMap->find(name)->second; }
 
 private:
-	CL_String     m_name;
 	Entities::Ref m_entities;
 	Tilemap::Ref  m_tilemap;
 	EntryMap::Ref m_entryMap;
@@ -44,7 +43,7 @@ private:
 	// loading stuff from xml:
 
 	static Tilemap::Ref  loadTilemap  (CL_DomElement &tmxRoot);
-	static Entities::Ref loadEntities (CL_DomElement &tmxRoot);
+	static Entities::Ref loadEntities (CL_DomElement &tmxRoot, const Databags &data);
 	static EntryMap::Ref loadEntryMap (CL_DomElement &tmxRoot);
 };
 

@@ -190,7 +190,7 @@ void LevelScene::loadAreaFile(const CL_String &name, const CL_String &file)
 	Renderer::Ref renderer = m_manager->getRenderer();
 	CL_Sizef window = renderer->getGC().get_size();
 
-	Area area = Area(window, makePath(file), name);
+	Area area = Area(makePath(file), m_databags, window);
 	m_areas[name] = area;
 }
 
