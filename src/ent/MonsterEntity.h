@@ -5,6 +5,7 @@
 #define _MonsterEntity_h_
 
 #include "../gmd/Entities.h"
+#include "../gmd/Databags.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 #include <memory>
@@ -100,7 +101,7 @@ public:
 
 private:
 	// c-tors and d-tors:
-	explicit MonsterEntity(const CL_DomNodeList &plist, long statesMask);
+	explicit MonsterEntity(const Databags &data, const CL_String &name, long statesMask);
 	Entity::Ref clone();
 
 	// virtual entity interface:
@@ -161,9 +162,9 @@ public:
 	// parameters to get various behavior combinations:
 
 	template<typename MPOLICY, typename APOLICY, typename DPOLICY>
-	static Entity::Ref create(const CL_DomNodeList &plist, long statesMask)
+	static Entity::Ref create(const Databags &data, const CL_String &name, long statesMask)
 	{
-		auto monster = new MonsterEntity(plist, statesMask);
+		auto monster = new MonsterEntity(data, name, statesMask);
 
 		monster->m_mpolicy = MovingPolicy::Ref(new MPOLICY());
 		monster->m_apolicy = AttackPolicy::Ref(new APOLICY());

@@ -15,7 +15,7 @@ class SpriteEntity : public Entity
 {
 public:
 	// common constructor for the entities:
-	explicit SpriteEntity(const CL_DomNodeList &props);
+	explicit SpriteEntity(const Databags &data, const CL_String &name);
 
 private:
 	// virtual entity interface:

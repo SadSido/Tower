@@ -13,13 +13,13 @@ SpawnEntity::SpawnEntity(const Databags &data, const CL_String &name)
 	auto bag = data.find(name)->second;
 
 	CL_String spawntype = bag->get<CL_String>("spawn_type");
-	CL_String spawnbag  = bag->get<CL_String>("spawn_bag");
+	CL_String spawnname = bag->get<CL_String>("spawn_name");
 	
 	m_interval = bag->get<float>("interval");
 	m_limit    = bag->get<int>("limit");
 
 	// create spawnee pattern:
-	m_spawnee = createEntity(data, spawntype, spawnbag);
+	m_spawnee = createEntity(data, spawntype, spawnname);
 
 	// create list of entities:
 	m_entities = Entities::Ref(new Entities());

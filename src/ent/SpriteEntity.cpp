@@ -20,32 +20,22 @@ enum States
 
 //************************************************************************************************************************
 
-SpriteEntity::SpriteEntity(const CL_DomNodeList &props)
+SpriteEntity::SpriteEntity(const Databags &data, const CL_String &name)
 : m_gen(0)
 {
-	CL_String sprite;
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
+	auto bag = data.find(name)->second;
 
-		if (prop.get_attribute("name") == "condition")
-		{ m_condition = prop.get_attribute("value"); }
+	m_condition = bag->get<CL_String>("condition");
+	m_sprTrue   = bag->get<CL_String>("sprite_true");
+	m_sprFalse  = bag->get<CL_String>("sprite_false");
 
-		if (prop.get_attribute("name") == "sprite_true")
-		{ m_sprTrue = prop.get_attribute("value"); }
+	// shortcut for non-conditional sprites:
 
-		if (prop.get_attribute("name") == "sprite_false")
-		{ m_sprFalse = prop.get_attribute("value"); }
-
-		// this is a shortcut, checked later:
-		if (prop.get_attribute("name") == "sprite")
-		{ sprite = prop.get_attribute("value"); }
+	if (bag->has<CL_String>("sprite"))
+	{ 
+		assert(m_condition.empty()); 
+		m_sprTrue = bag->get<CL_String>("sprite"); 
 	}
-
-	// use "sprite", not "sprite_true":
-	if (sprite.empty())
-	{ assert(m_condition.empty()); m_sprTrue = sprite; }
 }
 
 bool SpriteEntity::update(const LevelCtx &ctx, float secs)

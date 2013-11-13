@@ -8,34 +8,34 @@
 
 //************************************************************************************************************************
 
-Entity::Ref createPlant(const CL_DomNodeList &props)
+Entity::Ref createPlant(const Databags &data, const CL_String &name)
 {
 	const long stateMask = mask_Emerge | mask_Wait | mask_Vanish;
-	return MonsterEntity::create<StandStillPolicy, UnarmedPolicy, AllDamagePolicy>(props, stateMask);
+	return MonsterEntity::create<StandStillPolicy, UnarmedPolicy, AllDamagePolicy>(data, name, stateMask);
 }
 
-Entity::Ref createWalker(const CL_DomNodeList &props)
+Entity::Ref createWalker(const Databags &data, const CL_String &name)
 {
 	const long stateMask = mask_Emerge | mask_Move | mask_Wait | mask_Vanish;
-	return MonsterEntity::create<WalkingPolicy, UnarmedPolicy, AllDamagePolicy>(props, stateMask);
+	return MonsterEntity::create<WalkingPolicy, UnarmedPolicy, AllDamagePolicy>(data, name, stateMask);
 }
 
-Entity::Ref createGuard(const CL_DomNodeList &props)
+Entity::Ref createGuard(const Databags &data, const CL_String &name)
 {
 	const long stateMask = mask_Emerge | mask_Wait | mask_Strike | mask_Reload | mask_Vanish;
-	return MonsterEntity::create<StandStillPolicy, MeleePolicy, AllDamagePolicy>(props, stateMask);
+	return MonsterEntity::create<StandStillPolicy, MeleePolicy, AllDamagePolicy>(data, name, stateMask);
 }
 
-Entity::Ref createFootman(const CL_DomNodeList &props)
+Entity::Ref createFootman(const Databags &data, const CL_String &name)
 {
 	const long stateMask = mask_Emerge | mask_Move | mask_Wait | mask_Strike | mask_Reload | mask_Vanish;
-	return MonsterEntity::create<WalkingPolicy, MeleePolicy, AllDamagePolicy>(props, stateMask);
+	return MonsterEntity::create<WalkingPolicy, MeleePolicy, AllDamagePolicy>(data, name, stateMask);
 }
 
-Entity::Ref createSniper(const CL_DomNodeList &props)
+Entity::Ref createSniper(const Databags &data, const CL_String &name)
 {
 	const long stateMask = mask_Emerge | mask_Wait | mask_Shoot | mask_Recoil | mask_Reload | mask_Vanish;
-	return MonsterEntity::create<StandStillPolicy, ShootingPolicy, AllDamagePolicy>(props, stateMask);
+	return MonsterEntity::create<StandStillPolicy, ShootingPolicy, AllDamagePolicy>(data, name, stateMask);
 }
 
 //************************************************************************************************************************

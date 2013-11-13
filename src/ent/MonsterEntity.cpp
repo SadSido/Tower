@@ -44,62 +44,26 @@ static CL_String getStateName(int state)
 
 // c-tors and d-tors:
 
-MonsterEntity::MonsterEntity(const CL_DomNodeList &props, long statesMask)
-: m_alive(true), m_statesMask(statesMask), m_speed(0.0f), m_areal(0.0f), m_waittime(0.0f), m_towait(0.0f)
-, m_damage(0.0f), m_health(0.0f), m_recover(0.0f), m_detect(0.0f), m_range(0.0f)
+MonsterEntity::MonsterEntity(const Databags &data, const CL_String &name, long statesMask)
+: m_alive(true), m_statesMask(statesMask), m_towait(0.0f), m_recover(0.0f)
 {
-	CL_Sizef missileSize;
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
-
-		// resources prefix:
-
-		if (prop.get_attribute("name") == "prefix") 
-		{ m_prefix = prop.get_attribute("value"); }
-
-		// movement parameters:
-
-		if (prop.get_attribute("name") == "areal") 
-		{ m_areal = prop.get_attribute_float("value"); }
+	auto bag = data.find(name)->second;
 	
-		if (prop.get_attribute("name") == "speed") 
-		{ m_speed = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "wait_time") 
-		{ m_waittime = prop.get_attribute_float("value"); }
-
-		// combat parameters:
-
-		if (prop.get_attribute("name") == "detect") 
-		{ m_detect = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "range") 
-		{ m_range = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "reload") 
-		{ m_reload = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "damage") 
-		{ m_damage = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "health") 
-		{ m_health = prop.get_attribute_float("value"); }
-
-		if (prop.get_attribute("name") == "barrel_pos")
-		{ m_barrel = readPoint(prop, "value"); }
-
-		if (prop.get_attribute("name") == "barrel_size")
-		{ missileSize = readSize(prop, "value"); }
-	}
-
-	// create missile entity if needed:
+	m_prefix	= bag->get<CL_String>("sprite");
+	m_areal		= bag->get<float>("areal");
+	m_speed		= bag->get<float>("speed");
+	m_waittime	= bag->get<float>("wait_time");
+	m_detect	= bag->get<float>("detect");
+	m_range		= bag->get<float>("range");
+	m_reload	= bag->get<float>("reload");
+	m_damage	= bag->get<float>("damage");
+	m_health	= bag->get<float>("health");
+	m_barrel	= bag->get<CL_Pointf>("shoot_pos");
 	
 	if (hasState(state_Shoot))
-	{ 
-		m_missile = Entity::Ref(new MissileEntity(props)); 
-		m_missile->setSize(missileSize);
+	{
+		auto name = bag->get<CL_String>("shoot_name");
+		m_missile = Entity::Ref(new MissileEntity(data, name));
 	}
 }
 

@@ -5,16 +5,17 @@
 #define _MonsterTypes_h_
 
 #include "../gmd/Entities.h"
+#include "../gmd/Databags.h"
 
 //************************************************************************************************************************
 
 // the list of all available monsters:
 
-Entity::Ref createPlant(const CL_DomNodeList &props);
-Entity::Ref createWalker(const CL_DomNodeList &props);
-Entity::Ref createGuard(const CL_DomNodeList &props);
-Entity::Ref createFootman(const CL_DomNodeList &props);
-Entity::Ref createSniper(const CL_DomNodeList &props);
+Entity::Ref createPlant(const Databags &data, const CL_String &name);
+Entity::Ref createWalker(const Databags &data, const CL_String &name);
+Entity::Ref createGuard(const Databags &data, const CL_String &name);
+Entity::Ref createFootman(const Databags &data, const CL_String &name);
+Entity::Ref createSniper(const Databags &data, const CL_String &name);
 
 //************************************************************************************************************************
 

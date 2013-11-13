@@ -37,29 +37,16 @@ void bounceOffRect(CL_Rectf &rect, CL_Pointf &vel, const CL_Rectf &solid)
 
 // c-tors and d-tors:
 
-MissileEntity::MissileEntity(const CL_DomNodeList &props)
+MissileEntity::MissileEntity(const Databags &data, const CL_String &name)
 : m_damage(1.0f), m_bounces(1), m_homing(false)
 {
-	for (int prNo = 0; prNo < props.get_length(); ++ prNo)
-	{
-		// process current property:
-		CL_DomElement prop = props.item(prNo).to_element();
+	auto bag = data.find(name)->second;
 
-		if (prop.get_attribute("name") == "shoot_prefix") 
-		{ m_sprite = prop.get_attribute("value"); }
-
-		if (prop.get_attribute("name") == "shoot_bounce") 
-		{ m_bounces = prop.get_attribute_int("value"); }
-
-		if (prop.get_attribute("name") == "shoot_vel") 
-		{ m_lockVel = readPoint(prop, "value"); }
-
-		if (prop.get_attribute("name") == "shoot_acc") 
-		{ m_lockAcc = readPoint(prop, "value"); }
-
-		if (prop.get_attribute("name") == "shoot_damage")
-		{ m_damage = prop.get_attribute_float("value"); }
-	}
+	m_sprite	= bag->get<CL_String>("sprite");
+	m_bounces	= bag->get<int>("bounces");
+	m_lockVel	= bag->get<CL_Pointf>("vel");
+	m_lockAcc	= bag->get<CL_Pointf>("acc");
+	m_damage	= bag->get<float>("damage");
 }
 
 Entity::Ref MissileEntity::clone()

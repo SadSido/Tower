@@ -5,6 +5,7 @@
 #define _MissileEntity_h_
 
 #include "../gmd/Entities.h"
+#include "../gmd/Databags.h"
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 #include <memory>
@@ -20,7 +21,7 @@ class MissileEntity : public Entity
 {
 public:
 	// c-tors and d-tors:
-	explicit MissileEntity(const CL_DomNodeList &props);
+	explicit MissileEntity(const Databags &data, const CL_String &name);
 	Entity::Ref clone();
 
 private:

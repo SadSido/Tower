@@ -2,7 +2,7 @@
 databag eye_spawn
 {
 	string	spawn_type	"sniper_monster"
-	string	spawn_bag	"eye_sniper"
+	string	spawn_name	"eye_sniper"
 
 	float	interval	"2.0"
 	int		limit		"1"
@@ -12,7 +12,7 @@ databag eye_sniper
 {
     point	shoot_pos	"1.5, 0.5"
     size	shoot_size	"0.2, 0.2"
-	string  shoot_bag   "eye_missile"
+	string  shoot_name	"eye_missile"
     
 	float	damage		"2.0"
     float	detect		"3.0"
