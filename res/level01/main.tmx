@@ -105,16 +105,9 @@
 </data>
  </layer>
  <objectgroup name="entities" width="40" height="15">
-  <object name="castle_guard" type="dialog_entity" x="640" y="768" width="128" height="128">
+  <object name="castle_guard" type="dialog_entity" x="642" y="703" width="139" height="196">
    <properties>
     <property name="dialog" value="castle_guard"/>
-   </properties>
-  </object>
-  <object name="entrance" type="area_entity" x="448" y="768" width="128" height="128">
-   <properties>
-    <property name="area" value="entrance_hall"/>
-    <property name="condition" value="first_talk"/>
-    <property name="entry" value="from_main"/>
    </properties>
   </object>
   <object name="rain" type="rain_effect" x="1280" y="128" width="64" height="64">

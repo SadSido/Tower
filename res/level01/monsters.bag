@@ -1,5 +1,5 @@
 
-databag eye_spawn
+databag eye_01
 {
 	string	spawn_type	"sniper_monster"
 	string	spawn_name	"eye_sniper"
@@ -29,4 +29,29 @@ databag eye_missile
 	point	vel			"8.0, 0.0"
 	string	sprite		"spark"
 	int		bounce		"2"
+	float	damage		"1"
+}
+
+databag particles
+{
+	bool	infinite	"yes"
+	range	direction	"70.0, 110.0"
+	range	interval	"0.3, 1.0"
+	range	lifetime	"2.0, 4.0"
+	range	velocity	"1.0, 3.0"
+	string	sprite		"spark"
+	string	track_type	"helix"
+}
+
+databag rain
+{
+	point	drop_len	"10, 50"
+	point	drop_vel	"60, 300"
+	float	interval	"0.05"
+	float	lifetime	"1.20"
+}
+
+databag castle_guard
+{
+	string	dialog		"castle_guard"
 }

@@ -43,7 +43,7 @@ MissileEntity::MissileEntity(const Databags &data, const CL_String &name)
 	auto bag = data.find(name)->second;
 
 	m_sprite	= bag->get<CL_String>("sprite");
-	m_bounces	= bag->get<int>("bounces");
+	m_bounces	= bag->get<int>("bounce");
 	m_lockVel	= bag->get<CL_Pointf>("vel");
 	m_lockAcc	= bag->get<CL_Pointf>("acc");
 	m_damage	= bag->get<float>("damage");

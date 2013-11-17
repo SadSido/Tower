@@ -24,9 +24,10 @@ databag resources
 databag areas
 {
 	string	main			"level01/main.tmx"
-	string	entrance_hall	"level01/entrance_hall.tmx"
-	string	throne_room		"level01/throne_room.tmx"
-	string	fencing_hall	"level01/fencing_hall.tmx"
-	string	watch_tower		"level01/watch_tower.tmx"
 }
+
+//	string	entrance_hall	"level01/entrance_hall.tmx"
+//	string	throne_room		"level01/throne_room.tmx"
+//	string	fencing_hall	"level01/fencing_hall.tmx"
+//	string	watch_tower		"level01/watch_tower.tmx"
  
